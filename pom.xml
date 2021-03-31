@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.onefin.pom</groupId>
+		<artifactId>onefin-pom</artifactId>
+		<version>1.0.1</version>
+	</parent>
+
+	<groupId>com.onefin.bank</groupId>
+	<artifactId>conn-ewallet-vietinbank</artifactId>
+	<version>1.0.0</version>
+	<name>Connector Ewallet VietinBank</name>
+	<description>Connector Ewallet VietinBank</description>
+	<properties>
+		<java.version>1.8</java.version>
+		<onefin-common.version>1.0.0</onefin-common.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>com.onefin.common</groupId>
+			<artifactId>onefin-common</artifactId>
+			<version>${onefin-common.version}</version>
+		</dependency>
+	</dependencies>
+</project>
