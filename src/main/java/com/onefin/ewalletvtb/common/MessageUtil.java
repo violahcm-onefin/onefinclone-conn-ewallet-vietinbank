@@ -36,8 +36,8 @@ public class MessageUtil {
 		return buildVietinConnectorResponse(OneFinConstants.VTB_VALIDATION_FUNCTION_FAIL, version, vtBase);
 	}
 
-	public VietinConnectorResponse buildVietinSystemError(String version, VietinBaseMessage vtBase) {
-		return buildVietinConnectorResponse(OneFinConstants.VTB_SYSTEM_ERROR, version, vtBase);
+	public VietinConnectorResponse buildVietinInternalServerError(String version, VietinBaseMessage vtBase) {
+		return buildVietinConnectorResponse(OneFinConstants.INTERNAL_SERVER_ERROR, version, vtBase);
 	}
 
 	public VietinConnectorResponse buildConnectorValidationRequesBodyFail(String version, VietinBaseMessage vtBase) {

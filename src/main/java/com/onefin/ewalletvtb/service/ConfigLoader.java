@@ -40,6 +40,18 @@ public class ConfigLoader {
 	
 	@Value("${vietin.url.paymentByOTP}")
 	private String paymentByOTP;
+	
+	@Value("${vietin.url.widthdraw}")
+	private String widthdraw;
+	
+	@Value("${vietin.url.transactionInquiry}")
+	private String transactionInquiry;
+	
+	@Value("${vietin.url.providerInquiry}")
+	private String providerInquiry;
+	
+	@Value("${vietin.url.tokenIssuePayment}")
+	private String tokenIssuePayment;
 
 	@Value("${vietin.ibmClientId}")
 	private String ibmClientId;

@@ -1,6 +1,6 @@
 server:
   port: 8060
-    
+
 vietin:
   onefinPrivateKey: D:\\Project\\keys\\onefin-privatekey-uat-vietin.der
   vtbPublicKey: /app/onefin/keys/Vietinbank_publicKey.pem
@@ -17,9 +17,13 @@ vietin:
     tokenReissue: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/tokenReIssue
     paymentByToken: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/paymentByToken
     paymentByOTP: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/paymentByOTP
-
+    widthdraw: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/withdraw
+    transactionInquiry: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/transactionInquiry
+    providerInquiry: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/providerInquiry
+    tokenIssuePayment: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/tokenIssuer-payment
     
 logging:
   level:
     root: info
-  file: logs/connector-bank.log
+  file:
+    name: logs/conn-ewallet-vietinbank.log

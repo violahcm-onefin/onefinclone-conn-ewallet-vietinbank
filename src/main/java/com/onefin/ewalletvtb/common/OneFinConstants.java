@@ -1,8 +1,8 @@
 package com.onefin.ewalletvtb.common;
 
-public class OneFinConstants {
+public class OneFinConstants extends com.onefin.common.OneFinConstants{
 
-	// Vietin parameters
+	// VIETIN parameters
 	public static final String VTB_CARDNUMBER = "cardNumber";
 	public static final String VTB_CARDISSUEDATE = "cardIssueDate";
 	public static final String VTB_CARDHOLDERNAME = "cardHolderName";
@@ -35,8 +35,14 @@ public class OneFinConstants {
 	public static final String VTB_GOODSTYPE = "goodsType";
 	public static final String VTB_BILLNO = "billNo";
 	public static final String VTB_REMARK = "remark";
+	public static final String VTB_BENNAME = "benName";
+	public static final String VTB_BENACCNO = "benAcctNo";
+	public static final String VTB_BENIDNO = "benIDNo";
+	public static final String VTB_BENADDINFO = "benAddInfo";
+	public static final String VTB_QUERYTRANSACTIONID = "queryTransactionId";
+	public static final String VTB_QUERYTYPE = "queryType";
 
-	// Vietin connector error code
+	// VIETIN connector error code
 	public static final String VTB_CONNECTOR_SUCCESS = "00";
 	public static final String VTB_INVALID_SIG = "01";
 	public static final String VTB_ERROR_RESPONSE = "02";
@@ -44,7 +50,7 @@ public class OneFinConstants {
 	public static final String VTB_INVALID_MERCHANT_ID = "04";
 	public static final String VTB_INVALID_RESPONSE = "05";
 	public static final String VTB_VALIDATION_FUNCTION_FAIL = "06";
-	public static final String VTB_SYSTEM_ERROR = "07";
+	public static final String INTERNAL_SERVER_ERROR = "07";
 	public static final String CONNECTOR_INVALID_VALIDATION_REQUESTBODY = "08";
 
 }

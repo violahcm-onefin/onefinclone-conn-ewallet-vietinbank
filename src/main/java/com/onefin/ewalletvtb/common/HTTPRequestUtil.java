@@ -44,13 +44,13 @@ public class HTTPRequestUtil {
 		try {
 			resp = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 		} catch (Exception e) {
-			LOGGER.error("== Error response from Vietin!!!" + url);
+			LOGGER.error("== Error response from VIETIN!!!" + url);
 			return null;
 		}
 		try {
 			return object2VietinBaseMesseage(resp.getBody());
 		} catch (Exception e) {
-			LOGGER.error("== Can't parse result from Vietin!!!" + url);
+			LOGGER.error("== Can't parse result from VIETIN!!!" + url);
 			return null;
 		}
 	}

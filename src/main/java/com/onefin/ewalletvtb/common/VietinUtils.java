@@ -1,9 +1,11 @@
 package com.onefin.ewalletvtb.common;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.cert.CertificateException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,11 +19,15 @@ import org.springframework.stereotype.Service;
 
 import com.onefin.ewalletvtb.model.PaymentByOTP;
 import com.onefin.ewalletvtb.model.PaymentByToken;
+import com.onefin.ewalletvtb.model.ProviderInquiry;
 import com.onefin.ewalletvtb.model.RegisterOnlinePay;
 import com.onefin.ewalletvtb.model.TokenIssue;
+import com.onefin.ewalletvtb.model.TokenIssuePayment;
 import com.onefin.ewalletvtb.model.TokenRevokeReIssue;
+import com.onefin.ewalletvtb.model.TransactionInquiry;
 import com.onefin.ewalletvtb.model.VerifyPin;
 import com.onefin.ewalletvtb.model.VietinBaseMessage;
+import com.onefin.ewalletvtb.model.Withdraw;
 import com.onefin.ewalletvtb.service.ConfigLoader;
 
 @Service
@@ -40,11 +46,12 @@ public class VietinUtils {
 
 	@Autowired
 	private MessageUtil msgUtil;
-	
+
 	@Autowired
 	private EncryptUtil encryptUtil;
 
-	public Map<String, String> buildVietinTokenIssuer(TokenIssue model) {
+	public Map<String, String> buildVietinTokenIssuer(TokenIssue model)
+			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		Map<String, String> data = new HashMap<>();
 		String providerId = configLoader.getVietinProviderId();
 		String merchantId = configLoader.getVietinMerchantId();
@@ -80,8 +87,9 @@ public class VietinUtils {
 		LOGGER.info("== After Sign Data :: " + signData);
 		return data;
 	}
-	
-	public Map<String, String> buildVietinVerifyPin(VerifyPin model) {
+
+	public Map<String, String> buildVietinVerifyPin(VerifyPin model)
+			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		Map<String, String> data = new HashMap<>();
 		String providerId = configLoader.getVietinProviderId();
 		String merchantId = configLoader.getVietinMerchantId();
@@ -112,8 +120,9 @@ public class VietinUtils {
 		LOGGER.info("== After Sign Data :: " + signData);
 		return data;
 	}
-	
-	public Map<String, String> buildVietinRegisterOnlinePay(RegisterOnlinePay model) {
+
+	public Map<String, String> buildVietinRegisterOnlinePay(RegisterOnlinePay model)
+			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		Map<String, String> data = new HashMap<>();
 		String providerId = configLoader.getVietinProviderId();
 		String merchantId = configLoader.getVietinMerchantId();
@@ -155,8 +164,9 @@ public class VietinUtils {
 		LOGGER.info("== After Sign Data :: " + signData);
 		return data;
 	}
-	
-	public Map<String, String> buildVietinTokenRevoke(TokenRevokeReIssue model) {
+
+	public Map<String, String> buildVietinTokenRevoke(TokenRevokeReIssue model)
+			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		Map<String, String> data = new HashMap<>();
 		String providerId = configLoader.getVietinProviderId();
 		String merchantId = configLoader.getVietinMerchantId();
@@ -185,8 +195,9 @@ public class VietinUtils {
 		LOGGER.info("== After Sign Data :: " + signData);
 		return data;
 	}
-	
-	public Map<String, String> buildVietinTokenReIssue(TokenRevokeReIssue model) {
+
+	public Map<String, String> buildVietinTokenReIssue(TokenRevokeReIssue model)
+			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		Map<String, String> data = new HashMap<>();
 		String providerId = configLoader.getVietinProviderId();
 		String merchantId = configLoader.getVietinMerchantId();
@@ -215,47 +226,9 @@ public class VietinUtils {
 		LOGGER.info("== After Sign Data :: " + signData);
 		return data;
 	}
-	
-	public Map<String, String> buildVietinPaymentByToken(PaymentByToken model) {
-		Map<String, String> data = new HashMap<>();
-		String providerId = configLoader.getVietinProviderId();
-		String merchantId = configLoader.getVietinMerchantId();
-		String version = configLoader.getVietinVersion();
 
-		data.put(OneFinConstants.VTB_TOKEN, model.getToken());
-		data.put(OneFinConstants.VTB_TOKEN_ISSUE_DATE, model.getTokenIssueDate());
-		data.put(OneFinConstants.VTB_AMOUNT, model.getAmount());
-		data.put(OneFinConstants.VTB_CURRENCY_CODE, model.getCurrencyCode());
-		data.put(OneFinConstants.VTB_TRANSTIME, model.getTransTime());
-		data.put(OneFinConstants.VTB_CLIENTIP, model.getClientIP());
-		data.put(OneFinConstants.VTB_PAYMETHOD, model.getPayMethod());
-		data.put(OneFinConstants.VTB_GOODSTYPE, model.getGoodsType());
-		data.put(OneFinConstants.VTB_BILLNO, model.getBillNo());
-		data.put(OneFinConstants.VTB_REMARK, model.getRemark());
-		data.put(OneFinConstants.VTB_REQUESTID, model.getRequestId());
-		data.put(OneFinConstants.VTB_PROVIDERID, providerId);
-		data.put(OneFinConstants.VTB_MERCHANTID, merchantId);
-		data.put(OneFinConstants.VTB_CHANNEL, model.getChannel());
-		data.put(OneFinConstants.VTB_VERSION, version);
-		data.put(OneFinConstants.VTB_LANGUAGE, model.getLanguage());
-		data.put(OneFinConstants.VTB_MAC, model.getMac());
-
-		String dataSign = data.get(OneFinConstants.VTB_TOKEN) + data.get(OneFinConstants.VTB_TOKEN_ISSUE_DATE)
-				+ data.get(OneFinConstants.VTB_AMOUNT) + data.get(OneFinConstants.VTB_CURRENCY_CODE)
-				+ data.get(OneFinConstants.VTB_TRANSTIME) + data.get(OneFinConstants.VTB_CLIENTIP)
-				+ data.get(OneFinConstants.VTB_PAYMETHOD) + data.get(OneFinConstants.VTB_GOODSTYPE)
-				+ data.get(OneFinConstants.VTB_BILLNO) + data.get(OneFinConstants.VTB_REMARK)
-				+ data.get(OneFinConstants.VTB_PROVIDERID) + data.get(OneFinConstants.VTB_MERCHANTID)
-				+ data.get(OneFinConstants.VTB_CHANNEL) + data.get(OneFinConstants.VTB_VERSION)
-				+ data.get(OneFinConstants.VTB_LANGUAGE) + data.get(OneFinConstants.VTB_MAC);
-		LOGGER.info("== Before Sign Data :: " + dataSign);
-		String signData = viettinSign(dataSign);
-		data.put(OneFinConstants.VTB_SIGNATURE, signData);
-		LOGGER.info("== After Sign Data :: " + signData);
-		return data;
-	}
-	
-	public Map<String, String> buildVietinPaymentByOTP(PaymentByOTP model) {
+	public Map<String, String> buildVietinPaymentByToken(PaymentByToken model)
+			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		Map<String, String> data = new HashMap<>();
 		String providerId = configLoader.getVietinProviderId();
 		String merchantId = configLoader.getVietinMerchantId();
@@ -294,15 +267,186 @@ public class VietinUtils {
 		return data;
 	}
 
-	private String viettinSign(String input) {
-		try {
-			PrivateKey privateKeyItek = encryptUtil.readPrivateKey(onefinPrivateKey);
-			String signedData = encryptUtil.sign(input, privateKeyItek);
-			return signedData;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+	public Map<String, String> buildVietinPaymentByOTP(PaymentByOTP model)
+			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
+		Map<String, String> data = new HashMap<>();
+		String providerId = configLoader.getVietinProviderId();
+		String merchantId = configLoader.getVietinMerchantId();
+		String version = configLoader.getVietinVersion();
+
+		data.put(OneFinConstants.VTB_TOKEN, model.getToken());
+		data.put(OneFinConstants.VTB_TOKEN_ISSUE_DATE, model.getTokenIssueDate());
+		data.put(OneFinConstants.VTB_AMOUNT, model.getAmount());
+		data.put(OneFinConstants.VTB_CURRENCY_CODE, model.getCurrencyCode());
+		data.put(OneFinConstants.VTB_TRANSTIME, model.getTransTime());
+		data.put(OneFinConstants.VTB_CLIENTIP, model.getClientIP());
+		data.put(OneFinConstants.VTB_PAYMETHOD, model.getPayMethod());
+		data.put(OneFinConstants.VTB_GOODSTYPE, model.getGoodsType());
+		data.put(OneFinConstants.VTB_BILLNO, model.getBillNo());
+		data.put(OneFinConstants.VTB_REMARK, model.getRemark());
+		data.put(OneFinConstants.VTB_REQUESTID, model.getRequestId());
+		data.put(OneFinConstants.VTB_PROVIDERID, providerId);
+		data.put(OneFinConstants.VTB_MERCHANTID, merchantId);
+		data.put(OneFinConstants.VTB_CHANNEL, model.getChannel());
+		data.put(OneFinConstants.VTB_VERSION, version);
+		data.put(OneFinConstants.VTB_LANGUAGE, model.getLanguage());
+		data.put(OneFinConstants.VTB_MAC, model.getMac());
+
+		String dataSign = data.get(OneFinConstants.VTB_TOKEN) + data.get(OneFinConstants.VTB_TOKEN_ISSUE_DATE)
+				+ data.get(OneFinConstants.VTB_AMOUNT) + data.get(OneFinConstants.VTB_CURRENCY_CODE)
+				+ data.get(OneFinConstants.VTB_TRANSTIME) + data.get(OneFinConstants.VTB_CLIENTIP)
+				+ data.get(OneFinConstants.VTB_PAYMETHOD) + data.get(OneFinConstants.VTB_GOODSTYPE)
+				+ data.get(OneFinConstants.VTB_BILLNO) + data.get(OneFinConstants.VTB_REMARK)
+				+ data.get(OneFinConstants.VTB_PROVIDERID) + data.get(OneFinConstants.VTB_MERCHANTID)
+				+ data.get(OneFinConstants.VTB_CHANNEL) + data.get(OneFinConstants.VTB_VERSION)
+				+ data.get(OneFinConstants.VTB_LANGUAGE) + data.get(OneFinConstants.VTB_MAC);
+		LOGGER.info("== Before Sign Data :: " + dataSign);
+		String signData = viettinSign(dataSign);
+		data.put(OneFinConstants.VTB_SIGNATURE, signData);
+		LOGGER.info("== After Sign Data :: " + signData);
+		return data;
+	}
+
+	public Map<String, String> buildVietinWithdraw(Withdraw model)
+			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
+		Map<String, String> data = new HashMap<>();
+		String providerId = configLoader.getVietinProviderId();
+		String merchantId = configLoader.getVietinMerchantId();
+		String version = configLoader.getVietinVersion();
+
+		data.put(OneFinConstants.VTB_TOKEN, model.getToken());
+		data.put(OneFinConstants.VTB_TOKEN_ISSUE_DATE, model.getTokenIssueDate());
+		data.put(OneFinConstants.VTB_AMOUNT, model.getAmount());
+		data.put(OneFinConstants.VTB_CURRENCY_CODE, model.getCurrencyCode());
+		data.put(OneFinConstants.VTB_TRANSTIME, model.getTransTime());
+		data.put(OneFinConstants.VTB_CLIENTIP, model.getClientIP());
+		data.put(OneFinConstants.VTB_BENNAME, model.getBenName());
+		data.put(OneFinConstants.VTB_BENACCNO, model.getBenAcctNo());
+		data.put(OneFinConstants.VTB_BENIDNO, model.getBenIDNo());
+		data.put(OneFinConstants.VTB_BENADDINFO, model.getBenAddInfo());
+		data.put(OneFinConstants.VTB_REMARK, model.getRemark());
+		data.put(OneFinConstants.VTB_REQUESTID, model.getRequestId());
+		data.put(OneFinConstants.VTB_PROVIDERID, providerId);
+		data.put(OneFinConstants.VTB_MERCHANTID, merchantId);
+		data.put(OneFinConstants.VTB_CHANNEL, model.getChannel());
+		data.put(OneFinConstants.VTB_VERSION, version);
+		data.put(OneFinConstants.VTB_LANGUAGE, model.getLanguage());
+		data.put(OneFinConstants.VTB_MAC, model.getMac());
+
+		String dataSign = data.get(OneFinConstants.VTB_TOKEN) + data.get(OneFinConstants.VTB_TOKEN_ISSUE_DATE)
+				+ data.get(OneFinConstants.VTB_AMOUNT) + data.get(OneFinConstants.VTB_CURRENCY_CODE)
+				+ data.get(OneFinConstants.VTB_TRANSTIME) + data.get(OneFinConstants.VTB_CLIENTIP)
+				+ data.get(OneFinConstants.VTB_BENNAME) + data.get(OneFinConstants.VTB_BENACCNO)
+				+ data.get(OneFinConstants.VTB_BENIDNO) + data.get(OneFinConstants.VTB_BENADDINFO)
+				+ data.get(OneFinConstants.VTB_REMARK) + data.get(OneFinConstants.VTB_PROVIDERID)
+				+ data.get(OneFinConstants.VTB_MERCHANTID) + data.get(OneFinConstants.VTB_CHANNEL)
+				+ data.get(OneFinConstants.VTB_VERSION) + data.get(OneFinConstants.VTB_LANGUAGE)
+				+ data.get(OneFinConstants.VTB_MAC);
+		LOGGER.info("== Before Sign Data :: " + dataSign);
+		String signData = viettinSign(dataSign);
+		data.put(OneFinConstants.VTB_SIGNATURE, signData);
+		LOGGER.info("== After Sign Data :: " + signData);
+		return data;
+	}
+
+	public Map<String, String> buildVietinTransactionInquiry(TransactionInquiry model)
+			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
+		Map<String, String> data = new HashMap<>();
+		String providerId = configLoader.getVietinProviderId();
+		String merchantId = configLoader.getVietinMerchantId();
+		String version = configLoader.getVietinVersion();
+
+		data.put(OneFinConstants.VTB_QUERYTRANSACTIONID, model.getQueryTransactionId());
+		data.put(OneFinConstants.VTB_QUERYTYPE, model.getQueryType());
+		data.put(OneFinConstants.VTB_REQUESTID, model.getRequestId());
+		data.put(OneFinConstants.VTB_PROVIDERID, providerId);
+		data.put(OneFinConstants.VTB_MERCHANTID, merchantId);
+		data.put(OneFinConstants.VTB_CHANNEL, model.getChannel());
+		data.put(OneFinConstants.VTB_VERSION, version);
+		data.put(OneFinConstants.VTB_LANGUAGE, model.getLanguage());
+		data.put(OneFinConstants.VTB_MAC, model.getMac());
+
+		String dataSign = data.get(OneFinConstants.VTB_QUERYTRANSACTIONID) + data.get(OneFinConstants.VTB_QUERYTYPE)
+				+ data.get(OneFinConstants.VTB_PROVIDERID) + data.get(OneFinConstants.VTB_MERCHANTID)
+				+ data.get(OneFinConstants.VTB_CHANNEL) + data.get(OneFinConstants.VTB_VERSION)
+				+ data.get(OneFinConstants.VTB_LANGUAGE) + data.get(OneFinConstants.VTB_MAC);
+		LOGGER.info("== Before Sign Data :: " + dataSign);
+		String signData = viettinSign(dataSign);
+		data.put(OneFinConstants.VTB_SIGNATURE, signData);
+		LOGGER.info("== After Sign Data :: " + signData);
+		return data;
+	}
+
+	public Map<String, String> buildVietinProviderInquiry(ProviderInquiry model)
+			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
+		Map<String, String> data = new HashMap<>();
+		String providerId = configLoader.getVietinProviderId();
+		String merchantId = configLoader.getVietinMerchantId();
+		String version = configLoader.getVietinVersion();
+
+		data.put(OneFinConstants.VTB_REQUESTID, model.getRequestId());
+		data.put(OneFinConstants.VTB_PROVIDERID, providerId);
+		data.put(OneFinConstants.VTB_MERCHANTID, merchantId);
+		data.put(OneFinConstants.VTB_CHANNEL, model.getChannel());
+		data.put(OneFinConstants.VTB_VERSION, version);
+		data.put(OneFinConstants.VTB_LANGUAGE, model.getLanguage());
+		data.put(OneFinConstants.VTB_MAC, model.getMac());
+
+		String dataSign = data.get(OneFinConstants.VTB_PROVIDERID) + data.get(OneFinConstants.VTB_MERCHANTID)
+				+ data.get(OneFinConstants.VTB_CHANNEL) + data.get(OneFinConstants.VTB_VERSION)
+				+ data.get(OneFinConstants.VTB_LANGUAGE) + data.get(OneFinConstants.VTB_MAC);
+		LOGGER.info("== Before Sign Data :: " + dataSign);
+		String signData = viettinSign(dataSign);
+		data.put(OneFinConstants.VTB_SIGNATURE, signData);
+		LOGGER.info("== After Sign Data :: " + signData);
+		return data;
+	}
+
+	public Map<String, String> buildVietinTokenIssuerPayment(TokenIssuePayment model)
+			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
+		Map<String, String> data = new HashMap<>();
+		String providerId = configLoader.getVietinProviderId();
+		String merchantId = configLoader.getVietinMerchantId();
+		String version = configLoader.getVietinVersion();
+
+		data.put(OneFinConstants.VTB_CARDNUMBER, model.getCardNumber());
+		data.put(OneFinConstants.VTB_CARDISSUEDATE, model.getCardIssueDate());
+		data.put(OneFinConstants.VTB_CARDHOLDERNAME, model.getCardHolderName());
+		data.put(OneFinConstants.VTB_AMOUNT, model.getAmount());
+		data.put(OneFinConstants.VTB_CURRENCY_CODE, model.getCurrencyCode());
+		data.put(OneFinConstants.VTB_PROVIDERCUSTID, model.getProviderCustId());
+		data.put(OneFinConstants.VTB_CUSTPHONENO, model.getCustPhoneNo());
+		data.put(OneFinConstants.VTB_CUSTIDNO, model.getCustIDNo());
+		data.put(OneFinConstants.VTB_CLIENTIP, model.getClientIP());
+		data.put(OneFinConstants.VTB_TRANSTIME, model.getTransTime());
+		data.put(OneFinConstants.VTB_REQUESTID, model.getRequestId());
+		data.put(OneFinConstants.VTB_PROVIDERID, providerId);
+		data.put(OneFinConstants.VTB_MERCHANTID, merchantId);
+		data.put(OneFinConstants.VTB_CHANNEL, model.getChannel());
+		data.put(OneFinConstants.VTB_VERSION, version);
+		data.put(OneFinConstants.VTB_LANGUAGE, model.getLanguage());
+		data.put(OneFinConstants.VTB_MAC, model.getMac());
+
+		String dataSign = data.get(OneFinConstants.VTB_CARDNUMBER) + data.get(OneFinConstants.VTB_CARDISSUEDATE)
+				+ data.get(OneFinConstants.VTB_CARDHOLDERNAME) + data.get(OneFinConstants.VTB_AMOUNT)
+				+ data.get(OneFinConstants.VTB_CURRENCY_CODE) + data.get(OneFinConstants.VTB_PROVIDERCUSTID)
+				+ data.get(OneFinConstants.VTB_CUSTPHONENO) + data.get(OneFinConstants.VTB_CUSTIDNO)
+				+ data.get(OneFinConstants.VTB_CLIENTIP) + data.get(OneFinConstants.VTB_TRANSTIME)
+				+ data.get(OneFinConstants.VTB_REQUESTID) + data.get(OneFinConstants.VTB_PROVIDERID)
+				+ data.get(OneFinConstants.VTB_MERCHANTID) + data.get(OneFinConstants.VTB_CHANNEL)
+				+ data.get(OneFinConstants.VTB_VERSION) + data.get(OneFinConstants.VTB_LANGUAGE)
+				+ data.get(OneFinConstants.VTB_MAC);
+		LOGGER.info("== Before Sign Data :: " + dataSign);
+		String signData = viettinSign(dataSign);
+		data.put(OneFinConstants.VTB_SIGNATURE, signData);
+		LOGGER.info("== After Sign Data :: " + signData);
+		return data;
+	}
+
+	private String viettinSign(String input) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
+		PrivateKey privateKeyItek = encryptUtil.readPrivateKey(onefinPrivateKey);
+		String signedData = encryptUtil.sign(input, privateKeyItek);
+		return signedData;
 	}
 
 	/**
