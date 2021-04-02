@@ -1,4 +1,4 @@
-package com.onefin.ewalletvtb.common;
+package com.onefin.ewallet.common;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -16,8 +16,8 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.onefin.ewalletvtb.controller.VietinController;
-import com.onefin.ewalletvtb.model.VietinBaseMessage;
+import com.onefin.ewallet.controller.VietinController;
+import com.onefin.ewallet.model.VietinBaseMessage;
 
 @Service
 public class HTTPRequestUtil {

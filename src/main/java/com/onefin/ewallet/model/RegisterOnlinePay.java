@@ -1,4 +1,4 @@
-package com.onefin.ewalletvtb.model;
+package com.onefin.ewallet.model;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;

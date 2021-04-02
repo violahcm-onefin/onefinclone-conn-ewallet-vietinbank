@@ -1,4 +1,4 @@
-package com.onefin.ewalletvtb.common;
+package com.onefin.ewallet.common;
 
 import java.io.FileInputStream;
 import java.io.IOException;

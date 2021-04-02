@@ -1,4 +1,4 @@
-package com.onefin.ewalletvtb.application;
+package com.onefin.ewallet.application;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

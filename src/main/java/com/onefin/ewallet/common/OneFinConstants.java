@@ -1,4 +1,4 @@
-package com.onefin.ewalletvtb.common;
+package com.onefin.ewallet.common;
 
 public class OneFinConstants extends com.onefin.common.OneFinConstants{
 

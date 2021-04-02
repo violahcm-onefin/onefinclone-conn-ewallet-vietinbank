@@ -1,4 +1,4 @@
-package com.onefin.ewalletvtb.model;
+package com.onefin.ewallet.model;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -6,29 +6,15 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class TokenIssue {
+public class TokenRevokeReIssue {
 
     @Size(max = 20)
     @NotEmpty(message = "Not empty")
-	private String cardNumber;
+	private String token;
     
     @Size(max = 6)
-    //@NotEmpty(message = "Not empty")
-	private String cardIssueDate;
-
-    @Size(max = 50)
     @NotEmpty(message = "Not empty")
-	private String cardHolderName;
-    
-    @Size(max = 30)
-    @NotEmpty(message = "Not empty")
-	private String providerCustId;
-
-    @Size(max = 30)
-	private String custPhoneNo;
-
-    @Size(max = 30)
-	private String custIDNo;
+	private String tokenIssueDate;
 
     @Size(max = 16)
 	private String clientIP;
@@ -51,10 +37,7 @@ public class TokenIssue {
     @Size(max = 30)
 	private String mac;
 
-	public TokenIssue() {
-		this.cardIssueDate = new String();
-		this.custPhoneNo = new String();
-		this.custIDNo = new String();
+	public TokenRevokeReIssue() {		
 		this.clientIP = new String();		
 		this.language = new String();
 		this.mac = new String();

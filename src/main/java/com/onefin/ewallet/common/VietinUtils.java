@@ -1,4 +1,4 @@
-package com.onefin.ewalletvtb.common;
+package com.onefin.ewallet.common;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -17,18 +17,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.onefin.ewalletvtb.model.PaymentByOTP;
-import com.onefin.ewalletvtb.model.PaymentByToken;
-import com.onefin.ewalletvtb.model.ProviderInquiry;
-import com.onefin.ewalletvtb.model.RegisterOnlinePay;
-import com.onefin.ewalletvtb.model.TokenIssue;
-import com.onefin.ewalletvtb.model.TokenIssuePayment;
-import com.onefin.ewalletvtb.model.TokenRevokeReIssue;
-import com.onefin.ewalletvtb.model.TransactionInquiry;
-import com.onefin.ewalletvtb.model.VerifyPin;
-import com.onefin.ewalletvtb.model.VietinBaseMessage;
-import com.onefin.ewalletvtb.model.Withdraw;
-import com.onefin.ewalletvtb.service.ConfigLoader;
+import com.onefin.ewallet.model.PaymentByOTP;
+import com.onefin.ewallet.model.PaymentByToken;
+import com.onefin.ewallet.model.ProviderInquiry;
+import com.onefin.ewallet.model.RegisterOnlinePay;
+import com.onefin.ewallet.model.TokenIssue;
+import com.onefin.ewallet.model.TokenIssuePayment;
+import com.onefin.ewallet.model.TokenRevokeReIssue;
+import com.onefin.ewallet.model.TransactionInquiry;
+import com.onefin.ewallet.model.VerifyPin;
+import com.onefin.ewallet.model.VietinBaseMessage;
+import com.onefin.ewallet.model.Withdraw;
+import com.onefin.ewallet.service.ConfigLoader;
 
 @Service
 public class VietinUtils {

@@ -1,9 +1,9 @@
-package com.onefin.ewalletvtb.common;
+package com.onefin.ewallet.common;
 
 import org.springframework.stereotype.Service;
 
-import com.onefin.ewalletvtb.model.VietinBaseMessage;
-import com.onefin.ewalletvtb.model.VietinConnectorResponse;
+import com.onefin.ewallet.model.VietinBaseMessage;
+import com.onefin.ewallet.model.VietinConnectorResponse;
 
 @Service
 public class MessageUtil {

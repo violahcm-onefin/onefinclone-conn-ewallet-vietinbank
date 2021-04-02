@@ -1,4 +1,4 @@
-package com.onefin.ewalletvtb.controller;
+package com.onefin.ewallet.controller;
 
 import java.util.Map;
 
@@ -17,21 +17,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.onefin.ewalletvtb.common.HTTPRequestUtil;
-import com.onefin.ewalletvtb.common.MessageUtil;
-import com.onefin.ewalletvtb.common.VietinUtils;
-import com.onefin.ewalletvtb.model.PaymentByOTP;
-import com.onefin.ewalletvtb.model.PaymentByToken;
-import com.onefin.ewalletvtb.model.ProviderInquiry;
-import com.onefin.ewalletvtb.model.RegisterOnlinePay;
-import com.onefin.ewalletvtb.model.TokenIssue;
-import com.onefin.ewalletvtb.model.TokenIssuePayment;
-import com.onefin.ewalletvtb.model.TokenRevokeReIssue;
-import com.onefin.ewalletvtb.model.TransactionInquiry;
-import com.onefin.ewalletvtb.model.VerifyPin;
-import com.onefin.ewalletvtb.model.VietinBaseMessage;
-import com.onefin.ewalletvtb.model.Withdraw;
-import com.onefin.ewalletvtb.service.ConfigLoader;
+import com.onefin.ewallet.common.HTTPRequestUtil;
+import com.onefin.ewallet.common.MessageUtil;
+import com.onefin.ewallet.common.VietinUtils;
+import com.onefin.ewallet.model.PaymentByOTP;
+import com.onefin.ewallet.model.PaymentByToken;
+import com.onefin.ewallet.model.ProviderInquiry;
+import com.onefin.ewallet.model.RegisterOnlinePay;
+import com.onefin.ewallet.model.TokenIssue;
+import com.onefin.ewallet.model.TokenIssuePayment;
+import com.onefin.ewallet.model.TokenRevokeReIssue;
+import com.onefin.ewallet.model.TransactionInquiry;
+import com.onefin.ewallet.model.VerifyPin;
+import com.onefin.ewallet.model.VietinBaseMessage;
+import com.onefin.ewallet.model.Withdraw;
+import com.onefin.ewallet.service.ConfigLoader;
 
 @Controller
 @Configuration

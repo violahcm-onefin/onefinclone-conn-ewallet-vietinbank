@@ -1,4 +1,4 @@
-package com.onefin.ewalletvtb.common;
+package com.onefin.ewallet.common;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.onefin.ewalletvtb.service.ConfigLoader;
+import com.onefin.ewallet.service.ConfigLoader;
 
 @ControllerAdvice
 public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {

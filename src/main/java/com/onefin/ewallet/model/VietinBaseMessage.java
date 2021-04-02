@@ -1,4 +1,4 @@
-package com.onefin.ewalletvtb.model;
+package com.onefin.ewallet.model;
 
 import java.util.List;
 
