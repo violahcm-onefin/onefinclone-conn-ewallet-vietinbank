@@ -81,10 +81,10 @@ public class VietinUtils {
 				+ data.get(OneFinConstants.VTB_MERCHANTID) + data.get(OneFinConstants.VTB_CHANNEL)
 				+ data.get(OneFinConstants.VTB_VERSION) + data.get(OneFinConstants.VTB_LANGUAGE)
 				+ data.get(OneFinConstants.VTB_MAC);
-		LOGGER.info("== Before Sign Data :: " + dataSign);
+		LOGGER.info("== Before Sign Data - " + dataSign);
 		String signData = viettinSign(dataSign);
 		data.put(OneFinConstants.VTB_SIGNATURE, signData);
-		LOGGER.info("== After Sign Data :: " + signData);
+		LOGGER.info("== After Sign Data - " + signData);
 		return data;
 	}
 
@@ -114,10 +114,10 @@ public class VietinUtils {
 				+ data.get(OneFinConstants.VTB_PROVIDERID) + data.get(OneFinConstants.VTB_MERCHANTID)
 				+ data.get(OneFinConstants.VTB_CHANNEL) + data.get(OneFinConstants.VTB_VERSION)
 				+ data.get(OneFinConstants.VTB_LANGUAGE) + data.get(OneFinConstants.VTB_MAC);
-		LOGGER.info("== Before Sign Data :: " + dataSign);
+		LOGGER.info("== Before Sign Data - " + dataSign);
 		String signData = viettinSign(dataSign);
 		data.put(OneFinConstants.VTB_SIGNATURE, signData);
-		LOGGER.info("== After Sign Data :: " + signData);
+		LOGGER.info("== After Sign Data - " + signData);
 		return data;
 	}
 
@@ -158,10 +158,10 @@ public class VietinUtils {
 				+ data.get(OneFinConstants.VTB_PROVIDERID) + data.get(OneFinConstants.VTB_MERCHANTID)
 				+ data.get(OneFinConstants.VTB_CHANNEL) + data.get(OneFinConstants.VTB_VERSION)
 				+ data.get(OneFinConstants.VTB_LANGUAGE) + data.get(OneFinConstants.VTB_MAC);
-		LOGGER.info("== Before Sign Data :: " + dataSign);
+		LOGGER.info("== Before Sign Data - " + dataSign);
 		String signData = viettinSign(dataSign);
 		data.put(OneFinConstants.VTB_SIGNATURE, signData);
-		LOGGER.info("== After Sign Data :: " + signData);
+		LOGGER.info("== After Sign Data - " + signData);
 		return data;
 	}
 
@@ -189,10 +189,10 @@ public class VietinUtils {
 				+ data.get(OneFinConstants.VTB_PROVIDERID) + data.get(OneFinConstants.VTB_MERCHANTID)
 				+ data.get(OneFinConstants.VTB_CHANNEL) + data.get(OneFinConstants.VTB_VERSION)
 				+ data.get(OneFinConstants.VTB_LANGUAGE) + data.get(OneFinConstants.VTB_MAC);
-		LOGGER.info("== Before Sign Data :: " + dataSign);
+		LOGGER.info("== Before Sign Data - " + dataSign);
 		String signData = viettinSign(dataSign);
 		data.put(OneFinConstants.VTB_SIGNATURE, signData);
-		LOGGER.info("== After Sign Data :: " + signData);
+		LOGGER.info("== After Sign Data - " + signData);
 		return data;
 	}
 
@@ -220,10 +220,10 @@ public class VietinUtils {
 				+ data.get(OneFinConstants.VTB_PROVIDERID) + data.get(OneFinConstants.VTB_MERCHANTID)
 				+ data.get(OneFinConstants.VTB_CHANNEL) + data.get(OneFinConstants.VTB_VERSION)
 				+ data.get(OneFinConstants.VTB_LANGUAGE) + data.get(OneFinConstants.VTB_MAC);
-		LOGGER.info("== Before Sign Data :: " + dataSign);
+		LOGGER.info("== Before Sign Data - " + dataSign);
 		String signData = viettinSign(dataSign);
 		data.put(OneFinConstants.VTB_SIGNATURE, signData);
-		LOGGER.info("== After Sign Data :: " + signData);
+		LOGGER.info("== After Sign Data - " + signData);
 		return data;
 	}
 
@@ -260,10 +260,10 @@ public class VietinUtils {
 				+ data.get(OneFinConstants.VTB_PROVIDERID) + data.get(OneFinConstants.VTB_MERCHANTID)
 				+ data.get(OneFinConstants.VTB_CHANNEL) + data.get(OneFinConstants.VTB_VERSION)
 				+ data.get(OneFinConstants.VTB_LANGUAGE) + data.get(OneFinConstants.VTB_MAC);
-		LOGGER.info("== Before Sign Data :: " + dataSign);
+		LOGGER.info("== Before Sign Data - " + dataSign);
 		String signData = viettinSign(dataSign);
 		data.put(OneFinConstants.VTB_SIGNATURE, signData);
-		LOGGER.info("== After Sign Data :: " + signData);
+		LOGGER.info("== After Sign Data - " + signData);
 		return data;
 	}
 
@@ -300,10 +300,10 @@ public class VietinUtils {
 				+ data.get(OneFinConstants.VTB_PROVIDERID) + data.get(OneFinConstants.VTB_MERCHANTID)
 				+ data.get(OneFinConstants.VTB_CHANNEL) + data.get(OneFinConstants.VTB_VERSION)
 				+ data.get(OneFinConstants.VTB_LANGUAGE) + data.get(OneFinConstants.VTB_MAC);
-		LOGGER.info("== Before Sign Data :: " + dataSign);
+		LOGGER.info("== Before Sign Data - " + dataSign);
 		String signData = viettinSign(dataSign);
 		data.put(OneFinConstants.VTB_SIGNATURE, signData);
-		LOGGER.info("== After Sign Data :: " + signData);
+		LOGGER.info("== After Sign Data - " + signData);
 		return data;
 	}
 
@@ -342,10 +342,10 @@ public class VietinUtils {
 				+ data.get(OneFinConstants.VTB_MERCHANTID) + data.get(OneFinConstants.VTB_CHANNEL)
 				+ data.get(OneFinConstants.VTB_VERSION) + data.get(OneFinConstants.VTB_LANGUAGE)
 				+ data.get(OneFinConstants.VTB_MAC);
-		LOGGER.info("== Before Sign Data :: " + dataSign);
+		LOGGER.info("== Before Sign Data - " + dataSign);
 		String signData = viettinSign(dataSign);
 		data.put(OneFinConstants.VTB_SIGNATURE, signData);
-		LOGGER.info("== After Sign Data :: " + signData);
+		LOGGER.info("== After Sign Data - " + signData);
 		return data;
 	}
 
@@ -370,10 +370,10 @@ public class VietinUtils {
 				+ data.get(OneFinConstants.VTB_PROVIDERID) + data.get(OneFinConstants.VTB_MERCHANTID)
 				+ data.get(OneFinConstants.VTB_CHANNEL) + data.get(OneFinConstants.VTB_VERSION)
 				+ data.get(OneFinConstants.VTB_LANGUAGE) + data.get(OneFinConstants.VTB_MAC);
-		LOGGER.info("== Before Sign Data :: " + dataSign);
+		LOGGER.info("== Before Sign Data - " + dataSign);
 		String signData = viettinSign(dataSign);
 		data.put(OneFinConstants.VTB_SIGNATURE, signData);
-		LOGGER.info("== After Sign Data :: " + signData);
+		LOGGER.info("== After Sign Data - " + signData);
 		return data;
 	}
 
@@ -395,10 +395,10 @@ public class VietinUtils {
 		String dataSign = data.get(OneFinConstants.VTB_PROVIDERID) + data.get(OneFinConstants.VTB_MERCHANTID)
 				+ data.get(OneFinConstants.VTB_CHANNEL) + data.get(OneFinConstants.VTB_VERSION)
 				+ data.get(OneFinConstants.VTB_LANGUAGE) + data.get(OneFinConstants.VTB_MAC);
-		LOGGER.info("== Before Sign Data :: " + dataSign);
+		LOGGER.info("== Before Sign Data - " + dataSign);
 		String signData = viettinSign(dataSign);
 		data.put(OneFinConstants.VTB_SIGNATURE, signData);
-		LOGGER.info("== After Sign Data :: " + signData);
+		LOGGER.info("== After Sign Data - " + signData);
 		return data;
 	}
 
@@ -436,16 +436,16 @@ public class VietinUtils {
 				+ data.get(OneFinConstants.VTB_MERCHANTID) + data.get(OneFinConstants.VTB_CHANNEL)
 				+ data.get(OneFinConstants.VTB_VERSION) + data.get(OneFinConstants.VTB_LANGUAGE)
 				+ data.get(OneFinConstants.VTB_MAC);
-		LOGGER.info("== Before Sign Data :: " + dataSign);
+		LOGGER.info("== Before Sign Data - " + dataSign);
 		String signData = viettinSign(dataSign);
 		data.put(OneFinConstants.VTB_SIGNATURE, signData);
-		LOGGER.info("== After Sign Data :: " + signData);
+		LOGGER.info("== After Sign Data - " + signData);
 		return data;
 	}
 
 	private String viettinSign(String input) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
-		PrivateKey privateKeyItek = encryptUtil.readPrivateKey(onefinPrivateKey);
-		String signedData = encryptUtil.sign(input, privateKeyItek);
+		PrivateKey privateKeyOneFin = encryptUtil.readPrivateKey(onefinPrivateKey);
+		String signedData = encryptUtil.sign(input, privateKeyOneFin);
 		return signedData;
 	}
 

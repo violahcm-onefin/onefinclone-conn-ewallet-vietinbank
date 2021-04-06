@@ -2,8 +2,8 @@ server:
   port: 8060
 
 vietin:
-  onefinPrivateKey: D:\\Project\\keys\\onefin-privatekey-uat-vietin.der
-  vtbPublicKey: /app/onefin/keys/Vietinbank_publicKey.pem
+  onefinPrivateKey: E:\OneFin\source_code\conn-ewallet-vietinbank\src\main\resources\keys\onefin-privatekey-uat-vietin.der
+  vtbPublicKey: E:\OneFin\source_code\conn-ewallet-vietinbank\src\main\resources\keys\Vietinbank_publicKey.pem
   version: 1.0
   merchantId: 1444
   providerId: 124

@@ -32,7 +32,7 @@ public class HTTPRequestUtil {
 	 * @throws Exception
 	 */
 	public Object sendVietinPost(String url, Object obj, String clientId, String clientSecret) throws Exception {
-		LOGGER.info("== URL :: " + url);
+		LOGGER.info("== URL - " + url);
 		HttpHeaders headers = new HttpHeaders();
 		headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -44,7 +44,7 @@ public class HTTPRequestUtil {
 		try {
 			resp = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 		} catch (Exception e) {
-			LOGGER.error("== Error response from VIETIN!!!" + url);
+			LOGGER.error("== Error response from VIETIN!!! - " + url);
 			return null;
 		}
 		try {
@@ -58,7 +58,7 @@ public class HTTPRequestUtil {
 	private VietinBaseMessage object2VietinBaseMesseage(String object)
 			throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
-		LOGGER.info("== Response :: " + object);
+		LOGGER.info("== Response - " + object);
 		VietinBaseMessage result = mapper.readValue(object, VietinBaseMessage.class);
 		return result;
 	}
