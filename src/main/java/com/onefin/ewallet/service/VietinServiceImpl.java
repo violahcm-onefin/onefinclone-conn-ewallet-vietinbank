@@ -1,4 +1,4 @@
-package com.onefin.ewallet.common;
+package com.onefin.ewallet.service;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -17,6 +17,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.onefin.ewallet.common.EncryptUtil;
+import com.onefin.ewallet.common.MessageUtil;
+import com.onefin.ewallet.common.OneFinConstants;
 import com.onefin.ewallet.model.PaymentByOTP;
 import com.onefin.ewallet.model.PaymentByToken;
 import com.onefin.ewallet.model.ProviderInquiry;
@@ -28,12 +31,11 @@ import com.onefin.ewallet.model.TransactionInquiry;
 import com.onefin.ewallet.model.VerifyPin;
 import com.onefin.ewallet.model.VietinBaseMessage;
 import com.onefin.ewallet.model.Withdraw;
-import com.onefin.ewallet.service.ConfigLoader;
 
 @Service
-public class VietinUtils {
+public class VietinServiceImpl implements IVietinService {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(VietinUtils.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(VietinServiceImpl.class);
 
 	@Value("${vietin.onefinPrivateKey}")
 	private String onefinPrivateKey;
@@ -50,6 +52,7 @@ public class VietinUtils {
 	@Autowired
 	private EncryptUtil encryptUtil;
 
+	@Override
 	public Map<String, String> buildVietinTokenIssuer(TokenIssue model)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		Map<String, String> data = new HashMap<>();
@@ -88,6 +91,7 @@ public class VietinUtils {
 		return data;
 	}
 
+	@Override
 	public Map<String, String> buildVietinVerifyPin(VerifyPin model)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		Map<String, String> data = new HashMap<>();
@@ -121,6 +125,7 @@ public class VietinUtils {
 		return data;
 	}
 
+	@Override
 	public Map<String, String> buildVietinRegisterOnlinePay(RegisterOnlinePay model)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		Map<String, String> data = new HashMap<>();
@@ -165,6 +170,7 @@ public class VietinUtils {
 		return data;
 	}
 
+	@Override
 	public Map<String, String> buildVietinTokenRevoke(TokenRevokeReIssue model)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		Map<String, String> data = new HashMap<>();
@@ -196,6 +202,7 @@ public class VietinUtils {
 		return data;
 	}
 
+	@Override
 	public Map<String, String> buildVietinTokenReIssue(TokenRevokeReIssue model)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		Map<String, String> data = new HashMap<>();
@@ -227,6 +234,7 @@ public class VietinUtils {
 		return data;
 	}
 
+	@Override
 	public Map<String, String> buildVietinPaymentByToken(PaymentByToken model)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		Map<String, String> data = new HashMap<>();
@@ -267,6 +275,7 @@ public class VietinUtils {
 		return data;
 	}
 
+	@Override
 	public Map<String, String> buildVietinPaymentByOTP(PaymentByOTP model)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		Map<String, String> data = new HashMap<>();
@@ -307,6 +316,7 @@ public class VietinUtils {
 		return data;
 	}
 
+	@Override
 	public Map<String, String> buildVietinWithdraw(Withdraw model)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		Map<String, String> data = new HashMap<>();
@@ -349,6 +359,7 @@ public class VietinUtils {
 		return data;
 	}
 
+	@Override
 	public Map<String, String> buildVietinTransactionInquiry(TransactionInquiry model)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		Map<String, String> data = new HashMap<>();
@@ -377,6 +388,7 @@ public class VietinUtils {
 		return data;
 	}
 
+	@Override
 	public Map<String, String> buildVietinProviderInquiry(ProviderInquiry model)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		Map<String, String> data = new HashMap<>();
@@ -402,6 +414,7 @@ public class VietinUtils {
 		return data;
 	}
 
+	@Override
 	public Map<String, String> buildVietinTokenIssuerPayment(TokenIssuePayment model)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		Map<String, String> data = new HashMap<>();
@@ -456,6 +469,7 @@ public class VietinUtils {
 	 * @param language
 	 * @return
 	 */
+	@Override
 	public ResponseEntity<?> validateResponse(VietinBaseMessage baseMessage) {
 		// Check response
 		String errorMsg = "";

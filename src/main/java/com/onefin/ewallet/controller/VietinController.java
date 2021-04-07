@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.onefin.ewallet.common.HTTPRequestUtil;
 import com.onefin.ewallet.common.MessageUtil;
-import com.onefin.ewallet.common.VietinUtils;
 import com.onefin.ewallet.model.PaymentByOTP;
 import com.onefin.ewallet.model.PaymentByToken;
 import com.onefin.ewallet.model.ProviderInquiry;
@@ -32,14 +31,15 @@ import com.onefin.ewallet.model.VerifyPin;
 import com.onefin.ewallet.model.VietinBaseMessage;
 import com.onefin.ewallet.model.Withdraw;
 import com.onefin.ewallet.service.ConfigLoader;
+import com.onefin.ewallet.service.IVietinService;
 
 @Controller
 @Configuration
-@RequestMapping("/vtbConnector/ewallet")
+@RequestMapping("/vietin/ewallet")
 public class VietinController {
 
 	@Autowired
-	public VietinUtils vietinUtils;
+	public IVietinService iVietinService;
 
 	@Autowired
 	private MessageUtil msgUtil;
@@ -58,7 +58,7 @@ public class VietinController {
 		String errorMsg = "";
 		LOGGER.info("== RequestID {} - Send TokenIssue Request to VIETIN", requestBody.getRequestId());
 		try {
-			Map<String, String> requestMap = vietinUtils.buildVietinTokenIssuer(requestBody);
+			Map<String, String> requestMap = iVietinService.buildVietinTokenIssuer(requestBody);
 			LOGGER.info("== RequestID {} - TokenIssue Request : " + requestMap, requestBody.getRequestId());
 
 			VietinBaseMessage baseMessage = (VietinBaseMessage) hTTPRequestUtil.sendVietinPost(
@@ -66,7 +66,7 @@ public class VietinController {
 					configLoader.getXIbmClientSecret());
 
 			// Validate response from VTB
-			ResponseEntity<?> responseEntity = vietinUtils.validateResponse(baseMessage);
+			ResponseEntity<?> responseEntity = iVietinService.validateResponse(baseMessage);
 			return responseEntity;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -84,7 +84,7 @@ public class VietinController {
 		String errorMsg = "";
 		LOGGER.info("== RequestID {} - Send VerifyPin Request to VIETIN", requestBody.getRequestId());
 		try {
-			Map<String, String> requestMap = vietinUtils.buildVietinVerifyPin(requestBody);
+			Map<String, String> requestMap = iVietinService.buildVietinVerifyPin(requestBody);
 			LOGGER.info("== RequestID {} - VerifyPin Request : " + requestMap, requestBody.getRequestId());
 
 			VietinBaseMessage baseMessage = (VietinBaseMessage) hTTPRequestUtil.sendVietinPost(
@@ -92,7 +92,7 @@ public class VietinController {
 					configLoader.getXIbmClientSecret());
 
 			// Validate response from VTB
-			ResponseEntity<?> responseEntity = vietinUtils.validateResponse(baseMessage);
+			ResponseEntity<?> responseEntity = iVietinService.validateResponse(baseMessage);
 			return responseEntity;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -111,7 +111,7 @@ public class VietinController {
 		String errorMsg = "";
 		LOGGER.info("== RequestID {} - Send RegisterOnlinePay Request to VIETIN", requestBody.getRequestId());
 		try {
-			Map<String, String> requestMap = vietinUtils.buildVietinRegisterOnlinePay(requestBody);
+			Map<String, String> requestMap = iVietinService.buildVietinRegisterOnlinePay(requestBody);
 			LOGGER.info("== RequestID {} - RegisterOnlinePay Request : " + requestMap, requestBody.getRequestId());
 
 			VietinBaseMessage baseMessage = (VietinBaseMessage) hTTPRequestUtil.sendVietinPost(
@@ -119,7 +119,7 @@ public class VietinController {
 					configLoader.getXIbmClientSecret());
 
 			// Validate response from VTB
-			ResponseEntity<?> responseEntity = vietinUtils.validateResponse(baseMessage);
+			ResponseEntity<?> responseEntity = iVietinService.validateResponse(baseMessage);
 			return responseEntity;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -138,7 +138,7 @@ public class VietinController {
 		String errorMsg = "";
 		LOGGER.info("== RequestID {} - Send TokenRevoke Request to VIETIN", requestBody.getRequestId());
 		try {
-			Map<String, String> requestMap = vietinUtils.buildVietinTokenRevoke(requestBody);
+			Map<String, String> requestMap = iVietinService.buildVietinTokenRevoke(requestBody);
 			LOGGER.info("== RequestID {} - TokenRevoke Request : " + requestMap, requestBody.getRequestId());
 
 			VietinBaseMessage baseMessage = (VietinBaseMessage) hTTPRequestUtil.sendVietinPost(
@@ -146,7 +146,7 @@ public class VietinController {
 					configLoader.getXIbmClientSecret());
 
 			// Validate response from VTB
-			ResponseEntity<?> responseEntity = vietinUtils.validateResponse(baseMessage);
+			ResponseEntity<?> responseEntity = iVietinService.validateResponse(baseMessage);
 			return responseEntity;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -165,7 +165,7 @@ public class VietinController {
 		String errorMsg = "";
 		LOGGER.info("== RequestID {} - Send TokenReissue Request to VIETIN", requestBody.getRequestId());
 		try {
-			Map<String, String> requestMap = vietinUtils.buildVietinTokenReIssue(requestBody);
+			Map<String, String> requestMap = iVietinService.buildVietinTokenReIssue(requestBody);
 			LOGGER.info("== RequestID {} - TokenReissue Request : " + requestMap, requestBody.getRequestId());
 
 			VietinBaseMessage baseMessage = (VietinBaseMessage) hTTPRequestUtil.sendVietinPost(
@@ -173,7 +173,7 @@ public class VietinController {
 					configLoader.getXIbmClientSecret());
 
 			// Validate response from VTB
-			ResponseEntity<?> responseEntity = vietinUtils.validateResponse(baseMessage);
+			ResponseEntity<?> responseEntity = iVietinService.validateResponse(baseMessage);
 			return responseEntity;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -192,7 +192,7 @@ public class VietinController {
 		String errorMsg = "";
 		LOGGER.info("== RequestID {} - Send PaymentByToken Request to VIETIN", requestBody.getRequestId());
 		try {
-			Map<String, String> requestMap = vietinUtils.buildVietinPaymentByToken(requestBody);
+			Map<String, String> requestMap = iVietinService.buildVietinPaymentByToken(requestBody);
 			LOGGER.info("== RequestID {} - PaymentByToken Request : " + requestMap, requestBody.getRequestId());
 
 			VietinBaseMessage baseMessage = (VietinBaseMessage) hTTPRequestUtil.sendVietinPost(
@@ -200,7 +200,7 @@ public class VietinController {
 					configLoader.getXIbmClientSecret());
 
 			// Validate response from VTB
-			ResponseEntity<?> responseEntity = vietinUtils.validateResponse(baseMessage);
+			ResponseEntity<?> responseEntity = iVietinService.validateResponse(baseMessage);
 			return responseEntity;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -218,7 +218,7 @@ public class VietinController {
 		String errorMsg = "";
 		LOGGER.info("== RequestID {} - Send PaymentByOTP Request to VIETIN", requestBody.getRequestId());
 		try {
-			Map<String, String> requestMap = vietinUtils.buildVietinPaymentByOTP(requestBody);
+			Map<String, String> requestMap = iVietinService.buildVietinPaymentByOTP(requestBody);
 			LOGGER.info("== RequestID {} - PaymentByOTP Request : " + requestMap, requestBody.getRequestId());
 
 			VietinBaseMessage baseMessage = (VietinBaseMessage) hTTPRequestUtil.sendVietinPost(
@@ -226,7 +226,7 @@ public class VietinController {
 					configLoader.getXIbmClientSecret());
 
 			// Validate response from VTB
-			ResponseEntity<?> responseEntity = vietinUtils.validateResponse(baseMessage);
+			ResponseEntity<?> responseEntity = iVietinService.validateResponse(baseMessage);
 			return responseEntity;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -244,7 +244,7 @@ public class VietinController {
 		String errorMsg = "";
 		LOGGER.info("== RequestID {} - Send Withdraw Request to VIETIN", requestBody.getRequestId());
 		try {
-			Map<String, String> requestMap = vietinUtils.buildVietinWithdraw(requestBody);
+			Map<String, String> requestMap = iVietinService.buildVietinWithdraw(requestBody);
 			LOGGER.info("== RequestID {} - Withdraw Request : " + requestMap, requestBody.getRequestId());
 
 			VietinBaseMessage baseMessage = (VietinBaseMessage) hTTPRequestUtil.sendVietinPost(
@@ -252,7 +252,7 @@ public class VietinController {
 					configLoader.getXIbmClientSecret());
 
 			// Validate response from VTB
-			ResponseEntity<?> responseEntity = vietinUtils.validateResponse(baseMessage);
+			ResponseEntity<?> responseEntity = iVietinService.validateResponse(baseMessage);
 			return responseEntity;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -271,7 +271,7 @@ public class VietinController {
 		String errorMsg = "";
 		LOGGER.info("== RequestID {} - Send TransactionInquiry Request to VIETIN", requestBody.getRequestId());
 		try {
-			Map<String, String> requestMap = vietinUtils.buildVietinTransactionInquiry(requestBody);
+			Map<String, String> requestMap = iVietinService.buildVietinTransactionInquiry(requestBody);
 			LOGGER.info("== RequestID {} - TransactionInquiry Request : " + requestMap, requestBody.getRequestId());
 
 			VietinBaseMessage baseMessage = (VietinBaseMessage) hTTPRequestUtil.sendVietinPost(
@@ -279,7 +279,7 @@ public class VietinController {
 					configLoader.getXIbmClientSecret());
 
 			// Validate response from VTB
-			ResponseEntity<?> responseEntity = vietinUtils.validateResponse(baseMessage);
+			ResponseEntity<?> responseEntity = iVietinService.validateResponse(baseMessage);
 			return responseEntity;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -298,7 +298,7 @@ public class VietinController {
 		String errorMsg = "";
 		LOGGER.info("== RequestID {} - Send ProviderInquiry Request to VIETIN", requestBody.getRequestId());
 		try {
-			Map<String, String> requestMap = vietinUtils.buildVietinProviderInquiry(requestBody);
+			Map<String, String> requestMap = iVietinService.buildVietinProviderInquiry(requestBody);
 			LOGGER.info("== RequestID {} - ProviderInquiry Request : " + requestMap, requestBody.getRequestId());
 
 			VietinBaseMessage baseMessage = (VietinBaseMessage) hTTPRequestUtil.sendVietinPost(
@@ -306,7 +306,7 @@ public class VietinController {
 					configLoader.getXIbmClientSecret());
 
 			// Validate response from VTB
-			ResponseEntity<?> responseEntity = vietinUtils.validateResponse(baseMessage);
+			ResponseEntity<?> responseEntity = iVietinService.validateResponse(baseMessage);
 			return responseEntity;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -325,7 +325,7 @@ public class VietinController {
 		String errorMsg = "";
 		LOGGER.info("== RequestID {} - Send TokenIssuePayment Request to VIETIN", requestBody.getRequestId());
 		try {
-			Map<String, String> requestMap = vietinUtils.buildVietinTokenIssuerPayment(requestBody);
+			Map<String, String> requestMap = iVietinService.buildVietinTokenIssuerPayment(requestBody);
 			LOGGER.info("== RequestID {} - TokenIssuePayment Request : " + requestMap, requestBody.getRequestId());
 
 			VietinBaseMessage baseMessage = (VietinBaseMessage) hTTPRequestUtil.sendVietinPost(
@@ -333,7 +333,7 @@ public class VietinController {
 					configLoader.getXIbmClientSecret());
 
 			// Validate response from VTB
-			ResponseEntity<?> responseEntity = vietinUtils.validateResponse(baseMessage);
+			ResponseEntity<?> responseEntity = iVietinService.validateResponse(baseMessage);
 			return responseEntity;
 		} catch (Exception e) {
 			e.printStackTrace();
