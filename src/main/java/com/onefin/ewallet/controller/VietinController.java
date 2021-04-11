@@ -1,8 +1,5 @@
 package com.onefin.ewallet.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -19,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.onefin.ewallet.common.OneFinConstants;
-import com.onefin.ewallet.model.Balance;
 import com.onefin.ewallet.model.PaymentByOTP;
 import com.onefin.ewallet.model.PaymentByOTPResponse;
 import com.onefin.ewallet.model.PaymentByToken;
@@ -88,7 +84,7 @@ public class VietinController {
 			ResponseEntity<?> responseEntity = iVietinService.validateResponse(simulator);
 			return responseEntity;
 		} catch (Exception e) {
-			LOGGER.error("== RequestID {} - Fail to process TokenIssue function: {}", requestBody.getRequestId(), e);
+			LOGGER.error("== RequestID {} - Fail to process TokenIssue function: {}", requestBody.getRequestId(), e.toString());
 			return new ResponseEntity<>(
 					imsgUtil.buildVietinConnectorResponse(OneFinConstants.INTERNAL_SERVER_ERROR, null), HttpStatus.OK);
 		}

@@ -316,7 +316,7 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 					HttpStatus.OK);
 
 		} catch (Exception e) {
-			LOGGER.error("== Validate response from VIETIN error!!! - {}", e);
+			LOGGER.error("== Validate response from VIETIN error!!! - {}", e.toString());
 			return new ResponseEntity<>(
 					iMessageUtil.buildVietinConnectorResponse(OneFinConstants.VTB_VALIDATION_FUNCTION_FAIL, data),
 					HttpStatus.OK);

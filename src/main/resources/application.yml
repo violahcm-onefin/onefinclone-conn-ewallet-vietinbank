@@ -25,5 +25,3 @@ vietin:
 logging:
   level:
     root: info
-  file:
-    name: logs/conn-ewallet-vietinbank.log
