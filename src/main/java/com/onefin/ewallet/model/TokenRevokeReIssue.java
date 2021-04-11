@@ -36,6 +36,14 @@ public class TokenRevokeReIssue {
 
     @Size(max = 30)
 	private String mac;
+    
+	private String providerId;
+
+	private String merchantId;
+
+	private String version;
+
+	private String signature;
 
 	public TokenRevokeReIssue() {		
 		this.clientIP = new String();		

@@ -3,11 +3,11 @@ package com.onefin.ewallet.model;
 import lombok.Data;
 
 @Data
-public class VietinConnectorResponse {
+public class VietinConnResponse {
 
 	private String connectorCode;
 	
-	private VietinBaseMessage vtbResponse;
+	private Object vtbResponse;
 	
 	private String version;
 }

@@ -1,14 +1,13 @@
 package com.onefin.ewallet.model;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
 @Data
-public class VietinBaseMessage {
+public class TransactionInquiryResponse {
 
+	@JsonIgnore
 	private String signature;
 
 	private String providerId;
@@ -18,8 +17,6 @@ public class VietinBaseMessage {
 	private String requestId;
 
 	private Status status;
-
-	private List<Balance> balances;
 
 	private String bankTransactionId;
 
@@ -32,15 +29,4 @@ public class VietinBaseMessage {
 	private String cardMask;
 
 	private String description;
-
-	@JsonIgnore
-	public boolean isValidMessage() {
-		if (providerId == null || providerId.trim().isEmpty() || requestId == null || requestId.trim().isEmpty()
-				|| signature == null || signature.trim().isEmpty() || merchantId == null
-				|| merchantId.trim().isEmpty()) {
-
-			return false;
-		}
-		return true;
-	}
 }

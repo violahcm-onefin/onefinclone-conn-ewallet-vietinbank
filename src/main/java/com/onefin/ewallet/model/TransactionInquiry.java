@@ -29,6 +29,14 @@ public class TransactionInquiry {
 
 	@Size(max = 30)
 	private String mac;
+	
+	private String providerId;
+
+	private String merchantId;
+
+	private String version;
+
+	private String signature;
 
 	public TransactionInquiry() {
 		this.language = new String();

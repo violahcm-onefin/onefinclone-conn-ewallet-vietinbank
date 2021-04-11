@@ -15,7 +15,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.onefin.ewallet.service.ConfigLoader;
+import com.onefin.ewallet.service.IMessageUtil;
 
 @ControllerAdvice
 public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
@@ -23,10 +23,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 	private static final Logger LOGGER = LoggerFactory.getLogger(CustomGlobalExceptionHandler.class);
 
 	@Autowired
-	private MessageUtil msgUtil;
-
-	@Autowired
-	private ConfigLoader configLoader;
+	private IMessageUtil imsgUtil;
 
 	// error handle for @Valid
 	@Override
@@ -38,7 +35,8 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 		LOGGER.error("== Connector validation fail requestbody: {}",
 				((ServletWebRequest) request).getRequest().getRequestURI().toString());
 		return new ResponseEntity<>(
-				msgUtil.buildConnectorValidationRequesBodyFail(configLoader.getVietinVersion(), null), HttpStatus.OK);
+				imsgUtil.buildVietinConnectorResponse(OneFinConstants.CONNECTOR_INVALID_VALIDATION_REQUESTBODY, null),
+				HttpStatus.OK);
 
 	}
 

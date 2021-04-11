@@ -40,6 +40,14 @@ public class VerifyPin {
 
 	@Size(max = 30)
 	private String mac;
+	
+	private String providerId;
+
+	private String merchantId;
+
+	private String version;
+
+	private String signature;
 
 	public VerifyPin() {
 		this.clientIP = new String();

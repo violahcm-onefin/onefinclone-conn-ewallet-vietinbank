@@ -58,6 +58,14 @@ public class TokenIssuePayment {
 
 	@Size(max = 30)
 	private String mac;
+	
+	private String providerId;
+
+	private String merchantId;
+
+	private String version;
+
+	private String signature;
 
 	public TokenIssuePayment() {
 		this.cardIssueDate = new String();

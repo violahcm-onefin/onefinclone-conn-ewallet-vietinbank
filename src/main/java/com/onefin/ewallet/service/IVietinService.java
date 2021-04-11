@@ -3,7 +3,6 @@ package com.onefin.ewallet.service;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 
@@ -16,10 +15,10 @@ import com.onefin.ewallet.model.TokenIssuePayment;
 import com.onefin.ewallet.model.TokenRevokeReIssue;
 import com.onefin.ewallet.model.TransactionInquiry;
 import com.onefin.ewallet.model.VerifyPin;
-import com.onefin.ewallet.model.VietinBaseMessage;
 import com.onefin.ewallet.model.Withdraw;
+import com.onefin.service.IBaseService;
 
-public interface IVietinService {
+public interface IVietinService extends IBaseService {
 
 	/**
 	 * Validate response from VTB
@@ -28,39 +27,38 @@ public interface IVietinService {
 	 * @param language
 	 * @return
 	 */
-	ResponseEntity<?> validateResponse(VietinBaseMessage baseMessage);
+	public ResponseEntity<?> validateResponse(Object data);
 
-	Map<String, String> buildVietinTokenIssuer(TokenIssue model)
+	TokenIssue buildVietinTokenIssuer(TokenIssue model)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
 
-	Map<String, String> buildVietinVerifyPin(VerifyPin model)
+	VerifyPin buildVietinVerifyPin(VerifyPin model)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
 
-	Map<String, String> buildVietinRegisterOnlinePay(RegisterOnlinePay model)
+	RegisterOnlinePay buildVietinRegisterOnlinePay(RegisterOnlinePay model)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
 
-	Map<String, String> buildVietinTokenRevoke(TokenRevokeReIssue model)
+	TokenRevokeReIssue buildVietinTokenRevoke(TokenRevokeReIssue model)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
 
-	Map<String, String> buildVietinTokenReIssue(TokenRevokeReIssue model)
+	TokenRevokeReIssue buildVietinTokenReIssue(TokenRevokeReIssue model)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
 
-	Map<String, String> buildVietinPaymentByToken(PaymentByToken model)
+	PaymentByToken buildVietinPaymentByToken(PaymentByToken model)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
 
-	Map<String, String> buildVietinPaymentByOTP(PaymentByOTP model)
+	PaymentByOTP buildVietinPaymentByOTP(PaymentByOTP model)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
 
-	Map<String, String> buildVietinWithdraw(Withdraw model)
+	Withdraw buildVietinWithdraw(Withdraw model) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
+
+	TransactionInquiry buildVietinTransactionInquiry(TransactionInquiry model)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
 
-	Map<String, String> buildVietinTransactionInquiry(TransactionInquiry model)
+	ProviderInquiry buildVietinProviderInquiry(ProviderInquiry model)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
 
-	Map<String, String> buildVietinProviderInquiry(ProviderInquiry model)
-			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
-
-	Map<String, String> buildVietinTokenIssuerPayment(TokenIssuePayment model)
+	TokenIssuePayment buildVietinTokenIssuerPayment(TokenIssuePayment model)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
 
 }

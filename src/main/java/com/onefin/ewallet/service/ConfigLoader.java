@@ -58,5 +58,11 @@ public class ConfigLoader {
 
 	@Value("${vietin.xIbmClientSecret}")
 	private String xIbmClientSecret;
+	
+	@Value("${vietin.onefinPrivateKey}")
+	private String onefinPrivateKey;
+
+	@Value("${vietin.vtbPublicKey}")
+	private String vtbPublicKey;
 
 }
