@@ -263,7 +263,6 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 	@Override
 	public ResponseEntity<?> validateResponse(Object data) {
 		// Check response
-		String errorMsg = "";
 		if (data == null) {
 			LOGGER.error("== Failure response from VIETIN!");
 			return new ResponseEntity<>(
@@ -304,12 +303,12 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 			}
 
 			// validate signature
-			if (!verifySignature(requestId + providerId + merchantId + code, signature)) {
-				LOGGER.error("== Verify signature fail");
-				return new ResponseEntity<>(
-						iMessageUtil.buildVietinConnectorResponse(OneFinConstants.VTB_INVALID_SIG, data),
-						HttpStatus.OK);
-			}
+//			if (!verifySignature(requestId + providerId + merchantId + code, signature)) {
+//				LOGGER.error("== Verify signature fail");
+//				return new ResponseEntity<>(
+//						iMessageUtil.buildVietinConnectorResponse(OneFinConstants.VTB_INVALID_SIG, data),
+//						HttpStatus.OK);
+//			}
 
 			LOGGER.info("== Validation success!");
 			return new ResponseEntity<>(

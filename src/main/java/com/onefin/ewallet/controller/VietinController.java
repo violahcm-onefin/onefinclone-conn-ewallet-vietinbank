@@ -1,5 +1,8 @@
 package com.onefin.ewallet.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.onefin.ewallet.common.OneFinConstants;
+import com.onefin.ewallet.model.Balance;
 import com.onefin.ewallet.model.PaymentByOTP;
 import com.onefin.ewallet.model.PaymentByOTPResponse;
 import com.onefin.ewallet.model.PaymentByToken;
@@ -24,6 +28,7 @@ import com.onefin.ewallet.model.ProviderInquiry;
 import com.onefin.ewallet.model.ProviderInquiryResponse;
 import com.onefin.ewallet.model.RegisterOnlinePay;
 import com.onefin.ewallet.model.RegisterOnlinePayResponse;
+import com.onefin.ewallet.model.Status;
 import com.onefin.ewallet.model.TokenIssue;
 import com.onefin.ewallet.model.TokenIssuePayment;
 import com.onefin.ewallet.model.TokenIssuePaymentResponse;
@@ -63,13 +68,24 @@ public class VietinController {
 
 		LOGGER.info("== RequestID {} - Send TokenIssue Request to VIETIN", requestBody.getRequestId());
 		try {
-			TokenIssue requestMap = iVietinService.buildVietinTokenIssuer(requestBody);
-			LOGGER.info("== RequestID {} - TokenIssue Request : " + requestMap, requestBody.getRequestId());
+//			TokenIssue requestMap = iVietinService.buildVietinTokenIssuer(requestBody);
+//			LOGGER.info("== RequestID {} - TokenIssue Request : " + requestMap, requestBody.getRequestId());
+//
+//			TokenIssueResponse response = (TokenIssueResponse) IHTTPRequestUtil.sendTokenIssue(requestMap);
 
-			TokenIssueResponse response = (TokenIssueResponse) IHTTPRequestUtil.sendTokenIssue(requestMap);
-
+			TokenIssueResponse simulator = new TokenIssueResponse();
+			
+			simulator.setProviderId("ONEFIN");
+			simulator.setMerchantId("ONEFINTEST");
+			simulator.setRequestId(requestBody.getRequestId());
+			simulator.setSignature("eyJ0b2tlblJlc3VsdCI6eyJyZXN1bHQiOiJTVUNDRVNTIiwicmVzcG9uc2UiOnsiZ2F0ZXdheUNvZGUiOiJTVUNDRVNTIiwibWVzc2FnZSI6IlRyYW5zYWN0aW9uIGlzIHN1Y2Nlc3NmdWwuIn0sInRva2VuIjoiOTcwNDAwMzU0MTQ4MDAxOCIsImNhcmQiOnsiYnJhbmQiOiJTTUwiLCJuYW1lT25DYXJkIjoiTkdVWUVOIFZBTiBBIiwiaXNzdWVEYXRlIjoiMDMwNyIsIm51bWJlciI6Ijk3MDQwMHh4eHh4eDAwMTgiLCJzY2hlbWUiOiJTTUwifSwiZGV2aWNlSWQiOiIwMTIzNDU2Nzg5In0sInBheW1lbnRSZXN1bHQiOnsiYXBpT3BlcmF0aW9uIjoiUFVSQ0hBU0UiLCJtZXJjaGFudElkIjoiT05FRklOQ0UiLCJvcmRlciI6eyJhbW91bnQiOiIxMDAwMCIsImNyZWF0aW9uVGltZSI6IjIwMjEtMDQtMDlUMTQ6Mzk6MzIuOTcxWiIsImN1cnJlbmN5IjoiVk5EIiwiaWQiOiJPUkRFUl8xMjMyOSJ9LCJyZXNwb25zZSI6eyJhY3F1aXJlckNvZGUiOiIwIiwiZ2F0ZXdheUNvZGUiOiJTVUNDRVNTIiwibWVzc2FnZSI6IlRyYW5zYWN0aW9uIGlzIHN1Y2Nlc3NmdWwuIn0sInJlc3VsdCI6IlNVQ0NFU1MiLCJzb3VyY2VPZkZ1bmRzIjp7InByb3ZpZGVkIjp7ImNhcmQiOnsiYnJhbmQiOiJTTUwiLCJuYW1lT25DYXJkIjoiTkdVWUVOIFZBTiBBIiwiaXNzdWVEYXRlIjoiMDMwNyIsIm51bWJlciI6Ijk3MDQwMHh4eHh4eDAwMTgiLCJzY2hlbWUiOiJPVEhFUlMifX0sInR5cGUiOiJDQVJEIn0sInRyYW5zYWN0aW9uIjp7ImFjcXVpcmVyIjp7ImRhdGUiOiIyMDIxLzA0LzA5IDE0OjMyOjA0IiwiaWQiOiI1MTIwMDA0NDciLCJ0cmFuc2FjdGlvbklkIjoiNTEyMDAwNDQ3In0sImFtb3VudCI6IjEwMDAwIiwiY3VycmVuY3kiOiJWTkQiLCJpZCI6IjY1ODI0MDAzIiwidHlwZSI6IlBBWU1FTlQifX19");
+			Status status = new Status();
+			status.setCode("00");
+			status.setMessage("Success");
+			simulator.setStatus(status);
+			
 			// Validate response from VTB
-			ResponseEntity<?> responseEntity = iVietinService.validateResponse(response);
+			ResponseEntity<?> responseEntity = iVietinService.validateResponse(simulator);
 			return responseEntity;
 		} catch (Exception e) {
 			LOGGER.error("== RequestID {} - Fail to process TokenIssue function: {}", requestBody.getRequestId(), e);
@@ -85,12 +101,31 @@ public class VietinController {
 
 		LOGGER.info("== RequestID {} - Send VerifyPin Request to VIETIN", requestBody.getRequestId());
 		try {
-			VerifyPin requestMap = iVietinService.buildVietinVerifyPin(requestBody);
-			LOGGER.info("== RequestID {} - VerifyPin Request : " + requestMap, requestBody.getRequestId());
-
-			VerifyPinResponse response = (VerifyPinResponse) IHTTPRequestUtil.sendVerifyPin(requestMap);
+//			VerifyPin requestMap = iVietinService.buildVietinVerifyPin(requestBody);
+//			LOGGER.info("== RequestID {} - VerifyPin Request : " + requestMap, requestBody.getRequestId());
+//
+//			VerifyPinResponse response = (VerifyPinResponse) IHTTPRequestUtil.sendVerifyPin(requestMap);
+			
+			VerifyPinResponse simulator = new VerifyPinResponse();
+			
+			simulator.setProviderId("ONEFIN");
+			simulator.setMerchantId("ONEFINTEST");
+			simulator.setRequestId(requestBody.getRequestId());
+			simulator.setSignature("eyJ0b2tlblJlc3VsdCI6eyJyZXN1bHQiOiJTVUNDRVNTIiwicmVzcG9uc2UiOnsiZ2F0ZXdheUNvZGUiOiJTVUNDRVNTIiwibWVzc2FnZSI6IlRyYW5zYWN0aW9uIGlzIHN1Y2Nlc3NmdWwuIn0sInRva2VuIjoiOTcwNDAwMzU0MTQ4MDAxOCIsImNhcmQiOnsiYnJhbmQiOiJTTUwiLCJuYW1lT25DYXJkIjoiTkdVWUVOIFZBTiBBIiwiaXNzdWVEYXRlIjoiMDMwNyIsIm51bWJlciI6Ijk3MDQwMHh4eHh4eDAwMTgiLCJzY2hlbWUiOiJTTUwifSwiZGV2aWNlSWQiOiIwMTIzNDU2Nzg5In0sInBheW1lbnRSZXN1bHQiOnsiYXBpT3BlcmF0aW9uIjoiUFVSQ0hBU0UiLCJtZXJjaGFudElkIjoiT05FRklOQ0UiLCJvcmRlciI6eyJhbW91bnQiOiIxMDAwMCIsImNyZWF0aW9uVGltZSI6IjIwMjEtMDQtMDlUMTQ6Mzk6MzIuOTcxWiIsImN1cnJlbmN5IjoiVk5EIiwiaWQiOiJPUkRFUl8xMjMyOSJ9LCJyZXNwb25zZSI6eyJhY3F1aXJlckNvZGUiOiIwIiwiZ2F0ZXdheUNvZGUiOiJTVUNDRVNTIiwibWVzc2FnZSI6IlRyYW5zYWN0aW9uIGlzIHN1Y2Nlc3NmdWwuIn0sInJlc3VsdCI6IlNVQ0NFU1MiLCJzb3VyY2VPZkZ1bmRzIjp7InByb3ZpZGVkIjp7ImNhcmQiOnsiYnJhbmQiOiJTTUwiLCJuYW1lT25DYXJkIjoiTkdVWUVOIFZBTiBBIiwiaXNzdWVEYXRlIjoiMDMwNyIsIm51bWJlciI6Ijk3MDQwMHh4eHh4eDAwMTgiLCJzY2hlbWUiOiJPVEhFUlMifX0sInR5cGUiOiJDQVJEIn0sInRyYW5zYWN0aW9uIjp7ImFjcXVpcmVyIjp7ImRhdGUiOiIyMDIxLzA0LzA5IDE0OjMyOjA0IiwiaWQiOiI1MTIwMDA0NDciLCJ0cmFuc2FjdGlvbklkIjoiNTEyMDAwNDQ3In0sImFtb3VudCI6IjEwMDAwIiwiY3VycmVuY3kiOiJWTkQiLCJpZCI6IjY1ODI0MDAzIiwidHlwZSI6IlBBWU1FTlQifX19");
+			Status status = new Status();
+			status.setCode("00");
+			status.setMessage("Success");
+			simulator.setStatus(status);
+			
+			simulator.setBankTransactionId("TRANS_12329");
+			simulator.setToken("9704003541480018");
+			simulator.setTokenIssueDate("0904");
+			simulator.setTokenExpireDate("0906");
+			simulator.setCardMask("970400xxxxxx0018");
+			simulator.setDescription("");
+			
 			// Validate response from VTB
-			ResponseEntity<?> responseEntity = iVietinService.validateResponse(response);
+			ResponseEntity<?> responseEntity = iVietinService.validateResponse(simulator);
 			return responseEntity;
 		} catch (Exception e) {
 			LOGGER.error("== RequestID {} - Fail to process VerifyPin function: {}", requestBody.getRequestId(), e);
@@ -131,12 +166,25 @@ public class VietinController {
 
 		LOGGER.info("== RequestID {} - Send TokenRevoke Request to VIETIN", requestBody.getRequestId());
 		try {
-			TokenRevokeReIssue requestMap = iVietinService.buildVietinTokenRevoke(requestBody);
-			LOGGER.info("== RequestID {} - TokenRevoke Request : " + requestMap, requestBody.getRequestId());
-
-			TokenRevokeResponse response = (TokenRevokeResponse) IHTTPRequestUtil.sendTokenRevoke(requestMap);
+//			TokenRevokeReIssue requestMap = iVietinService.buildVietinTokenRevoke(requestBody);
+//			LOGGER.info("== RequestID {} - TokenRevoke Request : " + requestMap, requestBody.getRequestId());
+//
+//			TokenRevokeResponse response = (TokenRevokeResponse) IHTTPRequestUtil.sendTokenRevoke(requestMap);
+			
+			TokenRevokeResponse simulator = new TokenRevokeResponse();
+			
+			simulator.setProviderId("ONEFIN");
+			simulator.setMerchantId("ONEFINTEST");
+			simulator.setRequestId(requestBody.getRequestId());
+			simulator.setSignature("eyJ0b2tlblJlc3VsdCI6eyJyZXN1bHQiOiJTVUNDRVNTIiwicmVzcG9uc2UiOnsiZ2F0ZXdheUNvZGUiOiJTVUNDRVNTIiwibWVzc2FnZSI6IlRyYW5zYWN0aW9uIGlzIHN1Y2Nlc3NmdWwuIn0sInRva2VuIjoiOTcwNDAwMzU0MTQ4MDAxOCIsImNhcmQiOnsiYnJhbmQiOiJTTUwiLCJuYW1lT25DYXJkIjoiTkdVWUVOIFZBTiBBIiwiaXNzdWVEYXRlIjoiMDMwNyIsIm51bWJlciI6Ijk3MDQwMHh4eHh4eDAwMTgiLCJzY2hlbWUiOiJTTUwifSwiZGV2aWNlSWQiOiIwMTIzNDU2Nzg5In0sInBheW1lbnRSZXN1bHQiOnsiYXBpT3BlcmF0aW9uIjoiUFVSQ0hBU0UiLCJtZXJjaGFudElkIjoiT05FRklOQ0UiLCJvcmRlciI6eyJhbW91bnQiOiIxMDAwMCIsImNyZWF0aW9uVGltZSI6IjIwMjEtMDQtMDlUMTQ6Mzk6MzIuOTcxWiIsImN1cnJlbmN5IjoiVk5EIiwiaWQiOiJPUkRFUl8xMjMyOSJ9LCJyZXNwb25zZSI6eyJhY3F1aXJlckNvZGUiOiIwIiwiZ2F0ZXdheUNvZGUiOiJTVUNDRVNTIiwibWVzc2FnZSI6IlRyYW5zYWN0aW9uIGlzIHN1Y2Nlc3NmdWwuIn0sInJlc3VsdCI6IlNVQ0NFU1MiLCJzb3VyY2VPZkZ1bmRzIjp7InByb3ZpZGVkIjp7ImNhcmQiOnsiYnJhbmQiOiJTTUwiLCJuYW1lT25DYXJkIjoiTkdVWUVOIFZBTiBBIiwiaXNzdWVEYXRlIjoiMDMwNyIsIm51bWJlciI6Ijk3MDQwMHh4eHh4eDAwMTgiLCJzY2hlbWUiOiJPVEhFUlMifX0sInR5cGUiOiJDQVJEIn0sInRyYW5zYWN0aW9uIjp7ImFjcXVpcmVyIjp7ImRhdGUiOiIyMDIxLzA0LzA5IDE0OjMyOjA0IiwiaWQiOiI1MTIwMDA0NDciLCJ0cmFuc2FjdGlvbklkIjoiNTEyMDAwNDQ3In0sImFtb3VudCI6IjEwMDAwIiwiY3VycmVuY3kiOiJWTkQiLCJpZCI6IjY1ODI0MDAzIiwidHlwZSI6IlBBWU1FTlQifX19");
+			Status status = new Status();
+			status.setCode("00");
+			status.setMessage("Success");
+		
+			simulator.setStatus(status);
+			
 			// Validate response from VTB
-			ResponseEntity<?> responseEntity = iVietinService.validateResponse(response);
+			ResponseEntity<?> responseEntity = iVietinService.validateResponse(simulator);
 			return responseEntity;
 		} catch (Exception e) {
 			LOGGER.error("== RequestID {} - Fail to process TokenRevoke function: {}", requestBody.getRequestId(), e);
@@ -175,12 +223,28 @@ public class VietinController {
 
 		LOGGER.info("== RequestID {} - Send PaymentByToken Request to VIETIN", requestBody.getRequestId());
 		try {
-			PaymentByToken requestMap = iVietinService.buildVietinPaymentByToken(requestBody);
-			LOGGER.info("== RequestID {} - PaymentByToken Request : " + requestMap, requestBody.getRequestId());
-
-			PaymentByTokenResponse response = (PaymentByTokenResponse) IHTTPRequestUtil.sendPaymentByToken(requestMap);
+//			PaymentByToken requestMap = iVietinService.buildVietinPaymentByToken(requestBody);
+//			LOGGER.info("== RequestID {} - PaymentByToken Request : " + requestMap, requestBody.getRequestId());
+//
+//			PaymentByTokenResponse response = (PaymentByTokenResponse) IHTTPRequestUtil.sendPaymentByToken(requestMap);
+			
+			PaymentByTokenResponse simulator = new PaymentByTokenResponse();
+			
+			simulator.setProviderId("ONEFIN");
+			simulator.setMerchantId("ONEFINTEST");
+			simulator.setRequestId(requestBody.getRequestId());
+			simulator.setSignature("eyJ0b2tlblJlc3VsdCI6eyJyZXN1bHQiOiJTVUNDRVNTIiwicmVzcG9uc2UiOnsiZ2F0ZXdheUNvZGUiOiJTVUNDRVNTIiwibWVzc2FnZSI6IlRyYW5zYWN0aW9uIGlzIHN1Y2Nlc3NmdWwuIn0sInRva2VuIjoiOTcwNDAwMzU0MTQ4MDAxOCIsImNhcmQiOnsiYnJhbmQiOiJTTUwiLCJuYW1lT25DYXJkIjoiTkdVWUVOIFZBTiBBIiwiaXNzdWVEYXRlIjoiMDMwNyIsIm51bWJlciI6Ijk3MDQwMHh4eHh4eDAwMTgiLCJzY2hlbWUiOiJTTUwifSwiZGV2aWNlSWQiOiIwMTIzNDU2Nzg5In0sInBheW1lbnRSZXN1bHQiOnsiYXBpT3BlcmF0aW9uIjoiUFVSQ0hBU0UiLCJtZXJjaGFudElkIjoiT05FRklOQ0UiLCJvcmRlciI6eyJhbW91bnQiOiIxMDAwMCIsImNyZWF0aW9uVGltZSI6IjIwMjEtMDQtMDlUMTQ6Mzk6MzIuOTcxWiIsImN1cnJlbmN5IjoiVk5EIiwiaWQiOiJPUkRFUl8xMjMyOSJ9LCJyZXNwb25zZSI6eyJhY3F1aXJlckNvZGUiOiIwIiwiZ2F0ZXdheUNvZGUiOiJTVUNDRVNTIiwibWVzc2FnZSI6IlRyYW5zYWN0aW9uIGlzIHN1Y2Nlc3NmdWwuIn0sInJlc3VsdCI6IlNVQ0NFU1MiLCJzb3VyY2VPZkZ1bmRzIjp7InByb3ZpZGVkIjp7ImNhcmQiOnsiYnJhbmQiOiJTTUwiLCJuYW1lT25DYXJkIjoiTkdVWUVOIFZBTiBBIiwiaXNzdWVEYXRlIjoiMDMwNyIsIm51bWJlciI6Ijk3MDQwMHh4eHh4eDAwMTgiLCJzY2hlbWUiOiJPVEhFUlMifX0sInR5cGUiOiJDQVJEIn0sInRyYW5zYWN0aW9uIjp7ImFjcXVpcmVyIjp7ImRhdGUiOiIyMDIxLzA0LzA5IDE0OjMyOjA0IiwiaWQiOiI1MTIwMDA0NDciLCJ0cmFuc2FjdGlvbklkIjoiNTEyMDAwNDQ3In0sImFtb3VudCI6IjEwMDAwIiwiY3VycmVuY3kiOiJWTkQiLCJpZCI6IjY1ODI0MDAzIiwidHlwZSI6IlBBWU1FTlQifX19");
+			Status status = new Status();
+			status.setCode("00");
+			status.setMessage("Success");
+			
+			simulator.setStatus(status);
+			
+			simulator.setBankTransactionId("TRANS_123");
+			simulator.setDescription("Test");
+			
 			// Validate response from VTB
-			ResponseEntity<?> responseEntity = iVietinService.validateResponse(response);
+			ResponseEntity<?> responseEntity = iVietinService.validateResponse(simulator);
 			return responseEntity;
 		} catch (Exception e) {
 			LOGGER.error("== RequestID {} - Fail to process PaymentByToken function: {}", requestBody.getRequestId(),
@@ -218,12 +282,27 @@ public class VietinController {
 
 		LOGGER.info("== RequestID {} - Send Withdraw Request to VIETIN", requestBody.getRequestId());
 		try {
-			Withdraw requestMap = iVietinService.buildVietinWithdraw(requestBody);
-			LOGGER.info("== RequestID {} - Withdraw Request : " + requestMap, requestBody.getRequestId());
-
-			WithdrawResponse response = (WithdrawResponse) IHTTPRequestUtil.sendWithdraw(requestMap);
+//			Withdraw requestMap = iVietinService.buildVietinWithdraw(requestBody);
+//			LOGGER.info("== RequestID {} - Withdraw Request : " + requestMap, requestBody.getRequestId());
+//
+//			WithdrawResponse response = (WithdrawResponse) IHTTPRequestUtil.sendWithdraw(requestMap);
+			
+			WithdrawResponse simulator = new WithdrawResponse();
+			
+			simulator.setProviderId("ONEFIN");
+			simulator.setMerchantId("ONEFINTEST");
+			simulator.setRequestId(requestBody.getRequestId());
+			simulator.setSignature("eyJ0b2tlblJlc3VsdCI6eyJyZXN1bHQiOiJTVUNDRVNTIiwicmVzcG9uc2UiOnsiZ2F0ZXdheUNvZGUiOiJTVUNDRVNTIiwibWVzc2FnZSI6IlRyYW5zYWN0aW9uIGlzIHN1Y2Nlc3NmdWwuIn0sInRva2VuIjoiOTcwNDAwMzU0MTQ4MDAxOCIsImNhcmQiOnsiYnJhbmQiOiJTTUwiLCJuYW1lT25DYXJkIjoiTkdVWUVOIFZBTiBBIiwiaXNzdWVEYXRlIjoiMDMwNyIsIm51bWJlciI6Ijk3MDQwMHh4eHh4eDAwMTgiLCJzY2hlbWUiOiJTTUwifSwiZGV2aWNlSWQiOiIwMTIzNDU2Nzg5In0sInBheW1lbnRSZXN1bHQiOnsiYXBpT3BlcmF0aW9uIjoiUFVSQ0hBU0UiLCJtZXJjaGFudElkIjoiT05FRklOQ0UiLCJvcmRlciI6eyJhbW91bnQiOiIxMDAwMCIsImNyZWF0aW9uVGltZSI6IjIwMjEtMDQtMDlUMTQ6Mzk6MzIuOTcxWiIsImN1cnJlbmN5IjoiVk5EIiwiaWQiOiJPUkRFUl8xMjMyOSJ9LCJyZXNwb25zZSI6eyJhY3F1aXJlckNvZGUiOiIwIiwiZ2F0ZXdheUNvZGUiOiJTVUNDRVNTIiwibWVzc2FnZSI6IlRyYW5zYWN0aW9uIGlzIHN1Y2Nlc3NmdWwuIn0sInJlc3VsdCI6IlNVQ0NFU1MiLCJzb3VyY2VPZkZ1bmRzIjp7InByb3ZpZGVkIjp7ImNhcmQiOnsiYnJhbmQiOiJTTUwiLCJuYW1lT25DYXJkIjoiTkdVWUVOIFZBTiBBIiwiaXNzdWVEYXRlIjoiMDMwNyIsIm51bWJlciI6Ijk3MDQwMHh4eHh4eDAwMTgiLCJzY2hlbWUiOiJPVEhFUlMifX0sInR5cGUiOiJDQVJEIn0sInRyYW5zYWN0aW9uIjp7ImFjcXVpcmVyIjp7ImRhdGUiOiIyMDIxLzA0LzA5IDE0OjMyOjA0IiwiaWQiOiI1MTIwMDA0NDciLCJ0cmFuc2FjdGlvbklkIjoiNTEyMDAwNDQ3In0sImFtb3VudCI6IjEwMDAwIiwiY3VycmVuY3kiOiJWTkQiLCJpZCI6IjY1ODI0MDAzIiwidHlwZSI6IlBBWU1FTlQifX19");
+			Status status = new Status();
+			status.setCode("00");
+			status.setMessage("Success");
+			
+			simulator.setStatus(status);
+			
+			simulator.setBankTransactionId("TRANS_123");
+			simulator.setDescription("Test");
 			// Validate response from VTB
-			ResponseEntity<?> responseEntity = iVietinService.validateResponse(response);
+			ResponseEntity<?> responseEntity = iVietinService.validateResponse(simulator);
 			return responseEntity;
 		} catch (Exception e) {
 			LOGGER.error("== RequestID {} - Fail to process Withdraw function: {}", requestBody.getRequestId(), e);
