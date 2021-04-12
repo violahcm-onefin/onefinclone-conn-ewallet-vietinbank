@@ -124,7 +124,7 @@ public class VietinController {
 			ResponseEntity<?> responseEntity = iVietinService.validateResponse(simulator);
 			return responseEntity;
 		} catch (Exception e) {
-			LOGGER.error("== RequestID {} - Fail to process VerifyPin function: {}", requestBody.getRequestId(), e);
+			LOGGER.error("== RequestID {} - Fail to process VerifyPin function: {}", requestBody.getRequestId(), e.toString());
 			return new ResponseEntity<>(
 					imsgUtil.buildVietinConnectorResponse(OneFinConstants.INTERNAL_SERVER_ERROR, null), HttpStatus.OK);
 		}
@@ -148,7 +148,7 @@ public class VietinController {
 			return responseEntity;
 		} catch (Exception e) {
 			LOGGER.error("== RequestID {} - Fail to process RegisterOnlinePay function: {}", requestBody.getRequestId(),
-					e);
+					e.toString());
 			return new ResponseEntity<>(
 					imsgUtil.buildVietinConnectorResponse(OneFinConstants.INTERNAL_SERVER_ERROR, null), HttpStatus.OK);
 		}
@@ -183,7 +183,7 @@ public class VietinController {
 			ResponseEntity<?> responseEntity = iVietinService.validateResponse(simulator);
 			return responseEntity;
 		} catch (Exception e) {
-			LOGGER.error("== RequestID {} - Fail to process TokenRevoke function: {}", requestBody.getRequestId(), e);
+			LOGGER.error("== RequestID {} - Fail to process TokenRevoke function: {}", requestBody.getRequestId(), e.toString());
 			return new ResponseEntity<>(
 					imsgUtil.buildVietinConnectorResponse(OneFinConstants.INTERNAL_SERVER_ERROR, null), HttpStatus.OK);
 		}
@@ -205,7 +205,7 @@ public class VietinController {
 			ResponseEntity<?> responseEntity = iVietinService.validateResponse(response);
 			return responseEntity;
 		} catch (Exception e) {
-			LOGGER.error("== RequestID {} - Fail to process TokenReissue function: {}", requestBody.getRequestId(), e);
+			LOGGER.error("== RequestID {} - Fail to process TokenReissue function: {}", requestBody.getRequestId(), e.toString());
 			return new ResponseEntity<>(
 					imsgUtil.buildVietinConnectorResponse(OneFinConstants.INTERNAL_SERVER_ERROR, null), HttpStatus.OK);
 		}
@@ -244,7 +244,7 @@ public class VietinController {
 			return responseEntity;
 		} catch (Exception e) {
 			LOGGER.error("== RequestID {} - Fail to process PaymentByToken function: {}", requestBody.getRequestId(),
-					e);
+					e.toString());
 			return new ResponseEntity<>(
 					imsgUtil.buildVietinConnectorResponse(OneFinConstants.INTERNAL_SERVER_ERROR, null), HttpStatus.OK);
 		}
@@ -265,7 +265,7 @@ public class VietinController {
 			ResponseEntity<?> responseEntity = iVietinService.validateResponse(response);
 			return responseEntity;
 		} catch (Exception e) {
-			LOGGER.error("== RequestID {} - Fail to process PaymentByOTP function: {}", requestBody.getRequestId(), e);
+			LOGGER.error("== RequestID {} - Fail to process PaymentByOTP function: {}", requestBody.getRequestId(), e.toString());
 			return new ResponseEntity<>(
 					imsgUtil.buildVietinConnectorResponse(OneFinConstants.INTERNAL_SERVER_ERROR, null), HttpStatus.OK);
 		}
@@ -301,7 +301,7 @@ public class VietinController {
 			ResponseEntity<?> responseEntity = iVietinService.validateResponse(simulator);
 			return responseEntity;
 		} catch (Exception e) {
-			LOGGER.error("== RequestID {} - Fail to process Withdraw function: {}", requestBody.getRequestId(), e);
+			LOGGER.error("== RequestID {} - Fail to process Withdraw function: {}", requestBody.getRequestId(), e.toString());
 			return new ResponseEntity<>(
 					imsgUtil.buildVietinConnectorResponse(OneFinConstants.INTERNAL_SERVER_ERROR, null), HttpStatus.OK);
 		}
@@ -325,7 +325,7 @@ public class VietinController {
 			return responseEntity;
 		} catch (Exception e) {
 			LOGGER.error("== RequestID {} - Fail to process TransactionInquiry function: {}",
-					requestBody.getRequestId(), e);
+					requestBody.getRequestId(), e.toString());
 			return new ResponseEntity<>(
 					imsgUtil.buildVietinConnectorResponse(OneFinConstants.INTERNAL_SERVER_ERROR, null), HttpStatus.OK);
 		}
@@ -349,7 +349,7 @@ public class VietinController {
 			return responseEntity;
 		} catch (Exception e) {
 			LOGGER.error("== RequestID {} - Fail to process ProviderInquiry function: {}", requestBody.getRequestId(),
-					e);
+					e.toString());
 			return new ResponseEntity<>(
 					imsgUtil.buildVietinConnectorResponse(OneFinConstants.INTERNAL_SERVER_ERROR, null), HttpStatus.OK);
 		}
@@ -373,7 +373,7 @@ public class VietinController {
 			return responseEntity;
 		} catch (Exception e) {
 			LOGGER.error("== RequestID {} - Fail to process TokenIssuePayment function: {}", requestBody.getRequestId(),
-					e);
+					e.toString());
 			return new ResponseEntity<>(
 					imsgUtil.buildVietinConnectorResponse(OneFinConstants.INTERNAL_SERVER_ERROR, null), HttpStatus.OK);
 		}
