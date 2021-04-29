@@ -8,10 +8,10 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @EntityScan("com.onefin")
 @ComponentScan(basePackages = "com.onefin")
-public class ConnectorEwalletVietinApplication {
+public class MainApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ConnectorEwalletVietinApplication.class, args);
+		SpringApplication.run(MainApplication.class, args);
 	}
 
 }

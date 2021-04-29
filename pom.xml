@@ -25,6 +25,7 @@
 			<artifactId>onefin-common</artifactId>
 			<version>${onefin-common.version}</version>
 		</dependency>
+		
 	</dependencies>
 	<build>
 		<finalName>main</finalName>

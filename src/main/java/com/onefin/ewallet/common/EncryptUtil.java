@@ -86,6 +86,12 @@ public class EncryptUtil {
 		return certificate.getPublicKey();
 	}
 
+	/**
+	 * @param data
+	 * @param signedData
+	 * @param publicKey
+	 * @return
+	 */
 	public boolean verifySignature(String data, String signedData, PublicKey publicKey) {
 		try {
 

@@ -57,6 +57,8 @@ public class RegisterOnlinePay {
 	@Size(max = 12)
 	@NotEmpty(message = "Not empty")
 	private String requestId;
+	
+	private boolean acceptRegistered;
 
 	@Size(max = 15)
 	@NotEmpty(message = "Not empty")

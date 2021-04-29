@@ -1,6 +1,6 @@
 package com.onefin.ewallet.common;
 
-public class OneFinConstants extends com.onefin.common.OneFinConstants {
+public class VietinConstants extends com.onefin.common.OneFinConstants {
 
 	// VIETIN parameters
 	public static final String VTB_REQUESTID = "requestId";

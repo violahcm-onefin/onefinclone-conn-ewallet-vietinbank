@@ -35,7 +35,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 		LOGGER.error("== Connector validation fail requestbody: {}",
 				((ServletWebRequest) request).getRequest().getRequestURI().toString());
 		return new ResponseEntity<>(
-				imsgUtil.buildVietinConnectorResponse(OneFinConstants.CONNECTOR_INVALID_VALIDATION_REQUESTBODY, null),
+				imsgUtil.buildVietinConnectorResponse(VietinConstants.CONNECTOR_INVALID_VALIDATION_REQUESTBODY, null),
 				HttpStatus.OK);
 
 	}

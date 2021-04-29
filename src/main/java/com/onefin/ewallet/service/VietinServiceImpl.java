@@ -6,6 +6,7 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.cert.CertificateException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -17,7 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.onefin.ewallet.common.EncryptUtil;
-import com.onefin.ewallet.common.OneFinConstants;
+import com.onefin.ewallet.common.VietinConstants;
 import com.onefin.ewallet.model.PaymentByOTP;
 import com.onefin.ewallet.model.PaymentByToken;
 import com.onefin.ewallet.model.ProviderInquiry;
@@ -51,10 +52,10 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 		data.setMerchantId(configLoader.getVietinMerchantId());
 		data.setVersion(configLoader.getVietinVersion());
 
-		String dataSign = data.getCardNumber() + data.getCardIssueDate() + data.getCardHolderName()
-				+ data.getProviderCustId() + data.getCustPhoneNo() + data.getCustIDNo() + data.getClientIP()
-				+ data.getTransTime() + data.getRequestId() + data.getProviderId() + data.getMerchantId()
-				+ data.getChannel() + data.getVersion() + data.getLanguage() + data.getMac();
+		String dataSign = String.format("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s", data.getCardNumber(), data.getCardIssueDate(),
+				data.getCardHolderName(), data.getProviderCustId(), data.getCustPhoneNo(), data.getCustIDNo(),
+				data.getClientIP(), data.getTransTime(), data.getRequestId(), data.getProviderId(),
+				data.getMerchantId(), data.getChannel(), data.getVersion(), data.getLanguage(), data.getMac());
 
 		LOGGER.info("== Before Sign Data - " + dataSign);
 		String signData = viettinSign(dataSign);
@@ -266,59 +267,59 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 		if (data == null) {
 			LOGGER.error("== Failure response from VIETIN!");
 			return new ResponseEntity<>(
-					iMessageUtil.buildVietinConnectorResponse(OneFinConstants.VTB_ERROR_RESPONSE, data), HttpStatus.OK);
+					iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_ERROR_RESPONSE, data), HttpStatus.OK);
 		}
 
 		try {
-			Map<String, Object> mapData = super.convertObject2Map(data);
-			String requestId = Objects.toString(mapData.get(OneFinConstants.VTB_REQUESTID), "");
-			String providerId = Objects.toString(mapData.get(OneFinConstants.VTB_PROVIDERID), "");
-			String merchantId = Objects.toString(mapData.get(OneFinConstants.VTB_MERCHANTID), "");
-			String signature = Objects.toString(mapData.get(OneFinConstants.VTB_SIGNATURE), "");
-			Map<String, Object> status = (Map<String, Object>) mapData.get(OneFinConstants.VTB_STATUS);
+			Map<String, Object> mapData = (Map<String, Object>) super.convertObject2Map(data, HashMap.class);
+			String requestId = Objects.toString(mapData.get(VietinConstants.VTB_REQUESTID), "");
+			String providerId = Objects.toString(mapData.get(VietinConstants.VTB_PROVIDERID), "");
+			String merchantId = Objects.toString(mapData.get(VietinConstants.VTB_MERCHANTID), "");
+			String signature = Objects.toString(mapData.get(VietinConstants.VTB_SIGNATURE), "");
+			Map<String, Object> status = (Map<String, Object>) mapData.get(VietinConstants.VTB_STATUS);
 			String code = null;
 			if (status != null) {
-				code = Objects.toString(status.get(OneFinConstants.VTB_CODE), "");
+				code = Objects.toString(status.get(VietinConstants.VTB_CODE), "");
 			}
 			if (!isValidMessage(requestId, providerId, merchantId, signature)) {
 				LOGGER.error("== Invalid response from VIETIN!");
 				return new ResponseEntity<>(
-						iMessageUtil.buildVietinConnectorResponse(OneFinConstants.VTB_INVALID_RESPONSE, data),
+						iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_RESPONSE, data),
 						HttpStatus.OK);
 			}
 
 			if (!configLoader.getVietinProviderId().equals(providerId)) {
 				LOGGER.error("== ProviderId not support: {}", providerId);
 				return new ResponseEntity<>(
-						iMessageUtil.buildVietinConnectorResponse(OneFinConstants.VTB_INVALID_PROVIDER_ID, data),
+						iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_PROVIDER_ID, data),
 						HttpStatus.OK);
 			}
 
 			if (!configLoader.getVietinMerchantId()
-					.equals(Objects.toString(mapData.get(OneFinConstants.VTB_MERCHANTID), ""))) {
+					.equals(Objects.toString(mapData.get(VietinConstants.VTB_MERCHANTID), ""))) {
 				LOGGER.error("== MerchantId not support: {}", merchantId);
 				return new ResponseEntity<>(
-						iMessageUtil.buildVietinConnectorResponse(OneFinConstants.VTB_INVALID_MERCHANT_ID, data),
+						iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_MERCHANT_ID, data),
 						HttpStatus.OK);
 			}
 
 			// validate signature
-//			if (!verifySignature(requestId + providerId + merchantId + code, signature)) {
-//				LOGGER.error("== Verify signature fail");
-//				return new ResponseEntity<>(
-//						iMessageUtil.buildVietinConnectorResponse(OneFinConstants.VTB_INVALID_SIG, data),
-//						HttpStatus.OK);
-//			}
+			if (!verifySignature(requestId + providerId + merchantId + code, signature)) {
+				LOGGER.error("== Verify signature fail");
+				return new ResponseEntity<>(
+						iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_SIG, data),
+						HttpStatus.OK);
+			}
 
 			LOGGER.info("== Validation success!");
 			return new ResponseEntity<>(
-					iMessageUtil.buildVietinConnectorResponse(OneFinConstants.VTB_CONNECTOR_SUCCESS, data),
+					iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_CONNECTOR_SUCCESS, data),
 					HttpStatus.OK);
 
 		} catch (Exception e) {
 			LOGGER.error("== Validate response from VIETIN error!!! - {}", e.toString());
 			return new ResponseEntity<>(
-					iMessageUtil.buildVietinConnectorResponse(OneFinConstants.VTB_VALIDATION_FUNCTION_FAIL, data),
+					iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_VALIDATION_FUNCTION_FAIL, data),
 					HttpStatus.OK);
 
 		}
