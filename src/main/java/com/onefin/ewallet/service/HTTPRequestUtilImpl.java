@@ -59,7 +59,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 		try {
 			resp = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 		} catch (Exception e) {
-			LOGGER.error("== Error response from VIETIN!!! - {}", e.toString());
+			LOGGER.error("== Error response from VIETIN!!!", e);
 			return null;
 		}
 		try {
@@ -68,7 +68,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 			return mapper.readValue(resp.getBody(), TokenIssueResponse.class);
 
 		} catch (Exception e) {
-			LOGGER.error("== Can't parse result from VIETIN!!! - {}", e.toString());
+			LOGGER.error("== Can't parse result from VIETIN!!!", e);
 			return null;
 		}
 	}
@@ -88,7 +88,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 		try {
 			resp = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 		} catch (Exception e) {
-			LOGGER.error("== Error response from VIETIN!!! - {}", e.toString());
+			LOGGER.error("== Error response from VIETIN!!!", e);
 			return null;
 		}
 		try {
@@ -97,7 +97,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 			return mapper.readValue(resp.getBody(), RegisterOnlinePayResponse.class);
 
 		} catch (Exception e) {
-			LOGGER.error("== Can't parse result from VIETIN!!! - {}", e.toString());
+			LOGGER.error("== Can't parse result from VIETIN!!!", e);
 			return null;
 		}
 	}
@@ -117,7 +117,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 		try {
 			resp = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 		} catch (Exception e) {
-			LOGGER.error("== Error response from VIETIN!!! - {}", e.toString());
+			LOGGER.error("== Error response from VIETIN!!!", e);
 			return null;
 		}
 		try {
@@ -126,7 +126,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 			return mapper.readValue(resp.getBody(), VerifyPinResponse.class);
 
 		} catch (Exception e) {
-			LOGGER.error("== Can't parse result from VIETIN!!! - {}", e.toString());
+			LOGGER.error("== Can't parse result from VIETIN!!!", e);
 			return null;
 		}
 	}
@@ -146,7 +146,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 		try {
 			resp = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 		} catch (Exception e) {
-			LOGGER.error("== Error response from VIETIN!!! - {}", e.toString());
+			LOGGER.error("== Error response from VIETIN!!!", e);
 			return null;
 		}
 		try {
@@ -155,7 +155,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 			return mapper.readValue(resp.getBody(), TokenRevokeResponse.class);
 
 		} catch (Exception e) {
-			LOGGER.error("== Can't parse result from VIETIN!!! - {}", e.toString());
+			LOGGER.error("== Can't parse result from VIETIN!!!", e);
 			return null;
 		}
 	}
@@ -175,7 +175,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 		try {
 			resp = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 		} catch (Exception e) {
-			LOGGER.error("== Error response from VIETIN!!! - {}", e.toString());
+			LOGGER.error("== Error response from VIETIN!!!", e);
 			return null;
 		}
 		try {
@@ -184,7 +184,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 			return mapper.readValue(resp.getBody(), TokenReIssueResponse.class);
 
 		} catch (Exception e) {
-			LOGGER.error("== Can't parse result from VIETIN!!! - {}", e.toString());
+			LOGGER.error("== Can't parse result from VIETIN!!!", e);
 			return null;
 		}
 	}
@@ -204,7 +204,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 		try {
 			resp = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 		} catch (Exception e) {
-			LOGGER.error("== Error response from VIETIN!!! - {}", e.toString());
+			LOGGER.error("== Error response from VIETIN!!!", e);
 			return null;
 		}
 		try {
@@ -213,7 +213,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 			return mapper.readValue(resp.getBody(), PaymentByTokenResponse.class);
 
 		} catch (Exception e) {
-			LOGGER.error("== Can't parse result from VIETIN!!! - {}", e.toString());
+			LOGGER.error("== Can't parse result from VIETIN!!!", e);
 			return null;
 		}
 	}
@@ -233,7 +233,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 		try {
 			resp = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 		} catch (Exception e) {
-			LOGGER.error("== Error response from VIETIN!!! - {}", e.toString());
+			LOGGER.error("== Error response from VIETIN!!!", e);
 			return null;
 		}
 		try {
@@ -242,7 +242,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 			return mapper.readValue(resp.getBody(), PaymentByOTPResponse.class);
 
 		} catch (Exception e) {
-			LOGGER.error("== Can't parse result from VIETIN!!! - {}", e.toString());
+			LOGGER.error("== Can't parse result from VIETIN!!!", e);
 			return null;
 		}
 	}
@@ -262,7 +262,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 		try {
 			resp = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 		} catch (Exception e) {
-			LOGGER.error("== Error response from VIETIN!!! - {}", e.toString());
+			LOGGER.error("== Error response from VIETIN!!!", e);
 			return null;
 		}
 		try {
@@ -271,7 +271,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 			return mapper.readValue(resp.getBody(), WithdrawResponse.class);
 
 		} catch (Exception e) {
-			LOGGER.error("== Can't parse result from VIETIN!!! - {}", e.toString());
+			LOGGER.error("== Can't parse result from VIETIN!!!", e);
 			return null;
 		}
 	}
@@ -291,7 +291,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 		try {
 			resp = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 		} catch (Exception e) {
-			LOGGER.error("== Error response from VIETIN!!! - {}", e.toString());
+			LOGGER.error("== Error response from VIETIN!!!", e);
 			return null;
 		}
 		try {
@@ -300,7 +300,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 			return mapper.readValue(resp.getBody(), TransactionInquiryResponse.class);
 
 		} catch (Exception e) {
-			LOGGER.error("== Can't parse result from VIETIN!!! - {}", e.toString());
+			LOGGER.error("== Can't parse result from VIETIN!!!", e);
 			return null;
 		}
 	}
@@ -320,7 +320,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 		try {
 			resp = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 		} catch (Exception e) {
-			LOGGER.error("== Error response from VIETIN!!! - {}", e.toString());
+			LOGGER.error("== Error response from VIETIN!!!", e);
 			return null;
 		}
 		try {
@@ -329,7 +329,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 			return mapper.readValue(resp.getBody(), ProviderInquiryResponse.class);
 
 		} catch (Exception e) {
-			LOGGER.error("== Can't parse result from VIETIN!!! - {}", e.toString());
+			LOGGER.error("== Can't parse result from VIETIN!!!", e);
 			return null;
 		}
 	}
@@ -349,7 +349,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 		try {
 			resp = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 		} catch (Exception e) {
-			LOGGER.error("== Error response from VIETIN!!! - {}", e.toString());
+			LOGGER.error("== Error response from VIETIN!!!", e);
 			return null;
 		}
 		try {
@@ -358,7 +358,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 			return mapper.readValue(resp.getBody(), TokenIssuePaymentResponse.class);
 
 		} catch (Exception e) {
-			LOGGER.error("== Can't parse result from VIETIN!!! - {}", e.toString());
+			LOGGER.error("== Can't parse result from VIETIN!!!", e);
 			return null;
 		}
 	}

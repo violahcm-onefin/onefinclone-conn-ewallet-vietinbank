@@ -1,5 +1,17 @@
 server:
   port: 8060
+  
+spring:
+  datasource:
+    url: jdbc:mariadb://localhost:3306/onefinbanks
+    username: root
+    password: ROOT
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDBDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
 
 vietin:
   onefinPrivateKey: E:\OneFin\source_code\conn-ewallet-vietinbank\src\main\resources\keys\onefin-privatekey-uat-vietin.der

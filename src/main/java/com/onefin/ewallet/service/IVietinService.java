@@ -4,8 +4,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
-import org.springframework.http.ResponseEntity;
-
+import com.onefin.ewallet.model.EwalletTransaction;
 import com.onefin.ewallet.model.PaymentByOTP;
 import com.onefin.ewallet.model.PaymentByToken;
 import com.onefin.ewallet.model.ProviderInquiry;
@@ -15,6 +14,7 @@ import com.onefin.ewallet.model.TokenIssuePayment;
 import com.onefin.ewallet.model.TokenRevokeReIssue;
 import com.onefin.ewallet.model.TransactionInquiry;
 import com.onefin.ewallet.model.VerifyPin;
+import com.onefin.ewallet.model.VietinConnResponse;
 import com.onefin.ewallet.model.Withdraw;
 import com.onefin.service.IBaseService;
 
@@ -27,7 +27,7 @@ public interface IVietinService extends IBaseService {
 	 * @param language
 	 * @return
 	 */
-	public ResponseEntity<?> validateResponse(Object data);
+	public VietinConnResponse validateResponse(Object data);
 
 	TokenIssue buildVietinTokenIssuer(TokenIssue model)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
@@ -60,5 +60,7 @@ public interface IVietinService extends IBaseService {
 
 	TokenIssuePayment buildVietinTokenIssuerPayment(TokenIssuePayment model)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
+
+	EwalletTransaction save(EwalletTransaction transData) throws Exception;
 
 }

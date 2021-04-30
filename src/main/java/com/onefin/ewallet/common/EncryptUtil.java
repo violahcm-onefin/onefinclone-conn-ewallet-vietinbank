@@ -54,7 +54,7 @@ public class EncryptUtil {
 			return Base64.encodeBase64String(signedByteData);
 
 		} catch (Exception e) {
-			LOGGER.error("Cannot signRSASHA1 {}", e.toString());
+			LOGGER.error("Cannot signRSASHA1", e);
 		}
 
 		return null;
@@ -104,7 +104,7 @@ public class EncryptUtil {
 			return signature.verify(signatureBytes);
 
 		} catch (Exception e) {
-			LOGGER.error("Cannot verify Signature {}", e.toString());
+			LOGGER.error("Cannot verify Signature", e);
 		}
 
 		return false;
