@@ -77,7 +77,7 @@ public class VietinController {
 			// Validate response from VTB
 			VietinConnResponse responseEntity = iVietinService.validateResponse(response);
 			vietinTrans.setConnectorResult(responseEntity.getConnectorCode());
-			vietinTrans.setVietinResponse((Map<String, Object>) response);
+			vietinTrans.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 			vietinTrans
 					.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), null) : null);
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -115,7 +115,7 @@ public class VietinController {
 			// Validate response from VTB
 			VietinConnResponse responseEntity = iVietinService.validateResponse(response);
 			vietinTrans.setConnectorResult(responseEntity.getConnectorCode());
-			vietinTrans.setVietinResponse((Map<String, Object>) response);
+			vietinTrans.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 			vietinTrans
 					.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), null) : null);
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -154,7 +154,7 @@ public class VietinController {
 			// Validate response from VTB
 			VietinConnResponse responseEntity = iVietinService.validateResponse(response);
 			vietinTrans.setConnectorResult(responseEntity.getConnectorCode());
-			vietinTrans.setVietinResponse((Map<String, Object>) response);
+			vietinTrans.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 			vietinTrans
 					.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), null) : null);
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -194,7 +194,7 @@ public class VietinController {
 			// Validate response from VTB
 			VietinConnResponse responseEntity = iVietinService.validateResponse(response);
 			vietinTrans.setConnectorResult(responseEntity.getConnectorCode());
-			vietinTrans.setVietinResponse((Map<String, Object>) response);
+			vietinTrans.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 			vietinTrans
 					.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), null) : null);
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -232,7 +232,7 @@ public class VietinController {
 			// Validate response from VTB
 			VietinConnResponse responseEntity = iVietinService.validateResponse(response);
 			vietinTrans.setConnectorResult(responseEntity.getConnectorCode());
-			vietinTrans.setVietinResponse((Map<String, Object>) response);
+			vietinTrans.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 			vietinTrans
 					.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), null) : null);
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -271,7 +271,7 @@ public class VietinController {
 			// Validate response from VTB
 			VietinConnResponse responseEntity = iVietinService.validateResponse(response);
 			vietinTrans.setConnectorResult(responseEntity.getConnectorCode());
-			vietinTrans.setVietinResponse((Map<String, Object>) response);
+			vietinTrans.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 			vietinTrans
 					.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), null) : null);
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -308,7 +308,7 @@ public class VietinController {
 			// Validate response from VTB
 			VietinConnResponse responseEntity = iVietinService.validateResponse(response);
 			vietinTrans.setConnectorResult(responseEntity.getConnectorCode());
-			vietinTrans.setVietinResponse((Map<String, Object>) response);
+			vietinTrans.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 			vietinTrans
 					.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), null) : null);
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -346,7 +346,7 @@ public class VietinController {
 			// Validate response from VTB
 			VietinConnResponse responseEntity = iVietinService.validateResponse(response);
 			vietinTrans.setConnectorResult(responseEntity.getConnectorCode());
-			vietinTrans.setVietinResponse((Map<String, Object>) response);
+			vietinTrans.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 			vietinTrans
 					.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), null) : null);
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -385,7 +385,7 @@ public class VietinController {
 			// Validate response from VTB
 			VietinConnResponse responseEntity = iVietinService.validateResponse(response);
 			vietinTrans.setConnectorResult(responseEntity.getConnectorCode());
-			vietinTrans.setVietinResponse((Map<String, Object>) response);
+			vietinTrans.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 			vietinTrans
 					.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), null) : null);
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -424,7 +424,7 @@ public class VietinController {
 			// Validate response from VTB
 			VietinConnResponse responseEntity = iVietinService.validateResponse(response);
 			vietinTrans.setConnectorResult(responseEntity.getConnectorCode());
-			vietinTrans.setVietinResponse((Map<String, Object>) response);
+			vietinTrans.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 			vietinTrans
 					.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), null) : null);
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -463,7 +463,7 @@ public class VietinController {
 			// Validate response from VTB
 			VietinConnResponse responseEntity = iVietinService.validateResponse(response);
 			vietinTrans.setConnectorResult(responseEntity.getConnectorCode());
-			vietinTrans.setVietinResponse((Map<String, Object>) response);
+			vietinTrans.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 			vietinTrans
 					.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), null) : null);
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
