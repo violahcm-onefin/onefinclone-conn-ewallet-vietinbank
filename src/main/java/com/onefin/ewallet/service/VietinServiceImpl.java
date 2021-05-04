@@ -286,10 +286,10 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 			if (status != null) {
 				code = Objects.toString(status.get(VietinConstants.VTB_CODE), "");
 			}
-			if (!isValidMessage(requestId, providerId, merchantId, signature)) {
-				LOGGER.error("== Invalid response from VIETIN!");
-				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_RESPONSE, data);
-			}
+//			if (!isValidMessage(requestId, providerId, merchantId, signature)) {
+//				LOGGER.error("== Invalid response from VIETIN!");
+//				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_RESPONSE, data);
+//			}
 
 			if (!configLoader.getVietinProviderId().equals(providerId)) {
 				LOGGER.error("== ProviderId not support: {}", providerId);
