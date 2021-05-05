@@ -11,8 +11,11 @@ import lombok.Data;
 @Service
 public class ConfigLoader {
 
-	@Value("${vietin.merchantId}")
-	private String vietinMerchantId;
+	@Value("${vietin.merchantIdAccount}")
+	private String vietinMerchantIdAccount;
+	
+	@Value("${vietin.merchantIdCard}")
+	private String vietinMerchantIdCard;
 
 	@Value("${vietin.providerId}")
 	private String vietinProviderId;

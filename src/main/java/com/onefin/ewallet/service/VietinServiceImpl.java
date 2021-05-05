@@ -50,10 +50,15 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 	private EwalletTransactionRepository transRepository;
 
 	@Override
-	public TokenIssue buildVietinTokenIssuer(TokenIssue data)
+	public TokenIssue buildVietinTokenIssuer(TokenIssue data, String linkType)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		data.setProviderId(configLoader.getVietinProviderId());
-		data.setMerchantId(configLoader.getVietinMerchantId());
+		if (linkType.equals(VietinConstants.LinkType.CARD.toString())) {
+			data.setMerchantId(configLoader.getVietinMerchantIdCard());
+		}
+		if (linkType.equals(VietinConstants.LinkType.ACCOUNT.toString())) {
+			data.setMerchantId(configLoader.getVietinMerchantIdAccount());
+		}
 		data.setVersion(configLoader.getVietinVersion());
 
 		String dataSign = String.format("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s", data.getCardNumber(), data.getCardIssueDate(),
@@ -72,7 +77,7 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 	public VerifyPin buildVietinVerifyPin(VerifyPin data)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		data.setProviderId(configLoader.getVietinProviderId());
-		data.setMerchantId(configLoader.getVietinMerchantId());
+		data.setMerchantId(configLoader.getVietinMerchantIdCard());
 		data.setVersion(configLoader.getVietinVersion());
 
 		String dataSign = String.format("%s%s%s%s%s%s%s%s%s%s%s%s", data.getOtp(), data.getVerifyTransactionId(),
@@ -90,7 +95,7 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 	public RegisterOnlinePay buildVietinRegisterOnlinePay(RegisterOnlinePay data)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		data.setProviderId(configLoader.getVietinProviderId());
-		data.setMerchantId(configLoader.getVietinMerchantId());
+		data.setMerchantId(configLoader.getVietinMerchantIdCard());
 		data.setVersion(configLoader.getVietinVersion());
 
 		String dataSign = String.format("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s", data.getCardNumber(),
@@ -110,7 +115,7 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 	public TokenRevokeReIssue buildVietinTokenRevoke(TokenRevokeReIssue data)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		data.setProviderId(configLoader.getVietinProviderId());
-		data.setMerchantId(configLoader.getVietinMerchantId());
+		data.setMerchantId(configLoader.getVietinMerchantIdCard());
 		data.setVersion(configLoader.getVietinVersion());
 
 		String dataSign = String.format("%s%s%s%s%s%s%s%s%s%s", data.getToken(), data.getTokenIssueDate(),
@@ -128,7 +133,7 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 	public TokenRevokeReIssue buildVietinTokenReIssue(TokenRevokeReIssue data)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		data.setProviderId(configLoader.getVietinProviderId());
-		data.setMerchantId(configLoader.getVietinMerchantId());
+		data.setMerchantId(configLoader.getVietinMerchantIdCard());
 		data.setVersion(configLoader.getVietinVersion());
 
 		String dataSign = String.format("%s%s%s%s%s%s%s%s%s%s", data.getToken(), data.getTokenIssueDate(),
@@ -146,7 +151,7 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 	public PaymentByToken buildVietinPaymentByToken(PaymentByToken data)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		data.setProviderId(configLoader.getVietinProviderId());
-		data.setMerchantId(configLoader.getVietinMerchantId());
+		data.setMerchantId(configLoader.getVietinMerchantIdCard());
 		data.setVersion(configLoader.getVietinVersion());
 
 		String dataSign = String.format("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s", data.getToken(), data.getTokenIssueDate(),
@@ -165,7 +170,7 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 	public PaymentByOTP buildVietinPaymentByOTP(PaymentByOTP data)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		data.setProviderId(configLoader.getVietinProviderId());
-		data.setMerchantId(configLoader.getVietinMerchantId());
+		data.setMerchantId(configLoader.getVietinMerchantIdCard());
 		data.setVersion(configLoader.getVietinVersion());
 
 		String dataSign = String.format("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s", data.getToken(), data.getTokenIssueDate(),
@@ -184,7 +189,7 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 	public Withdraw buildVietinWithdraw(Withdraw data)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		data.setProviderId(configLoader.getVietinProviderId());
-		data.setMerchantId(configLoader.getVietinMerchantId());
+		data.setMerchantId(configLoader.getVietinMerchantIdCard());
 		data.setVersion(configLoader.getVietinVersion());
 
 		String dataSign = String.format("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s", data.getToken(), data.getTokenIssueDate(),
@@ -203,7 +208,7 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 	public TransactionInquiry buildVietinTransactionInquiry(TransactionInquiry data)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		data.setProviderId(configLoader.getVietinProviderId());
-		data.setMerchantId(configLoader.getVietinMerchantId());
+		data.setMerchantId(configLoader.getVietinMerchantIdCard());
 		data.setVersion(configLoader.getVietinVersion());
 
 		String dataSign = String.format("%s%s%s%s%s%s%s%s", data.getQueryTransactionId(), data.getQueryType(),
@@ -221,7 +226,7 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 	public ProviderInquiry buildVietinProviderInquiry(ProviderInquiry data)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		data.setProviderId(configLoader.getVietinProviderId());
-		data.setMerchantId(configLoader.getVietinMerchantId());
+		data.setMerchantId(configLoader.getVietinMerchantIdCard());
 		data.setVersion(configLoader.getVietinVersion());
 
 		String dataSign = String.format("%s%s%s%s%s%s", data.getProviderId(), data.getMerchantId(), data.getChannel(),
@@ -235,10 +240,15 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 	}
 
 	@Override
-	public TokenIssuePayment buildVietinTokenIssuerPayment(TokenIssuePayment data)
+	public TokenIssuePayment buildVietinTokenIssuerPayment(TokenIssuePayment data, String linkType)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		data.setProviderId(configLoader.getVietinProviderId());
-		data.setMerchantId(configLoader.getVietinMerchantId());
+		if (linkType.equals(VietinConstants.LinkType.CARD.toString())) {
+			data.setMerchantId(configLoader.getVietinMerchantIdCard());
+		}
+		if (linkType.equals(VietinConstants.LinkType.ACCOUNT.toString())) {
+			data.setMerchantId(configLoader.getVietinMerchantIdAccount());
+		}
 		data.setVersion(configLoader.getVietinVersion());
 
 		String dataSign = String.format("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s", data.getCardNumber(),
@@ -286,27 +296,29 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 			if (status != null) {
 				code = Objects.toString(status.get(VietinConstants.VTB_CODE), "");
 			}
-//			if (!isValidMessage(requestId, providerId, merchantId, signature)) {
-//				LOGGER.error("== Invalid response from VIETIN!");
-//				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_RESPONSE, data);
-//			}
+			if (!isValidMessage(requestId, providerId, merchantId, signature)) {
+				LOGGER.error("== Invalid response from VIETIN!");
+				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_RESPONSE, data);
+			}
 
 			if (!configLoader.getVietinProviderId().equals(providerId)) {
 				LOGGER.error("== ProviderId not support: {}", providerId);
 				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_PROVIDER_ID, data);
 			}
 
-			if (!configLoader.getVietinMerchantId()
-					.equals(Objects.toString(mapData.get(VietinConstants.VTB_MERCHANTID), ""))) {
+			if (!configLoader.getVietinMerchantIdCard()
+					.equals(Objects.toString(mapData.get(VietinConstants.VTB_MERCHANTID), ""))
+					&& !configLoader.getVietinMerchantIdAccount()
+							.equals(Objects.toString(mapData.get(VietinConstants.VTB_MERCHANTID), ""))) {
 				LOGGER.error("== MerchantId not support: {}", merchantId);
 				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_MERCHANT_ID, data);
 			}
 
 			// validate signature
-//			if (!verifySignature(requestId + providerId + merchantId + code, signature)) {
-//				LOGGER.error("== Verify signature fail");
-//				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_SIG, data);
-//			}
+			if (!verifySignature(requestId + providerId + merchantId + code, signature)) {
+				LOGGER.error("== Verify signature fail");
+				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_SIG, data);
+			}
 
 			LOGGER.info("== Validation success!");
 			return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_CONNECTOR_SUCCESS, data);

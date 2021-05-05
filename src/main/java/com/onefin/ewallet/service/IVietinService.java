@@ -29,7 +29,7 @@ public interface IVietinService extends IBaseService {
 	 */
 	public VietinConnResponse validateResponse(Object data);
 
-	TokenIssue buildVietinTokenIssuer(TokenIssue model)
+	TokenIssue buildVietinTokenIssuer(TokenIssue model, String linkType)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
 
 	VerifyPin buildVietinVerifyPin(VerifyPin model)
@@ -58,7 +58,7 @@ public interface IVietinService extends IBaseService {
 	ProviderInquiry buildVietinProviderInquiry(ProviderInquiry model)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
 
-	TokenIssuePayment buildVietinTokenIssuerPayment(TokenIssuePayment model)
+	TokenIssuePayment buildVietinTokenIssuerPayment(TokenIssuePayment model, String linkType)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
 
 	EwalletTransaction save(EwalletTransaction transData) throws Exception;

@@ -41,6 +41,12 @@ public class EwalletTransaction {
 
 	@Column
 	private String vietinResult;
+	
+	@Column
+	private String merchantId;
+	
+	@Column
+	private String linkType;
 
 	@Column
 	private String connectorResult;

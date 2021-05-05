@@ -36,7 +36,9 @@ public class VietinConstants extends com.onefin.common.OneFinConstants {
 	public static final String VIETIN_ACCOUNT_INQUIRY = "ACCOUNT_INQUIRY";
 	public static final String VIETIN_TOKEN_ISSUER_PAYMENT = "TOKEN_ISSUER_PAYMENT";
 	
-	
+	public enum LinkType {
+	    CARD, ACCOUNT;
+	}
 	
 
 }

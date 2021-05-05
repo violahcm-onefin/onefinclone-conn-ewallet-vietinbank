@@ -17,7 +17,8 @@ vietin:
   onefinPrivateKey: E:\OneFin\source_code\conn-ewallet-vietinbank\src\main\resources\keys\onefin-privatekey-uat-vietin.der
   vtbPublicKey: E:\OneFin\source_code\conn-ewallet-vietinbank\src\main\resources\keys\Vietinbank_publicKey.pem
   version: 1.0
-  merchantId: 7001
+  merchantIdCard: 7001
+  merchantIdAccount: 7002
   providerId: 777
   ibmClientId: 9049dbd1-2f74-4df9-a0c6-4acb50bd3f01
   xIbmClientSecret: uS7pQ2cV4yQ4iK7mT2mF6jH0wU3kA7pQ0lX8mF7kX3jO7kC2wV
@@ -35,5 +36,7 @@ vietin:
     tokenIssuePayment: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/tokenIssuer-payment
     
 logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
   level:
     root: info

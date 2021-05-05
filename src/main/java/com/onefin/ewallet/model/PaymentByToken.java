@@ -55,7 +55,7 @@ public class PaymentByToken {
 
 	@Size(max = 30)
 	private String mac;
-	
+
 	private String providerId;
 
 	private String merchantId;

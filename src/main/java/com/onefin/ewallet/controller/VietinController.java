@@ -13,12 +13,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.onefin.ewallet.common.VietinConstants;
+import com.onefin.ewallet.common.VietinConstants.LinkType;
 import com.onefin.ewallet.model.EwalletTransaction;
 import com.onefin.ewallet.model.PaymentByOTP;
 import com.onefin.ewallet.model.PaymentByOTPResponse;
@@ -62,14 +64,14 @@ public class VietinController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(VietinController.class);
 
-	@RequestMapping(method = RequestMethod.POST, value = "/tokenIssue")
-	public @ResponseBody ResponseEntity<?> getTokenIssue(@Valid @RequestBody(required = true) TokenIssue requestBody,
-			HttpServletRequest request) throws Exception {
+	@RequestMapping(method = RequestMethod.POST, value = "/tokenIssue/type/{type}")
+	public @ResponseBody ResponseEntity<?> getTokenIssue(@PathVariable(required = true) LinkType type,
+			@Valid @RequestBody(required = true) TokenIssue requestBody, HttpServletRequest request) throws Exception {
 
 		LOGGER.info("== RequestID {} - Send TokenIssue Request to VIETIN", requestBody.getRequestId());
 		EwalletTransaction vietinTrans = new EwalletTransaction();
 		try {
-			TokenIssue requestMap = iVietinService.buildVietinTokenIssuer(requestBody);
+			TokenIssue requestMap = iVietinService.buildVietinTokenIssuer(requestBody, type.toString());
 			LOGGER.info("== RequestID {} - TokenIssue Request : " + requestMap, requestBody.getRequestId());
 
 			TokenIssueResponse response = (TokenIssueResponse) IHTTPRequestUtil.sendTokenIssue(requestMap);
@@ -88,6 +90,7 @@ public class VietinController {
 		} finally {
 			try {
 				// Set data to transaction
+				vietinTrans.setLinkType(type.toString());
 				vietinTrans.setApiOperation(VietinConstants.VIETIN_TOKEN_ISSUER);
 				vietinTrans.setRequestId(requestBody.getRequestId());
 				vietinTrans.setEwalletRequest(
@@ -447,15 +450,15 @@ public class VietinController {
 
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/tokenIssuer-payment")
-	public @ResponseBody ResponseEntity<?> getTokenIssuerPayment(
+	@RequestMapping(method = RequestMethod.POST, value = "/tokenIssuer-payment/type/{type}")
+	public @ResponseBody ResponseEntity<?> getTokenIssuerPayment(@PathVariable(required = true) LinkType type,
 			@Valid @RequestBody(required = true) TokenIssuePayment requestBody, HttpServletRequest request)
 			throws Exception {
 
 		LOGGER.info("== RequestID {} - Send TokenIssuePayment Request to VIETIN", requestBody.getRequestId());
 		EwalletTransaction vietinTrans = new EwalletTransaction();
 		try {
-			TokenIssuePayment requestMap = iVietinService.buildVietinTokenIssuerPayment(requestBody);
+			TokenIssuePayment requestMap = iVietinService.buildVietinTokenIssuerPayment(requestBody, type.toString());
 			LOGGER.info("== RequestID {} - TokenIssuePayment Request : " + requestMap, requestBody.getRequestId());
 
 			TokenIssuePaymentResponse response = (TokenIssuePaymentResponse) IHTTPRequestUtil
@@ -474,6 +477,7 @@ public class VietinController {
 		} finally {
 			try {
 				// Set data to transaction
+				vietinTrans.setLinkType(type.toString());
 				vietinTrans.setApiOperation(VietinConstants.VIETIN_TOKEN_ISSUER_PAYMENT);
 				vietinTrans.setRequestId(requestBody.getRequestId());
 				vietinTrans.setEwalletRequest(
