@@ -44,6 +44,9 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 	@Autowired
 	private ConfigLoader configLoader;
 
+	@Autowired
+	public IVietinService iVietinService;
+
 	@Override
 	public TokenIssueResponse sendTokenIssue(TokenIssue data) throws Exception {
 		String url = configLoader.getTokenIssue();
@@ -266,9 +269,8 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 			return null;
 		}
 		try {
-			ObjectMapper mapper = new ObjectMapper();
 			LOGGER.info("== Response - " + resp.getBody());
-			return mapper.readValue(resp.getBody(), WithdrawResponse.class);
+			return (WithdrawResponse) iVietinService.convertString2Map(resp.getBody(), WithdrawResponse.class);
 
 		} catch (Exception e) {
 			LOGGER.error("== Can't parse result from VIETIN!!!", e);
