@@ -6,5 +6,4 @@ public interface IMessageUtil {
 
 	VietinConnResponse buildVietinConnectorResponse(String connectorCode, Object vtbRes);
 
-
 }

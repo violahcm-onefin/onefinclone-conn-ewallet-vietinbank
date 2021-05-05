@@ -1,7 +1,5 @@
 package com.onefin.ewallet.service;
 
-import java.util.Map;
-
 import com.onefin.ewallet.model.PaymentByOTP;
 import com.onefin.ewallet.model.PaymentByOTPResponse;
 import com.onefin.ewallet.model.PaymentByToken;
@@ -16,6 +14,7 @@ import com.onefin.ewallet.model.TokenIssuePaymentResponse;
 import com.onefin.ewallet.model.TokenIssueResponse;
 import com.onefin.ewallet.model.TokenReIssueResponse;
 import com.onefin.ewallet.model.TokenRevokeReIssue;
+import com.onefin.ewallet.model.TokenRevokeResponse;
 import com.onefin.ewallet.model.TransactionInquiry;
 import com.onefin.ewallet.model.TransactionInquiryResponse;
 import com.onefin.ewallet.model.VerifyPin;
@@ -31,7 +30,7 @@ public interface IHTTPRequestUtil {
 
 	VerifyPinResponse sendVerifyPin(VerifyPin data) throws Exception;
 
-	Map<String, Object> sendTokenRevoke(TokenRevokeReIssue data) throws Exception;
+	TokenRevokeResponse sendTokenRevoke(TokenRevokeReIssue data) throws Exception;
 
 	TokenReIssueResponse sendTokenReIssue(TokenRevokeReIssue data) throws Exception;
 

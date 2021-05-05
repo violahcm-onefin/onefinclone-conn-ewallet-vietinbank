@@ -1,7 +1,6 @@
 package com.onefin.ewallet.service;
 
 import java.util.Collections;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +28,7 @@ import com.onefin.ewallet.model.TokenIssuePaymentResponse;
 import com.onefin.ewallet.model.TokenIssueResponse;
 import com.onefin.ewallet.model.TokenReIssueResponse;
 import com.onefin.ewallet.model.TokenRevokeReIssue;
+import com.onefin.ewallet.model.TokenRevokeResponse;
 import com.onefin.ewallet.model.TransactionInquiry;
 import com.onefin.ewallet.model.TransactionInquiryResponse;
 import com.onefin.ewallet.model.VerifyPin;
@@ -43,9 +43,6 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 
 	@Autowired
 	private ConfigLoader configLoader;
-
-	@Autowired
-	public IVietinService iVietinService;
 
 	@Override
 	public TokenIssueResponse sendTokenIssue(TokenIssue data) throws Exception {
@@ -135,7 +132,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 	}
 
 	@Override
-	public Map<String, Object> sendTokenRevoke(TokenRevokeReIssue data) throws Exception {
+	public TokenRevokeResponse sendTokenRevoke(TokenRevokeReIssue data) throws Exception {
 		String url = configLoader.getTokenRevoke();
 		LOGGER.info("== Send request to VIETIN {} ", url);
 		HttpHeaders headers = new HttpHeaders();
@@ -153,8 +150,9 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 			return null;
 		}
 		try {
+			ObjectMapper mapper = new ObjectMapper();
 			LOGGER.info("== Response - " + resp.getBody());
-			return (Map<String, Object>) iVietinService.convertString2Map(resp.getBody(), Map.class);
+			return mapper.readValue(resp.getBody(), TokenRevokeResponse.class);
 
 		} catch (Exception e) {
 			LOGGER.error("== Can't parse result from VIETIN!!!", e);
@@ -268,8 +266,9 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 			return null;
 		}
 		try {
+			ObjectMapper mapper = new ObjectMapper();
 			LOGGER.info("== Response - " + resp.getBody());
-			return (WithdrawResponse) iVietinService.convertString2Map(resp.getBody(), WithdrawResponse.class);
+			return mapper.readValue(resp.getBody(), WithdrawResponse.class);
 
 		} catch (Exception e) {
 			LOGGER.error("== Can't parse result from VIETIN!!!", e);

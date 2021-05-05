@@ -337,10 +337,6 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 	}
 
 	private boolean isValidMessage(String requestId, String providerId, String merchantId, String signature) {
-		LOGGER.info(requestId);
-		LOGGER.info(providerId);
-		LOGGER.info(merchantId);
-		LOGGER.info(signature);
 		if (providerId == null || providerId.trim().isEmpty() || requestId == null || requestId.trim().isEmpty()
 				|| signature == null || signature.trim().isEmpty() || merchantId == null
 				|| merchantId.trim().isEmpty()) {
