@@ -1,13 +1,14 @@
 package com.onefin.ewallet.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import lombok.Data;
 
 @Data
 public class TokenReIssueResponse {
 
-	@JsonIgnore
+	@JsonProperty(access = Access.WRITE_ONLY)
 	private String signature;
 
 	private String providerId;
@@ -17,13 +18,13 @@ public class TokenReIssueResponse {
 	private String requestId;
 
 	private Status status;
-	
+
 	private String token;
-	
+
 	private String tokenIssueDate;
-	
+
 	private String tokenExpireDate;
-	
+
 	private String cardMask;
 
 }
