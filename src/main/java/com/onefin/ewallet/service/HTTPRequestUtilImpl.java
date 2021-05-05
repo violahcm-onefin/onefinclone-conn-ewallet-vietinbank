@@ -153,9 +153,8 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 			return null;
 		}
 		try {
-			ObjectMapper mapper = new ObjectMapper();
 			LOGGER.info("== Response - " + resp.getBody());
-			return mapper.readValue(resp.getBody(), TokenRevokeResponse.class);
+			return (TokenRevokeResponse) iVietinService.convertString2Map(resp.getBody(), TokenRevokeResponse.class);
 
 		} catch (Exception e) {
 			LOGGER.error("== Can't parse result from VIETIN!!!", e);
