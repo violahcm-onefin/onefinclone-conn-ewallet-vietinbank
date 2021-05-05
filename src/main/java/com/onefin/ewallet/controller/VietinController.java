@@ -192,14 +192,14 @@ public class VietinController {
 			TokenRevokeReIssue requestMap = iVietinService.buildVietinTokenRevoke(requestBody);
 			LOGGER.info("== RequestID {} - TokenRevoke Request : " + requestMap, requestBody.getRequestId());
 
-			TokenRevokeResponse response = (TokenRevokeResponse) IHTTPRequestUtil.sendTokenRevoke(requestMap);
+			Map<String, Object> response = IHTTPRequestUtil.sendTokenRevoke(requestMap);
 
 			// Validate response from VTB
 			VietinConnResponse responseEntity = iVietinService.validateResponse(response);
 			vietinTrans.setConnectorResult(responseEntity.getConnectorCode());
 			vietinTrans.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
-			vietinTrans
-					.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), null) : null);
+			//vietinTrans
+				//	.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), null) : null);
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
 		} catch (Exception e) {
 			LOGGER.error("== RequestID {} - Fail to process TokenRevoke function: {}", requestBody.getRequestId());

@@ -1,6 +1,7 @@
 package com.onefin.ewallet.service;
 
 import java.util.Collections;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +29,6 @@ import com.onefin.ewallet.model.TokenIssuePaymentResponse;
 import com.onefin.ewallet.model.TokenIssueResponse;
 import com.onefin.ewallet.model.TokenReIssueResponse;
 import com.onefin.ewallet.model.TokenRevokeReIssue;
-import com.onefin.ewallet.model.TokenRevokeResponse;
 import com.onefin.ewallet.model.TransactionInquiry;
 import com.onefin.ewallet.model.TransactionInquiryResponse;
 import com.onefin.ewallet.model.VerifyPin;
@@ -135,7 +135,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 	}
 
 	@Override
-	public TokenRevokeResponse sendTokenRevoke(TokenRevokeReIssue data) throws Exception {
+	public Map<String, Object> sendTokenRevoke(TokenRevokeReIssue data) throws Exception {
 		String url = configLoader.getTokenRevoke();
 		LOGGER.info("== Send request to VIETIN {} ", url);
 		HttpHeaders headers = new HttpHeaders();
@@ -154,7 +154,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 		}
 		try {
 			LOGGER.info("== Response - " + resp.getBody());
-			return (TokenRevokeResponse) iVietinService.convertString2Map(resp.getBody(), TokenRevokeResponse.class);
+			return (Map<String, Object>) iVietinService.convertString2Map(resp.getBody(), Map.class);
 
 		} catch (Exception e) {
 			LOGGER.error("== Can't parse result from VIETIN!!!", e);
