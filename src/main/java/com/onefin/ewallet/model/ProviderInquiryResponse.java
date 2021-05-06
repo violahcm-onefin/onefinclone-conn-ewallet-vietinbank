@@ -1,5 +1,7 @@
 package com.onefin.ewallet.model;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -15,6 +17,6 @@ public class ProviderInquiryResponse {
 
 	private Status status;
 
-	private Balance balances;
+	private List<Balance> balances;
 
 }

@@ -149,6 +149,10 @@ public class VietinController {
 		LOGGER.info("== RequestID {} - Send RegisterOnlinePay Request to VIETIN", requestBody.getRequestId());
 		EwalletTransaction vietinTrans = new EwalletTransaction();
 		try {
+			if(!requestBody.isAcceptRegistered()) {
+				LOGGER.error("== User not accept register online payment");
+				return new ResponseEntity<>(imsgUtil.buildVietinConnectorResponse(VietinConstants.USER_NOT_ACCEPT_REGISTER_ONLINEPAY, null), HttpStatus.OK);
+			}
 			RegisterOnlinePay requestMap = iVietinService.buildVietinRegisterOnlinePay(requestBody);
 			LOGGER.info("== RequestID {} - RegisterOnlinePay Request : " + requestMap, requestBody.getRequestId());
 

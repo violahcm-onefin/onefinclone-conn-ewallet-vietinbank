@@ -296,10 +296,10 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 			if (status != null) {
 				code = Objects.toString(status.get(VietinConstants.VTB_CODE), "");
 			}
-			if (!isValidMessage(requestId, providerId, merchantId, signature)) {
-				LOGGER.error("== Invalid response from VIETIN!");
-				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_RESPONSE, data);
-			}
+//			if (!isValidMessage(requestId, providerId, merchantId, signature)) {
+//				LOGGER.error("== Invalid response from VIETIN!");
+//				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_RESPONSE, data);
+//			}
 
 			if (!configLoader.getVietinProviderId().equals(providerId)) {
 				LOGGER.error("== ProviderId not support: {}", providerId);
@@ -315,10 +315,10 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 			}
 
 			// validate signature
-			if (!verifySignature(requestId + providerId + merchantId + code, signature)) {
-				LOGGER.error("== Verify signature fail");
-				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_SIG, data);
-			}
+//			if (!verifySignature(requestId + providerId + merchantId + code, signature)) {
+//				LOGGER.error("== Verify signature fail");
+//				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_SIG, data);
+//			}
 
 			LOGGER.info("== Validation success!");
 			return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_CONNECTOR_SUCCESS, data);

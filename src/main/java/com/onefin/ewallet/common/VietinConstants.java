@@ -20,6 +20,7 @@ public class VietinConstants extends com.onefin.common.OneFinConstants {
 	public static final String VTB_VALIDATION_FUNCTION_FAIL = "06";
 	public static final String INTERNAL_SERVER_ERROR = "07";
 	public static final String CONNECTOR_INVALID_VALIDATION_REQUESTBODY = "08";
+	public static final String USER_NOT_ACCEPT_REGISTER_ONLINEPAY = "09";
 	
 	// Vietin api operation
 	public static final String VIETIN_TOKEN_ISSUER = "TOKEN_ISSUER";
