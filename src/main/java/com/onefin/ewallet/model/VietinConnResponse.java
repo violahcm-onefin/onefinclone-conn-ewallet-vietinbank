@@ -10,4 +10,6 @@ public class VietinConnResponse {
 	private Object vtbResponse;
 	
 	private String version;
+	
+	private String type;
 }

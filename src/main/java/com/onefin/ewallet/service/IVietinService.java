@@ -27,32 +27,33 @@ public interface IVietinService extends IBaseService {
 	 * @param language
 	 * @return
 	 */
-	public VietinConnResponse validateResponse(Object data);
+	public VietinConnResponse validateResponse(Object data, String type);
 
 	TokenIssue buildVietinTokenIssuer(TokenIssue model, String linkType)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
 
-	VerifyPin buildVietinVerifyPin(VerifyPin model)
+	VerifyPin buildVietinVerifyPin(VerifyPin model, String linkType)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
 
-	RegisterOnlinePay buildVietinRegisterOnlinePay(RegisterOnlinePay model)
+	RegisterOnlinePay buildVietinRegisterOnlinePay(RegisterOnlinePay model, String linkType)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
 
-	TokenRevokeReIssue buildVietinTokenRevoke(TokenRevokeReIssue model)
+	TokenRevokeReIssue buildVietinTokenRevoke(TokenRevokeReIssue model, String linkType)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
 
-	TokenRevokeReIssue buildVietinTokenReIssue(TokenRevokeReIssue model)
+	TokenRevokeReIssue buildVietinTokenReIssue(TokenRevokeReIssue model, String linkType)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
 
-	PaymentByToken buildVietinPaymentByToken(PaymentByToken model)
+	PaymentByToken buildVietinPaymentByToken(PaymentByToken model, String linkType)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
 
-	PaymentByOTP buildVietinPaymentByOTP(PaymentByOTP model)
+	PaymentByOTP buildVietinPaymentByOTP(PaymentByOTP model, String linkType)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
 
-	Withdraw buildVietinWithdraw(Withdraw model) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
+	Withdraw buildVietinWithdraw(Withdraw model, String linkType)
+			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
 
-	TransactionInquiry buildVietinTransactionInquiry(TransactionInquiry model)
+	TransactionInquiry buildVietinTransactionInquiry(TransactionInquiry model, String linkType)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
 
 	ProviderInquiry buildVietinProviderInquiry(ProviderInquiry model)

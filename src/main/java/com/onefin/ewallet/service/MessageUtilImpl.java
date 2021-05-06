@@ -23,7 +23,7 @@ public class MessageUtilImpl implements IMessageUtil {
 	public IVietinService iVietinService;
 
 	@Override
-	public VietinConnResponse buildVietinConnectorResponse(String connectorCode, Object vtbRes) {
+	public VietinConnResponse buildVietinConnectorResponse(String connectorCode, Object vtbRes, String type) {
 		Map<String, Object> res = new HashMap();
 		if (vtbRes != null) {
 			try {
@@ -38,6 +38,7 @@ public class MessageUtilImpl implements IMessageUtil {
 		response.setConnectorCode(connectorCode);
 		response.setVtbResponse(res);
 		response.setVersion(configLoader.getVietinVersion());
+		response.setType(type);
 		return response;
 	}
 
