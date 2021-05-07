@@ -13,7 +13,6 @@ public class RegisterOnlinePay {
 	private String cardNumber;
 
 	@Size(max = 6)
-	@NotEmpty(message = "Not empty")
 	private String cardIssueDate;
 
 	@Size(max = 50)
