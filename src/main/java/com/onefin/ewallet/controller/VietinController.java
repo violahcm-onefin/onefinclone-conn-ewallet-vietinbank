@@ -144,12 +144,11 @@ public class VietinController {
 
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/registerOnlinePay")
-	public @ResponseBody ResponseEntity<?> registerOnlinePay(
+	@RequestMapping(method = RequestMethod.POST, value = "/registerOnlinePay/type/{type}")
+	public @ResponseBody ResponseEntity<?> registerOnlinePay(@PathVariable(required = true) LinkType type,
 			@Valid @RequestBody(required = true) RegisterOnlinePay requestBody, HttpServletRequest request)
 			throws Exception {
 		LOGGER.info("== RequestID {} - Send RegisterOnlinePay Request to VIETIN", requestBody.getRequestId());
-		LinkType type = LinkType.CARD;
 		EwalletTransaction vietinTrans = new EwalletTransaction();
 		try {
 			if (!requestBody.isAcceptRegistered()) {
