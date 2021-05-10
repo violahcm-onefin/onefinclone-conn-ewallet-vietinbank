@@ -43,9 +43,6 @@ public class EwalletTransaction {
 	private String vietinResult;
 	
 	@Column
-	private String merchantId;
-	
-	@Column
 	private String linkType;
 
 	@Column
