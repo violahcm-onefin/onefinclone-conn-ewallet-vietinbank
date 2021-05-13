@@ -27,7 +27,6 @@ import com.onefin.ewallet.model.PaymentByOTPResponse;
 import com.onefin.ewallet.model.PaymentByToken;
 import com.onefin.ewallet.model.PaymentByTokenResponse;
 import com.onefin.ewallet.model.ProviderInquiry;
-import com.onefin.ewallet.model.ProviderInquiryResponse;
 import com.onefin.ewallet.model.RegisterOnlinePay;
 import com.onefin.ewallet.model.RegisterOnlinePayResponse;
 import com.onefin.ewallet.model.TokenIssue;
@@ -444,14 +443,13 @@ public class VietinController {
 			ProviderInquiry requestMap = iVietinService.buildVietinProviderInquiry(requestBody);
 			LOGGER.info("== RequestID {} - ProviderInquiry Request : " + requestMap, requestBody.getRequestId());
 
-			ProviderInquiryResponse response = (ProviderInquiryResponse) IHTTPRequestUtil
-					.sendProviderInquiry(requestMap);
+			Map<String, Object> response = IHTTPRequestUtil.sendProviderInquiry(requestMap);
 			// Validate response from VTB
 			VietinConnResponse responseEntity = iVietinService.validateResponse(response, null);
 			vietinTrans.setConnectorResult(responseEntity.getConnectorCode());
 			vietinTrans.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
-			vietinTrans
-					.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), null) : null);
+			Map<String, Object> status = (Map<String, Object>) response.get("status");
+			vietinTrans.setVietinResult(response != null ? Objects.toString(status.get("code"), null) : null);
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
 		} catch (Exception e) {
 			LOGGER.error("== RequestID {} - Fail to process ProviderInquiry function", requestBody.getRequestId());
