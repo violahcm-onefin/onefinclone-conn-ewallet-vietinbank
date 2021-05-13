@@ -330,6 +330,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 			LOGGER.info("== Response - " + resp.getBody());
 			ProviderInquiryResponse tmp = mapper.readValue(resp.getBody(), ProviderInquiryResponse.class);
 			Map<String, Object> response = new HashMap();
+			response.put("signature", tmp.getSignature());
 			response.put("providerId", tmp.getProviderId());
 			response.put("merchantId", tmp.getMerchantId());
 			response.put("requestId", tmp.getRequestId());
