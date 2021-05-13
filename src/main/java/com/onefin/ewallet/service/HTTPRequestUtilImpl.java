@@ -1,6 +1,8 @@
 package com.onefin.ewallet.service;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -306,7 +308,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 	}
 
 	@Override
-	public ProviderInquiryResponse sendProviderInquiry(ProviderInquiry data) throws Exception {
+	public Map<String, Object> sendProviderInquiry(ProviderInquiry data) throws Exception {
 		String url = configLoader.getProviderInquiry();
 		LOGGER.info("== Send request to VIETIN {} ", url);
 		HttpHeaders headers = new HttpHeaders();
@@ -326,8 +328,14 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			LOGGER.info("== Response - " + resp.getBody());
-			return mapper.readValue(resp.getBody(), ProviderInquiryResponse.class);
-
+			ProviderInquiryResponse tmp = mapper.readValue(resp.getBody(), ProviderInquiryResponse.class);
+			Map<String, Object> response = new HashMap();
+			response.put("providerId", tmp.getProviderId());
+			response.put("merchantId", tmp.getMerchantId());
+			response.put("requestId", tmp.getRequestId());
+			response.put("status", tmp.getStatus());
+			response.put("balances", tmp.getBalances().get(0));
+			return response;
 		} catch (Exception e) {
 			LOGGER.error("== Can't parse result from VIETIN!!!", e);
 			return null;

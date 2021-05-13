@@ -1,11 +1,12 @@
 package com.onefin.ewallet.service;
 
+import java.util.Map;
+
 import com.onefin.ewallet.model.PaymentByOTP;
 import com.onefin.ewallet.model.PaymentByOTPResponse;
 import com.onefin.ewallet.model.PaymentByToken;
 import com.onefin.ewallet.model.PaymentByTokenResponse;
 import com.onefin.ewallet.model.ProviderInquiry;
-import com.onefin.ewallet.model.ProviderInquiryResponse;
 import com.onefin.ewallet.model.RegisterOnlinePay;
 import com.onefin.ewallet.model.RegisterOnlinePayResponse;
 import com.onefin.ewallet.model.TokenIssue;
@@ -42,7 +43,7 @@ public interface IHTTPRequestUtil {
 
 	TransactionInquiryResponse sendTransactionInquiry(TransactionInquiry data) throws Exception;
 
-	ProviderInquiryResponse sendProviderInquiry(ProviderInquiry data) throws Exception;
+	Map<String, Object> sendProviderInquiry(ProviderInquiry data) throws Exception;
 
 	TokenIssuePaymentResponse sendTokenIssuePayment(TokenIssuePayment data) throws Exception;
 
