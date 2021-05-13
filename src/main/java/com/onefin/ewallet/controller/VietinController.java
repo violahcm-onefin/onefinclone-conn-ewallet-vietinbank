@@ -464,7 +464,8 @@ public class VietinController {
 			// Validate response from VTB
 			VietinConnResponse responseEntity = iVietinService.validateResponse(response, null);
 			vietinTrans.setConnectorResult(responseEntity.getConnectorCode());
-			Map<String, Object> status = (Map<String, Object>) response.get("status");
+			Map<String, Object> status = (Map<String, Object>) iVietinService.convertObject2Map(response.get("status"),
+					Map.class);
 			vietinTrans.setVietinResult(response != null ? Objects.toString(status.get("code"), null) : null);
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
 		} catch (Exception e) {
@@ -475,7 +476,8 @@ public class VietinController {
 		} finally {
 			try {
 				// Set data to transaction
-				vietinTrans.setVietinResponse(response);
+				vietinTrans
+						.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 				vietinTrans.setApiOperation(VietinConstants.VIETIN_PROVIDER_INQUIRY);
 				vietinTrans.setRequestId(requestBody.getRequestId());
 				vietinTrans.setEwalletRequest(
