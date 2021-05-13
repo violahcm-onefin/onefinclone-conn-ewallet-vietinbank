@@ -69,16 +69,16 @@ public class VietinController {
 
 		LOGGER.info("== RequestID {} - Send TokenIssue Request to VIETIN", requestBody.getRequestId());
 		EwalletTransaction vietinTrans = new EwalletTransaction();
+		TokenIssueResponse response = null;
 		try {
 			TokenIssue requestMap = iVietinService.buildVietinTokenIssuer(requestBody, type.toString());
 			LOGGER.info("== RequestID {} - TokenIssue Request : " + requestMap, requestBody.getRequestId());
 
-			TokenIssueResponse response = (TokenIssueResponse) IHTTPRequestUtil.sendTokenIssue(requestMap);
+			response = (TokenIssueResponse) IHTTPRequestUtil.sendTokenIssue(requestMap);
 
 			// Validate response from VTB
 			VietinConnResponse responseEntity = iVietinService.validateResponse(response, type.toString());
 			vietinTrans.setConnectorResult(responseEntity.getConnectorCode());
-			vietinTrans.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 			vietinTrans
 					.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), null) : null);
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -90,6 +90,8 @@ public class VietinController {
 		} finally {
 			try {
 				// Set data to transaction
+				vietinTrans
+						.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 				vietinTrans.setLinkType(type.toString());
 				vietinTrans.setApiOperation(VietinConstants.VIETIN_TOKEN_ISSUER);
 				vietinTrans.setRequestId(requestBody.getRequestId());
@@ -109,16 +111,16 @@ public class VietinController {
 
 		LOGGER.info("== RequestID {} - Send VerifyPin Request to VIETIN", requestBody.getRequestId());
 		EwalletTransaction vietinTrans = new EwalletTransaction();
+		VerifyPinResponse response = null;
 		try {
 			VerifyPin requestMap = iVietinService.buildVietinVerifyPin(requestBody, type.toString());
 			LOGGER.info("== RequestID {} - VerifyPin Request : " + requestMap, requestBody.getRequestId());
 
-			VerifyPinResponse response = (VerifyPinResponse) IHTTPRequestUtil.sendVerifyPin(requestMap);
+			response = (VerifyPinResponse) IHTTPRequestUtil.sendVerifyPin(requestMap);
 
 			// Validate response from VTB
 			VietinConnResponse responseEntity = iVietinService.validateResponse(response, type.toString());
 			vietinTrans.setConnectorResult(responseEntity.getConnectorCode());
-			vietinTrans.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 			vietinTrans
 					.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), null) : null);
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -130,6 +132,8 @@ public class VietinController {
 		} finally {
 			try {
 				// Set data to transaction
+				vietinTrans
+						.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 				vietinTrans.setLinkType(type.toString());
 				vietinTrans.setApiOperation(VietinConstants.VIETIN_VERIFY_PIN);
 				vietinTrans.setRequestId(requestBody.getRequestId());
@@ -149,6 +153,7 @@ public class VietinController {
 			throws Exception {
 		LOGGER.info("== RequestID {} - Send RegisterOnlinePay Request to VIETIN", requestBody.getRequestId());
 		EwalletTransaction vietinTrans = new EwalletTransaction();
+		RegisterOnlinePayResponse response = null;
 		try {
 			if (!requestBody.isAcceptRegistered()) {
 				LOGGER.error("== User not accept register online payment");
@@ -158,12 +163,10 @@ public class VietinController {
 			RegisterOnlinePay requestMap = iVietinService.buildVietinRegisterOnlinePay(requestBody, type.toString());
 			LOGGER.info("== RequestID {} - RegisterOnlinePay Request : " + requestMap, requestBody.getRequestId());
 
-			RegisterOnlinePayResponse response = (RegisterOnlinePayResponse) IHTTPRequestUtil
-					.sendRegisterOnlinePay(requestMap);
+			response = (RegisterOnlinePayResponse) IHTTPRequestUtil.sendRegisterOnlinePay(requestMap);
 			// Validate response from VTB
 			VietinConnResponse responseEntity = iVietinService.validateResponse(response, type.toString());
 			vietinTrans.setConnectorResult(responseEntity.getConnectorCode());
-			vietinTrans.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 			vietinTrans
 					.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), null) : null);
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -176,6 +179,8 @@ public class VietinController {
 		} finally {
 			try {
 				// Set data to transaction
+				vietinTrans
+						.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 				vietinTrans.setLinkType(type.toString());
 				vietinTrans.setApiOperation(VietinConstants.VIETIN_REGISTER_ONLINE_PAY);
 				vietinTrans.setRequestId(requestBody.getRequestId());
@@ -196,16 +201,16 @@ public class VietinController {
 
 		LOGGER.info("== RequestID {} - Send TokenRevoke Request to VIETIN", requestBody.getRequestId());
 		EwalletTransaction vietinTrans = new EwalletTransaction();
+		TokenRevokeResponse response = null;
 		try {
 			TokenRevokeReIssue requestMap = iVietinService.buildVietinTokenRevoke(requestBody, type.toString());
 			LOGGER.info("== RequestID {} - TokenRevoke Request : " + requestMap, requestBody.getRequestId());
 
-			TokenRevokeResponse response = (TokenRevokeResponse) IHTTPRequestUtil.sendTokenRevoke(requestMap);
+			response = (TokenRevokeResponse) IHTTPRequestUtil.sendTokenRevoke(requestMap);
 
 			// Validate response from VTB
 			VietinConnResponse responseEntity = iVietinService.validateResponse(response, type.toString());
 			vietinTrans.setConnectorResult(responseEntity.getConnectorCode());
-			vietinTrans.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 			vietinTrans
 					.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), null) : null);
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -217,6 +222,8 @@ public class VietinController {
 		} finally {
 			try {
 				// Set data to transaction
+				vietinTrans
+						.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 				vietinTrans.setLinkType(type.toString());
 				vietinTrans.setApiOperation(VietinConstants.VIETIN_TOKEN_REVOKE);
 				vietinTrans.setRequestId(requestBody.getRequestId());
@@ -237,15 +244,15 @@ public class VietinController {
 
 		LOGGER.info("== RequestID {} - Send TokenReissue Request to VIETIN", requestBody.getRequestId());
 		EwalletTransaction vietinTrans = new EwalletTransaction();
+		TokenReIssueResponse response = null;
 		try {
 			TokenRevokeReIssue requestMap = iVietinService.buildVietinTokenReIssue(requestBody, type.toString());
 			LOGGER.info("== RequestID {} - TokenReissue Request : " + requestMap, requestBody.getRequestId());
 
-			TokenReIssueResponse response = (TokenReIssueResponse) IHTTPRequestUtil.sendTokenReIssue(requestMap);
+			response = (TokenReIssueResponse) IHTTPRequestUtil.sendTokenReIssue(requestMap);
 			// Validate response from VTB
 			VietinConnResponse responseEntity = iVietinService.validateResponse(response, type.toString());
 			vietinTrans.setConnectorResult(responseEntity.getConnectorCode());
-			vietinTrans.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 			vietinTrans
 					.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), null) : null);
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -257,6 +264,8 @@ public class VietinController {
 		} finally {
 			try {
 				// Set data to transaction
+				vietinTrans
+						.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 				vietinTrans.setLinkType(type.toString());
 				vietinTrans.setApiOperation(VietinConstants.VIETIN_TOKEN_REISSUE);
 				vietinTrans.setRequestId(requestBody.getRequestId());
@@ -277,16 +286,16 @@ public class VietinController {
 
 		LOGGER.info("== RequestID {} - Send PaymentByToken Request to VIETIN", requestBody.getRequestId());
 		EwalletTransaction vietinTrans = new EwalletTransaction();
+		PaymentByTokenResponse response = null;
 		try {
 			PaymentByToken requestMap = iVietinService.buildVietinPaymentByToken(requestBody, type.toString());
 			LOGGER.info("== RequestID {} - PaymentByToken Request : " + requestMap, requestBody.getRequestId());
 
-			PaymentByTokenResponse response = (PaymentByTokenResponse) IHTTPRequestUtil.sendPaymentByToken(requestMap);
+			response = (PaymentByTokenResponse) IHTTPRequestUtil.sendPaymentByToken(requestMap);
 
 			// Validate response from VTB
 			VietinConnResponse responseEntity = iVietinService.validateResponse(response, type.toString());
 			vietinTrans.setConnectorResult(responseEntity.getConnectorCode());
-			vietinTrans.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 			vietinTrans
 					.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), null) : null);
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -298,6 +307,8 @@ public class VietinController {
 		} finally {
 			try {
 				// Set data to transaction
+				vietinTrans
+						.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 				vietinTrans.setLinkType(type.toString());
 				vietinTrans.setApiOperation(VietinConstants.VIETIN_PAY_BY_TOKEN);
 				vietinTrans.setRequestId(requestBody.getRequestId());
@@ -318,15 +329,15 @@ public class VietinController {
 
 		LOGGER.info("== RequestID {} - Send PaymentByOTP Request to VIETIN", requestBody.getRequestId());
 		EwalletTransaction vietinTrans = new EwalletTransaction();
+		PaymentByOTPResponse response = null;
 		try {
 			PaymentByOTP requestMap = iVietinService.buildVietinPaymentByOTP(requestBody, type.toString());
 			LOGGER.info("== RequestID {} - PaymentByOTP Request : " + requestMap, requestBody.getRequestId());
 
-			PaymentByOTPResponse response = (PaymentByOTPResponse) IHTTPRequestUtil.sendPaymentByOTP(requestMap);
+			response = (PaymentByOTPResponse) IHTTPRequestUtil.sendPaymentByOTP(requestMap);
 			// Validate response from VTB
 			VietinConnResponse responseEntity = iVietinService.validateResponse(response, type.toString());
 			vietinTrans.setConnectorResult(responseEntity.getConnectorCode());
-			vietinTrans.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 			vietinTrans
 					.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), null) : null);
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -338,6 +349,8 @@ public class VietinController {
 		} finally {
 			try {
 				// Set data to transaction
+				vietinTrans
+						.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 				vietinTrans.setLinkType(type.toString());
 				vietinTrans.setApiOperation(VietinConstants.VIETIN_PAY_BY_OTP);
 				vietinTrans.setRequestId(requestBody.getRequestId());
@@ -357,16 +370,16 @@ public class VietinController {
 
 		LOGGER.info("== RequestID {} - Send Withdraw Request to VIETIN", requestBody.getRequestId());
 		EwalletTransaction vietinTrans = new EwalletTransaction();
+		WithdrawResponse response = null;
 		try {
 			Withdraw requestMap = iVietinService.buildVietinWithdraw(requestBody, type.toString());
 			LOGGER.info("== RequestID {} - Withdraw Request : " + requestMap, requestBody.getRequestId());
 
-			WithdrawResponse response = (WithdrawResponse) IHTTPRequestUtil.sendWithdraw(requestMap);
+			response = (WithdrawResponse) IHTTPRequestUtil.sendWithdraw(requestMap);
 
 			// Validate response from VTB
 			VietinConnResponse responseEntity = iVietinService.validateResponse(response, type.toString());
 			vietinTrans.setConnectorResult(responseEntity.getConnectorCode());
-			vietinTrans.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 			vietinTrans
 					.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), null) : null);
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -378,6 +391,8 @@ public class VietinController {
 		} finally {
 			try {
 				// Set data to transaction
+				vietinTrans
+						.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 				vietinTrans.setLinkType(type.toString());
 				vietinTrans.setApiOperation(VietinConstants.VIETIN_WITHDRAW);
 				vietinTrans.setRequestId(requestBody.getRequestId());
@@ -398,16 +413,15 @@ public class VietinController {
 
 		LOGGER.info("== RequestID {} - Send TransactionInquiry Request to VIETIN", requestBody.getRequestId());
 		EwalletTransaction vietinTrans = new EwalletTransaction();
+		TransactionInquiryResponse response = null;
 		try {
 			TransactionInquiry requestMap = iVietinService.buildVietinTransactionInquiry(requestBody, type.toString());
 			LOGGER.info("== RequestID {} - TransactionInquiry Request : " + requestMap, requestBody.getRequestId());
 
-			TransactionInquiryResponse response = (TransactionInquiryResponse) IHTTPRequestUtil
-					.sendTransactionInquiry(requestMap);
+			response = (TransactionInquiryResponse) IHTTPRequestUtil.sendTransactionInquiry(requestMap);
 			// Validate response from VTB
 			VietinConnResponse responseEntity = iVietinService.validateResponse(response, type.toString());
 			vietinTrans.setConnectorResult(responseEntity.getConnectorCode());
-			vietinTrans.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 			vietinTrans
 					.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), null) : null);
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -419,6 +433,8 @@ public class VietinController {
 		} finally {
 			try {
 				// Set data to transaction
+				vietinTrans
+						.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 				vietinTrans.setLinkType(type.toString());
 				vietinTrans.setApiOperation(VietinConstants.VIETIN_TRANSACTION_INQUIRY);
 				vietinTrans.setRequestId(requestBody.getRequestId());
@@ -439,15 +455,15 @@ public class VietinController {
 
 		LOGGER.info("== RequestID {} - Send ProviderInquiry Request to VIETIN", requestBody.getRequestId());
 		EwalletTransaction vietinTrans = new EwalletTransaction();
+		Map<String, Object> response = null;
 		try {
 			ProviderInquiry requestMap = iVietinService.buildVietinProviderInquiry(requestBody);
 			LOGGER.info("== RequestID {} - ProviderInquiry Request : " + requestMap, requestBody.getRequestId());
 
-			Map<String, Object> response = IHTTPRequestUtil.sendProviderInquiry(requestMap);
+			response = IHTTPRequestUtil.sendProviderInquiry(requestMap);
 			// Validate response from VTB
 			VietinConnResponse responseEntity = iVietinService.validateResponse(response, null);
 			vietinTrans.setConnectorResult(responseEntity.getConnectorCode());
-			vietinTrans.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 			Map<String, Object> status = (Map<String, Object>) response.get("status");
 			vietinTrans.setVietinResult(response != null ? Objects.toString(status.get("code"), null) : null);
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -459,6 +475,7 @@ public class VietinController {
 		} finally {
 			try {
 				// Set data to transaction
+				vietinTrans.setVietinResponse(response);
 				vietinTrans.setApiOperation(VietinConstants.VIETIN_PROVIDER_INQUIRY);
 				vietinTrans.setRequestId(requestBody.getRequestId());
 				vietinTrans.setEwalletRequest(
@@ -478,16 +495,15 @@ public class VietinController {
 
 		LOGGER.info("== RequestID {} - Send TokenIssuePayment Request to VIETIN", requestBody.getRequestId());
 		EwalletTransaction vietinTrans = new EwalletTransaction();
+		TokenIssuePaymentResponse response = null;
 		try {
 			TokenIssuePayment requestMap = iVietinService.buildVietinTokenIssuerPayment(requestBody, type.toString());
 			LOGGER.info("== RequestID {} - TokenIssuePayment Request : " + requestMap, requestBody.getRequestId());
 
-			TokenIssuePaymentResponse response = (TokenIssuePaymentResponse) IHTTPRequestUtil
-					.sendTokenIssuePayment(requestMap);
+			response = (TokenIssuePaymentResponse) IHTTPRequestUtil.sendTokenIssuePayment(requestMap);
 			// Validate response from VTB
 			VietinConnResponse responseEntity = iVietinService.validateResponse(response, type.toString());
 			vietinTrans.setConnectorResult(responseEntity.getConnectorCode());
-			vietinTrans.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 			vietinTrans
 					.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), null) : null);
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -499,6 +515,8 @@ public class VietinController {
 		} finally {
 			try {
 				// Set data to transaction
+				vietinTrans
+						.setVietinResponse((Map<String, Object>) iVietinService.convertObject2Map(response, Map.class));
 				vietinTrans.setLinkType(type.toString());
 				vietinTrans.setApiOperation(VietinConstants.VIETIN_TOKEN_ISSUER_PAYMENT);
 				vietinTrans.setRequestId(requestBody.getRequestId());
