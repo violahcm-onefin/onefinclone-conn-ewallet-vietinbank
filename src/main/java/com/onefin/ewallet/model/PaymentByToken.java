@@ -18,7 +18,9 @@ public class PaymentByToken {
 	@NotEmpty(message = "Not empty")
 	private String tokenIssueDate;
 
-	private BigDecimal amount;
+	@Size(max = 31)
+	@NotEmpty(message = "Not empty")
+	private String amount;
 
 	@Size(max = 30)
 	private String currencyCode;

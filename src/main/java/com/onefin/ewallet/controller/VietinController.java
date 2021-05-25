@@ -1,5 +1,6 @@
 package com.onefin.ewallet.controller;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -399,7 +400,7 @@ public class VietinController extends AbstractBaseController {
 				vietinTrans.setApiOperation(VietinConstants.VTB_TOPUP_TOKEN);
 				vietinTrans.setLinkType(type.toString());
 				vietinTrans.setCurrency(requestBody.getCurrencyCode());
-				vietinTrans.setAmount(requestBody.getAmount());
+				vietinTrans.setAmount(new BigDecimal(requestBody.getAmount()));
 				vietinTrans.setTransDate(requestBody.getTransTime());
 				if (type.toString().equals(VietinConstants.LinkType.CARD.toString())) {
 					vietinTrans.setMerchantId(configLoader.getVietinMerchantIdCard());
@@ -462,7 +463,7 @@ public class VietinController extends AbstractBaseController {
 				vietinTrans.setApiOperation(VietinConstants.VTB_TOPUP_TOKEN_OTP);
 				vietinTrans.setLinkType(type.toString());
 				vietinTrans.setCurrency(requestBody.getCurrencyCode());
-				vietinTrans.setAmount(requestBody.getAmount());
+				vietinTrans.setAmount(new BigDecimal(requestBody.getAmount()));
 				vietinTrans.setTransDate(requestBody.getTransTime());
 				if (type.toString().equals(VietinConstants.LinkType.CARD.toString())) {
 					vietinTrans.setMerchantId(configLoader.getVietinMerchantIdCard());
@@ -517,7 +518,7 @@ public class VietinController extends AbstractBaseController {
 				vietinTrans.setApiOperation(VietinConstants.VTB_WITHDRAW);
 				vietinTrans.setLinkType(type.toString());
 				vietinTrans.setCurrency(requestBody.getCurrencyCode());
-				vietinTrans.setAmount(requestBody.getAmount());
+				vietinTrans.setAmount(new BigDecimal(requestBody.getAmount()));
 				vietinTrans.setTransDate(requestBody.getTransTime());
 				if (type.toString().equals(VietinConstants.LinkType.CARD.toString())) {
 					vietinTrans.setMerchantId(configLoader.getVietinMerchantIdCard());
@@ -631,7 +632,7 @@ public class VietinController extends AbstractBaseController {
 				vietinTrans.setApiOperation(VietinConstants.VTB_TOKEN_ISSUER_TOPUP);
 				vietinTrans.setLinkType(type.toString());
 				vietinTrans.setCurrency(requestBody.getCurrencyCode());
-				vietinTrans.setAmount(requestBody.getAmount());
+				vietinTrans.setAmount(new BigDecimal(requestBody.getAmount()));
 				vietinTrans.setTransDate(requestBody.getTransTime());
 				if (type.toString().equals(VietinConstants.LinkType.CARD.toString())) {
 					vietinTrans.setMerchantId(configLoader.getVietinMerchantIdCard());

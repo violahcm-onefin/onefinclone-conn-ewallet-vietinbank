@@ -22,7 +22,9 @@ public class TokenIssuePayment {
 	@NotEmpty(message = "Not empty")
 	private String cardHolderName;
 
-	private BigDecimal amount;
+	@Size(max = 31)
+	@NotEmpty(message = "Not empty")
+	private String amount;
 
 	@Size(max = 3)
 	@NotEmpty(message = "Not empty")
