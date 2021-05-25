@@ -40,7 +40,7 @@ public class VietinConstants extends OneFinConstants {
 	public static final String VTB_TOPUP_TOKEN = "TOPUP_TOKEN";
 	public static final String VTB_TOPUP_TOKEN_OTP = "TOPUP_TOKEN_OTP";
 	public static final String VTB_WITHDRAW = "WITHDRAW";
-	public static final String VTB_TOPUP_LINK = "TOPUP_LINK";
+	public static final String VTB_TOKEN_ISSUER_TOPUP = "TOKEN_ISSUER_TOPUP";
 
 	public enum LinkType {
 		CARD, ACCOUNT;

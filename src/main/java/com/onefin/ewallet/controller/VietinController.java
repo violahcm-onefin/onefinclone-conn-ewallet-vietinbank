@@ -628,7 +628,7 @@ public class VietinController extends AbstractBaseController {
 			try {
 				// Set data to transaction
 				vietinTrans.setRequestId(requestBody.getRequestId());
-				vietinTrans.setApiOperation(VietinConstants.VTB_TOPUP_LINK);
+				vietinTrans.setApiOperation(VietinConstants.VTB_TOKEN_ISSUER_TOPUP);
 				vietinTrans.setLinkType(type.toString());
 				vietinTrans.setCurrency(requestBody.getCurrencyCode());
 				vietinTrans.setAmount(requestBody.getAmount());
