@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
+import com.onefin.ewallet.common.base.service.IBaseService;
 import com.onefin.ewallet.model.EwalletTransaction;
 import com.onefin.ewallet.model.PaymentByOTP;
 import com.onefin.ewallet.model.PaymentByToken;
@@ -16,7 +17,6 @@ import com.onefin.ewallet.model.TransactionInquiry;
 import com.onefin.ewallet.model.VerifyPin;
 import com.onefin.ewallet.model.VietinConnResponse;
 import com.onefin.ewallet.model.Withdraw;
-import com.onefin.service.IBaseService;
 
 public interface IVietinService extends IBaseService {
 
@@ -63,5 +63,7 @@ public interface IVietinService extends IBaseService {
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
 
 	EwalletTransaction save(EwalletTransaction transData) throws Exception;
+
+	EwalletTransaction update(EwalletTransaction transData) throws Exception;
 
 }

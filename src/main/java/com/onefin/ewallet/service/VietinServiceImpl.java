@@ -14,10 +14,12 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.onefin.ewallet.common.EncryptUtil;
 import com.onefin.ewallet.common.VietinConstants;
+import com.onefin.ewallet.common.base.service.BaseService;
+import com.onefin.ewallet.common.utility.json.JSONHelper;
 import com.onefin.ewallet.model.EwalletTransaction;
 import com.onefin.ewallet.model.PaymentByOTP;
 import com.onefin.ewallet.model.PaymentByToken;
@@ -30,7 +32,6 @@ import com.onefin.ewallet.model.TransactionInquiry;
 import com.onefin.ewallet.model.VerifyPin;
 import com.onefin.ewallet.model.VietinConnResponse;
 import com.onefin.ewallet.model.Withdraw;
-import com.onefin.service.BaseService;
 
 @Service
 public class VietinServiceImpl extends BaseService implements IVietinService {
@@ -48,6 +49,10 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 
 	@Autowired
 	private EwalletTransactionRepository transRepository;
+
+	@Autowired
+	@Qualifier("jsonHelper")
+	private JSONHelper JsonHelper;
 
 	@Override
 	public TokenIssue buildVietinTokenIssuer(TokenIssue data, String linkType)
@@ -321,12 +326,12 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 	public VietinConnResponse validateResponse(Object data, String type) {
 		// Check response
 		if (data == null) {
-			LOGGER.error("== Failure response from VIETIN!");
+			LOGGER.error("== Failure response from Vietin!!!");
 			return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_ERROR_RESPONSE, data, type);
 		}
 
 		try {
-			Map<String, Object> mapData = (Map<String, Object>) super.convertObject2Map(data, HashMap.class);
+			Map<String, Object> mapData = (Map<String, Object>) JsonHelper.convertObject2Map(data, HashMap.class);
 			String requestId = Objects.toString(mapData.get(VietinConstants.VTB_REQUESTID), "");
 			String providerId = Objects.toString(mapData.get(VietinConstants.VTB_PROVIDERID), "");
 			String merchantId = Objects.toString(mapData.get(VietinConstants.VTB_MERCHANTID), "");
@@ -337,7 +342,7 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 				code = Objects.toString(status.get(VietinConstants.VTB_CODE), "");
 			}
 			if (!isValidMessage(requestId, providerId, merchantId, signature)) {
-				LOGGER.error("== Invalid response from VIETIN!");
+				LOGGER.error("== Invalid response from Vietin!!!");
 				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_RESPONSE, data, type);
 			}
 
@@ -356,7 +361,7 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 
 			// validate signature
 			if (!verifySignature(requestId + providerId + merchantId + code, signature)) {
-				LOGGER.error("== Verify signature fail");
+				LOGGER.error("== Verify signature fail!!!");
 				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_SIG, data, type);
 			}
 
@@ -364,7 +369,7 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 			return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_CONNECTOR_SUCCESS, data, type);
 
 		} catch (Exception e) {
-			LOGGER.error("== Validate response from VIETIN error!!!", e);
+			LOGGER.error("== Validate response from Vietin error!!!", e);
 			return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_VALIDATION_FUNCTION_FAIL, data, type);
 
 		}
@@ -373,6 +378,13 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 	@Override
 	public EwalletTransaction save(EwalletTransaction transData) throws Exception {
 		transData.setCreatedDate(new Date(System.currentTimeMillis()));
+		transData.setUpdatedDate(new Date(System.currentTimeMillis()));
+		return transRepository.save(transData);
+	}
+
+	@Override
+	public EwalletTransaction update(EwalletTransaction transData) throws Exception {
+		transData.setUpdatedDate(new Date(System.currentTimeMillis()));
 		return transRepository.save(transData);
 	}
 

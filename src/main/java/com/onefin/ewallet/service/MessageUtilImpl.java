@@ -6,13 +6,16 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.onefin.ewallet.common.VietinConstants;
+import com.onefin.ewallet.common.base.service.ConnMessageService;
+import com.onefin.ewallet.common.utility.json.JSONHelper;
 import com.onefin.ewallet.model.VietinConnResponse;
 
 @Service
-public class MessageUtilImpl implements IMessageUtil {
+public class MessageUtilImpl extends ConnMessageService implements IMessageUtil {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(MessageUtilImpl.class);
 
@@ -20,25 +23,30 @@ public class MessageUtilImpl implements IMessageUtil {
 	private ConfigLoader configLoader;
 
 	@Autowired
-	public IVietinService iVietinService;
+	@Qualifier("jsonHelper")
+	private JSONHelper JsonHelper;
 
 	@Override
-	public VietinConnResponse buildVietinConnectorResponse(String connectorCode, Object vtbRes, String type) {
+	protected Object buildConnectorInvalidRequestbody(String code, Object data, String... args) {
+		return buildVietinConnectorResponse(code, data, args);
+	}
+
+	@Override
+	public VietinConnResponse buildVietinConnectorResponse(String code, Object data, String... args) {
 		Map<String, Object> res = new HashMap();
-		if (vtbRes != null) {
+		if (data != null) {
 			try {
-				res = (Map<String, Object>) iVietinService.convertObject2Map(vtbRes, Map.class);
+				res = (Map<String, Object>) JsonHelper.convertObject2Map(data, Map.class);
 				res.remove(VietinConstants.VTB_SIGNATURE);
 			} catch (Exception e) {
-				LOGGER.error("Fail to parse vietin response to Map");
+				LOGGER.error("== Fail to parse Vietin response to Map");
 			}
-
 		}
 		VietinConnResponse response = new VietinConnResponse();
-		response.setConnectorCode(connectorCode);
+		response.setConnectorCode(code);
 		response.setVtbResponse(res);
 		response.setVersion(configLoader.getVietinVersion());
-		response.setType(type);
+		response.setType(args != null ? args[0] : null);
 		return response;
 	}
 

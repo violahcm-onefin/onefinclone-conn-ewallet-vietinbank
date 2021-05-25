@@ -3,40 +3,27 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
-	<parent>
-		<groupId>com.onefin.pom</groupId>
-		<artifactId>onefin-pom</artifactId>
-		<version>1.0.1</version>
-	</parent>
-
 	<groupId>com.onefin.bank</groupId>
 	<artifactId>conn-ewallet-vietinbank</artifactId>
 	<version>1.0.0</version>
 	<name>Connector Ewallet VietinBank</name>
 	<description>Connector Ewallet VietinBank</description>
+
+	<parent>
+		<groupId>com.onefin.ewallet</groupId>
+		<artifactId>conn-ewallet-common</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
 	<properties>
 		<java.version>1.8</java.version>
-		<onefin-common.version>1.0.0</onefin-common.version>
+		<common-base.version>1.0.0</common-base.version>
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>com.onefin.common</groupId>
-			<artifactId>onefin-common</artifactId>
-			<version>${onefin-common.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.mariadb.jdbc</groupId>
-			<artifactId>mariadb-java-client</artifactId>
-			<version>2.7.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-validation</artifactId>
+			<groupId>com.onefin.ewallet</groupId>
+			<artifactId>common-base</artifactId>
+			<version>${common-base.version}</version>
 		</dependency>
 	</dependencies>
 	<build>
@@ -47,6 +34,9 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<skipTests>true</skipTests>
+					<encoding>UTF-8</encoding>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
 				</configuration>
 			</plugin>
 		</plugins>

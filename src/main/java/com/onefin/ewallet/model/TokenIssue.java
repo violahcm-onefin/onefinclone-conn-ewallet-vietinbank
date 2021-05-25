@@ -25,9 +25,11 @@ public class TokenIssue {
 	private String providerCustId;
 
 	@Size(max = 30)
+	@NotEmpty(message = "Not empty")
 	private String custPhoneNo;
 
 	@Size(max = 30)
+	@NotEmpty(message = "Not empty")
 	private String custIDNo;
 
 	@Size(max = 16)

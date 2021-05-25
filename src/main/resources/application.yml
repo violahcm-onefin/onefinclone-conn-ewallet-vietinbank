@@ -15,7 +15,7 @@ spring:
 
 vietin:
   onefinPrivateKey: E:\OneFin\source_code\conn-ewallet-vietinbank\src\main\resources\keys\onefin-privatekey-uat-vietin.der
-  vtbPublicKey: E:\OneFin\source_code\conn-ewallet-vietinbank\src\main\resources\keys\Vietinbank_publicKey.pem
+  vtbPublicKey: E:\OneFin\source_code\conn-ewallet-vietinbank\src\main\resources\keys\Vietinbank_ITC2020.cer1
   version: 1.0
   merchantIdCard: 7001
   merchantIdAccount: 7002
@@ -34,9 +34,20 @@ vietin:
     transactionInquiry: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/transactionInquiry
     providerInquiry: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/providerInquiry
     tokenIssuePayment: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/tokenIssuer-payment
+  alwaysTopupOTP: false
+    
+proxy:
+  active: true
+  host: 172.16.14.101
+  port: 3128
+  activeAuth: false
+  userName:
+  password:
     
 logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
   level:
     root: info
+    org:
+      hibernate: ERROR

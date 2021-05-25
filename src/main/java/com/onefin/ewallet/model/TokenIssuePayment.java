@@ -1,5 +1,7 @@
 package com.onefin.ewallet.model;
 
+import java.math.BigDecimal;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
@@ -20,9 +22,7 @@ public class TokenIssuePayment {
 	@NotEmpty(message = "Not empty")
 	private String cardHolderName;
 
-	@Size(max = 20)
-	@NotEmpty(message = "Not empty")
-	private String amount;
+	private BigDecimal amount;
 
 	@Size(max = 3)
 	@NotEmpty(message = "Not empty")
@@ -33,9 +33,11 @@ public class TokenIssuePayment {
 	private String providerCustId;
 
 	@Size(max = 30)
+	@NotEmpty(message = "Not empty")
 	private String custPhoneNo;
 
 	@Size(max = 30)
+	@NotEmpty(message = "Not empty")
 	private String custIDNo;
 
 	@Size(max = 16)
@@ -58,7 +60,7 @@ public class TokenIssuePayment {
 
 	@Size(max = 30)
 	private String mac;
-	
+
 	private String providerId;
 
 	private String merchantId;

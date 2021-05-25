@@ -1,21 +1,21 @@
 package com.onefin.ewallet.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.onefin.ewallet.common.utility.resttemplate.RestTemplateHelper;
 import com.onefin.ewallet.model.PaymentByOTP;
 import com.onefin.ewallet.model.PaymentByOTPResponse;
 import com.onefin.ewallet.model.PaymentByToken;
@@ -43,34 +43,40 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(HTTPRequestUtilImpl.class);
 
+	private static final String ibmClientId = "x-ibm-client-id";
+
+	private static final String xIbmClientSecret = "x-ibm-client-secret";
+
 	@Autowired
 	private ConfigLoader configLoader;
+
+	@Autowired
+	protected RestTemplateHelper restTemplateHelper;
 
 	@Override
 	public TokenIssueResponse sendTokenIssue(TokenIssue data) throws Exception {
 		String url = configLoader.getTokenIssue();
-		LOGGER.info("== Send request to VIETIN {} ", url);
+		LOGGER.info("== Send TokenIssue request to Vietin {} - url: {}", data, url);
 		HttpHeaders headers = new HttpHeaders();
-		headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+		headers.setAccept(Collections.singletonList(MediaType.ALL));
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.add("x-ibm-client-id", configLoader.getIbmClientId());
-		headers.add("x-ibm-client-secret", configLoader.getXIbmClientSecret());
-		RestTemplate restTemplate = new RestTemplate();
-		HttpEntity entity = new HttpEntity(data, headers);
-		ResponseEntity<String> resp = null;
-		try {
-			resp = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-		} catch (Exception e) {
-			LOGGER.error("== Error response from VIETIN!!!", e);
-			return null;
+		headers.add(ibmClientId, configLoader.getIbmClientId());
+		headers.add(xIbmClientSecret, configLoader.getXIbmClientSecret());
+		HashMap<String, String> headersMap = new HashMap<String, String>();
+		for (String header : headers.keySet()) {
+			headersMap.put(header, headers.getFirst(header));
 		}
+		HashMap<String, String> urlParameters = new HashMap<>();
+		List<String> pathVariables = new ArrayList<String>();
 		try {
-			ObjectMapper mapper = new ObjectMapper();
-			LOGGER.info("== Response - " + resp.getBody());
-			return mapper.readValue(resp.getBody(), TokenIssueResponse.class);
-
+			ResponseEntity<TokenIssueResponse> responseEntity = restTemplateHelper.post(url,
+					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
+					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<TokenIssueResponse>() {
+					});
+			LOGGER.info("== Success receive response from Vietin");
+			return responseEntity.getBody();
 		} catch (Exception e) {
-			LOGGER.error("== Can't parse result from VIETIN!!!", e);
+			LOGGER.error("== Error response from Vietin!!!", e);
 			return null;
 		}
 	}
@@ -78,28 +84,27 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 	@Override
 	public RegisterOnlinePayResponse sendRegisterOnlinePay(RegisterOnlinePay data) throws Exception {
 		String url = configLoader.getRegisterOnlinePay();
-		LOGGER.info("== Send request to VIETIN {} ", url);
+		LOGGER.info("== Send RegisterOnlinePay request to Vietin {} - url: {}", data, url);
 		HttpHeaders headers = new HttpHeaders();
-		headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+		headers.setAccept(Collections.singletonList(MediaType.ALL));
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.add("x-ibm-client-id", configLoader.getIbmClientId());
-		headers.add("x-ibm-client-secret", configLoader.getXIbmClientSecret());
-		RestTemplate restTemplate = new RestTemplate();
-		HttpEntity entity = new HttpEntity(data, headers);
-		ResponseEntity<String> resp = null;
-		try {
-			resp = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-		} catch (Exception e) {
-			LOGGER.error("== Error response from VIETIN!!!", e);
-			return null;
+		headers.add(ibmClientId, configLoader.getIbmClientId());
+		headers.add(xIbmClientSecret, configLoader.getXIbmClientSecret());
+		HashMap<String, String> headersMap = new HashMap<String, String>();
+		for (String header : headers.keySet()) {
+			headersMap.put(header, headers.getFirst(header));
 		}
+		HashMap<String, String> urlParameters = new HashMap<>();
+		List<String> pathVariables = new ArrayList<String>();
 		try {
-			ObjectMapper mapper = new ObjectMapper();
-			LOGGER.info("== Response - " + resp.getBody());
-			return mapper.readValue(resp.getBody(), RegisterOnlinePayResponse.class);
-
+			ResponseEntity<RegisterOnlinePayResponse> responseEntity = restTemplateHelper.post(url,
+					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
+					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<RegisterOnlinePayResponse>() {
+					});
+			LOGGER.info("== Success receive response from Vietin");
+			return responseEntity.getBody();
 		} catch (Exception e) {
-			LOGGER.error("== Can't parse result from VIETIN!!!", e);
+			LOGGER.error("== Error response from Vietin!!!", e);
 			return null;
 		}
 	}
@@ -107,28 +112,27 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 	@Override
 	public VerifyPinResponse sendVerifyPin(VerifyPin data) throws Exception {
 		String url = configLoader.getVerifyPin();
-		LOGGER.info("== Send request to VIETIN {} ", url);
+		LOGGER.info("== Send VerifyPin request to Vietin {} - url: {}", data, url);
 		HttpHeaders headers = new HttpHeaders();
-		headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+		headers.setAccept(Collections.singletonList(MediaType.ALL));
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.add("x-ibm-client-id", configLoader.getIbmClientId());
-		headers.add("x-ibm-client-secret", configLoader.getXIbmClientSecret());
-		RestTemplate restTemplate = new RestTemplate();
-		HttpEntity entity = new HttpEntity(data, headers);
-		ResponseEntity<String> resp = null;
-		try {
-			resp = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-		} catch (Exception e) {
-			LOGGER.error("== Error response from VIETIN!!!", e);
-			return null;
+		headers.add(ibmClientId, configLoader.getIbmClientId());
+		headers.add(xIbmClientSecret, configLoader.getXIbmClientSecret());
+		HashMap<String, String> headersMap = new HashMap<String, String>();
+		for (String header : headers.keySet()) {
+			headersMap.put(header, headers.getFirst(header));
 		}
+		HashMap<String, String> urlParameters = new HashMap<>();
+		List<String> pathVariables = new ArrayList<String>();
 		try {
-			ObjectMapper mapper = new ObjectMapper();
-			LOGGER.info("== Response - " + resp.getBody());
-			return mapper.readValue(resp.getBody(), VerifyPinResponse.class);
-
+			ResponseEntity<VerifyPinResponse> responseEntity = restTemplateHelper.post(url,
+					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
+					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<VerifyPinResponse>() {
+					});
+			LOGGER.info("== Success receive response from Vietin");
+			return responseEntity.getBody();
 		} catch (Exception e) {
-			LOGGER.error("== Can't parse result from VIETIN!!!", e);
+			LOGGER.error("== Error response from Vietin!!!", e);
 			return null;
 		}
 	}
@@ -136,28 +140,27 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 	@Override
 	public TokenRevokeResponse sendTokenRevoke(TokenRevokeReIssue data) throws Exception {
 		String url = configLoader.getTokenRevoke();
-		LOGGER.info("== Send request to VIETIN {} ", url);
+		LOGGER.info("== Send TokenRevoke request to Vietin {} - url: {}", data, url);
 		HttpHeaders headers = new HttpHeaders();
-		headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+		headers.setAccept(Collections.singletonList(MediaType.ALL));
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.add("x-ibm-client-id", configLoader.getIbmClientId());
-		headers.add("x-ibm-client-secret", configLoader.getXIbmClientSecret());
-		RestTemplate restTemplate = new RestTemplate();
-		HttpEntity entity = new HttpEntity(data, headers);
-		ResponseEntity<String> resp = null;
-		try {
-			resp = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-		} catch (Exception e) {
-			LOGGER.error("== Error response from VIETIN!!!", e);
-			return null;
+		headers.add(ibmClientId, configLoader.getIbmClientId());
+		headers.add(xIbmClientSecret, configLoader.getXIbmClientSecret());
+		HashMap<String, String> headersMap = new HashMap<String, String>();
+		for (String header : headers.keySet()) {
+			headersMap.put(header, headers.getFirst(header));
 		}
+		HashMap<String, String> urlParameters = new HashMap<>();
+		List<String> pathVariables = new ArrayList<String>();
 		try {
-			ObjectMapper mapper = new ObjectMapper();
-			LOGGER.info("== Response - " + resp.getBody());
-			return mapper.readValue(resp.getBody(), TokenRevokeResponse.class);
-
+			ResponseEntity<TokenRevokeResponse> responseEntity = restTemplateHelper.post(url,
+					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
+					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<TokenRevokeResponse>() {
+					});
+			LOGGER.info("== Success receive response from Vietin");
+			return responseEntity.getBody();
 		} catch (Exception e) {
-			LOGGER.error("== Can't parse result from VIETIN!!!", e);
+			LOGGER.error("== Error response from Vietin!!!", e);
 			return null;
 		}
 	}
@@ -165,28 +168,27 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 	@Override
 	public TokenReIssueResponse sendTokenReIssue(TokenRevokeReIssue data) throws Exception {
 		String url = configLoader.getTokenReissue();
-		LOGGER.info("== Send request to VIETIN {} ", url);
+		LOGGER.info("== Send TokenReIssue request to Vietin {} - url: {}", data, url);
 		HttpHeaders headers = new HttpHeaders();
-		headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+		headers.setAccept(Collections.singletonList(MediaType.ALL));
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.add("x-ibm-client-id", configLoader.getIbmClientId());
-		headers.add("x-ibm-client-secret", configLoader.getXIbmClientSecret());
-		RestTemplate restTemplate = new RestTemplate();
-		HttpEntity entity = new HttpEntity(data, headers);
-		ResponseEntity<String> resp = null;
-		try {
-			resp = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-		} catch (Exception e) {
-			LOGGER.error("== Error response from VIETIN!!!", e);
-			return null;
+		headers.add(ibmClientId, configLoader.getIbmClientId());
+		headers.add(xIbmClientSecret, configLoader.getXIbmClientSecret());
+		HashMap<String, String> headersMap = new HashMap<String, String>();
+		for (String header : headers.keySet()) {
+			headersMap.put(header, headers.getFirst(header));
 		}
+		HashMap<String, String> urlParameters = new HashMap<>();
+		List<String> pathVariables = new ArrayList<String>();
 		try {
-			ObjectMapper mapper = new ObjectMapper();
-			LOGGER.info("== Response - " + resp.getBody());
-			return mapper.readValue(resp.getBody(), TokenReIssueResponse.class);
-
+			ResponseEntity<TokenReIssueResponse> responseEntity = restTemplateHelper.post(url,
+					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
+					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<TokenReIssueResponse>() {
+					});
+			LOGGER.info("== Success receive response from Vietin");
+			return responseEntity.getBody();
 		} catch (Exception e) {
-			LOGGER.error("== Can't parse result from VIETIN!!!", e);
+			LOGGER.error("== Error response from Vietin!!!", e);
 			return null;
 		}
 	}
@@ -194,28 +196,27 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 	@Override
 	public PaymentByTokenResponse sendPaymentByToken(PaymentByToken data) throws Exception {
 		String url = configLoader.getPaymentByToken();
-		LOGGER.info("== Send request to VIETIN {} ", url);
+		LOGGER.info("== Send PaymentByToken request to Vietin {} - url: {}", data, url);
 		HttpHeaders headers = new HttpHeaders();
-		headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+		headers.setAccept(Collections.singletonList(MediaType.ALL));
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.add("x-ibm-client-id", configLoader.getIbmClientId());
-		headers.add("x-ibm-client-secret", configLoader.getXIbmClientSecret());
-		RestTemplate restTemplate = new RestTemplate();
-		HttpEntity entity = new HttpEntity(data, headers);
-		ResponseEntity<String> resp = null;
-		try {
-			resp = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-		} catch (Exception e) {
-			LOGGER.error("== Error response from VIETIN!!!", e);
-			return null;
+		headers.add(ibmClientId, configLoader.getIbmClientId());
+		headers.add(xIbmClientSecret, configLoader.getXIbmClientSecret());
+		HashMap<String, String> headersMap = new HashMap<String, String>();
+		for (String header : headers.keySet()) {
+			headersMap.put(header, headers.getFirst(header));
 		}
+		HashMap<String, String> urlParameters = new HashMap<>();
+		List<String> pathVariables = new ArrayList<String>();
 		try {
-			ObjectMapper mapper = new ObjectMapper();
-			LOGGER.info("== Response - " + resp.getBody());
-			return mapper.readValue(resp.getBody(), PaymentByTokenResponse.class);
-
+			ResponseEntity<PaymentByTokenResponse> responseEntity = restTemplateHelper.post(url,
+					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
+					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<PaymentByTokenResponse>() {
+					});
+			LOGGER.info("== Success receive response from Vietin");
+			return responseEntity.getBody();
 		} catch (Exception e) {
-			LOGGER.error("== Can't parse result from VIETIN!!!", e);
+			LOGGER.error("== Error response from Vietin!!!", e);
 			return null;
 		}
 	}
@@ -223,28 +224,27 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 	@Override
 	public PaymentByOTPResponse sendPaymentByOTP(PaymentByOTP data) throws Exception {
 		String url = configLoader.getPaymentByOTP();
-		LOGGER.info("== Send request to VIETIN {} ", url);
+		LOGGER.info("== Send PaymentByOTP request to Vietin {} - url: {}", data, url);
 		HttpHeaders headers = new HttpHeaders();
-		headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+		headers.setAccept(Collections.singletonList(MediaType.ALL));
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.add("x-ibm-client-id", configLoader.getIbmClientId());
-		headers.add("x-ibm-client-secret", configLoader.getXIbmClientSecret());
-		RestTemplate restTemplate = new RestTemplate();
-		HttpEntity entity = new HttpEntity(data, headers);
-		ResponseEntity<String> resp = null;
-		try {
-			resp = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-		} catch (Exception e) {
-			LOGGER.error("== Error response from VIETIN!!!", e);
-			return null;
+		headers.add(ibmClientId, configLoader.getIbmClientId());
+		headers.add(xIbmClientSecret, configLoader.getXIbmClientSecret());
+		HashMap<String, String> headersMap = new HashMap<String, String>();
+		for (String header : headers.keySet()) {
+			headersMap.put(header, headers.getFirst(header));
 		}
+		HashMap<String, String> urlParameters = new HashMap<>();
+		List<String> pathVariables = new ArrayList<String>();
 		try {
-			ObjectMapper mapper = new ObjectMapper();
-			LOGGER.info("== Response - " + resp.getBody());
-			return mapper.readValue(resp.getBody(), PaymentByOTPResponse.class);
-
+			ResponseEntity<PaymentByOTPResponse> responseEntity = restTemplateHelper.post(url,
+					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
+					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<PaymentByOTPResponse>() {
+					});
+			LOGGER.info("== Success receive response from Vietin");
+			return responseEntity.getBody();
 		} catch (Exception e) {
-			LOGGER.error("== Can't parse result from VIETIN!!!", e);
+			LOGGER.error("== Error response from Vietin!!!", e);
 			return null;
 		}
 	}
@@ -252,28 +252,27 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 	@Override
 	public WithdrawResponse sendWithdraw(Withdraw data) throws Exception {
 		String url = configLoader.getWidthdraw();
-		LOGGER.info("== Send request to VIETIN {} ", url);
+		LOGGER.info("== Send Withdraw request to Vietin {} - url: {}", data, url);
 		HttpHeaders headers = new HttpHeaders();
-		headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+		headers.setAccept(Collections.singletonList(MediaType.ALL));
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.add("x-ibm-client-id", configLoader.getIbmClientId());
-		headers.add("x-ibm-client-secret", configLoader.getXIbmClientSecret());
-		RestTemplate restTemplate = new RestTemplate();
-		HttpEntity entity = new HttpEntity(data, headers);
-		ResponseEntity<String> resp = null;
-		try {
-			resp = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-		} catch (Exception e) {
-			LOGGER.error("== Error response from VIETIN!!!", e);
-			return null;
+		headers.add(ibmClientId, configLoader.getIbmClientId());
+		headers.add(xIbmClientSecret, configLoader.getXIbmClientSecret());
+		HashMap<String, String> headersMap = new HashMap<String, String>();
+		for (String header : headers.keySet()) {
+			headersMap.put(header, headers.getFirst(header));
 		}
+		HashMap<String, String> urlParameters = new HashMap<>();
+		List<String> pathVariables = new ArrayList<String>();
 		try {
-			ObjectMapper mapper = new ObjectMapper();
-			LOGGER.info("== Response - " + resp.getBody());
-			return mapper.readValue(resp.getBody(), WithdrawResponse.class);
-
+			ResponseEntity<WithdrawResponse> responseEntity = restTemplateHelper.post(url,
+					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
+					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<WithdrawResponse>() {
+					});
+			LOGGER.info("== Success receive response from Vietin");
+			return responseEntity.getBody();
 		} catch (Exception e) {
-			LOGGER.error("== Can't parse result from VIETIN!!!", e);
+			LOGGER.error("== Error response from Vietin!!!", e);
 			return null;
 		}
 	}
@@ -281,28 +280,27 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 	@Override
 	public TransactionInquiryResponse sendTransactionInquiry(TransactionInquiry data) throws Exception {
 		String url = configLoader.getTransactionInquiry();
-		LOGGER.info("== Send request to VIETIN {} ", url);
+		LOGGER.info("== Send TransactionInquiry request to Vietin {} - url: {}", data, url);
 		HttpHeaders headers = new HttpHeaders();
-		headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+		headers.setAccept(Collections.singletonList(MediaType.ALL));
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.add("x-ibm-client-id", configLoader.getIbmClientId());
-		headers.add("x-ibm-client-secret", configLoader.getXIbmClientSecret());
-		RestTemplate restTemplate = new RestTemplate();
-		HttpEntity entity = new HttpEntity(data, headers);
-		ResponseEntity<String> resp = null;
-		try {
-			resp = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-		} catch (Exception e) {
-			LOGGER.error("== Error response from VIETIN!!!", e);
-			return null;
+		headers.add(ibmClientId, configLoader.getIbmClientId());
+		headers.add(xIbmClientSecret, configLoader.getXIbmClientSecret());
+		HashMap<String, String> headersMap = new HashMap<String, String>();
+		for (String header : headers.keySet()) {
+			headersMap.put(header, headers.getFirst(header));
 		}
+		HashMap<String, String> urlParameters = new HashMap<>();
+		List<String> pathVariables = new ArrayList<String>();
 		try {
-			ObjectMapper mapper = new ObjectMapper();
-			LOGGER.info("== Response - " + resp.getBody());
-			return mapper.readValue(resp.getBody(), TransactionInquiryResponse.class);
-
+			ResponseEntity<TransactionInquiryResponse> responseEntity = restTemplateHelper.post(url,
+					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
+					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<TransactionInquiryResponse>() {
+					});
+			LOGGER.info("== Success receive response from Vietin");
+			return responseEntity.getBody();
 		} catch (Exception e) {
-			LOGGER.error("== Can't parse result from VIETIN!!!", e);
+			LOGGER.error("== Error response from Vietin!!!", e);
 			return null;
 		}
 	}
@@ -310,35 +308,40 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 	@Override
 	public Map<String, Object> sendProviderInquiry(ProviderInquiry data) throws Exception {
 		String url = configLoader.getProviderInquiry();
-		LOGGER.info("== Send request to VIETIN {} ", url);
+		LOGGER.info("== Send ProviderInquiry request to Vietin {} - url: {}", data, url);
 		HttpHeaders headers = new HttpHeaders();
-		headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+		headers.setAccept(Collections.singletonList(MediaType.ALL));
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.add("x-ibm-client-id", configLoader.getIbmClientId());
-		headers.add("x-ibm-client-secret", configLoader.getXIbmClientSecret());
-		RestTemplate restTemplate = new RestTemplate();
-		HttpEntity entity = new HttpEntity(data, headers);
-		ResponseEntity<String> resp = null;
-		try {
-			resp = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-		} catch (Exception e) {
-			LOGGER.error("== Error response from VIETIN!!!", e);
-			return null;
+		headers.add(ibmClientId, configLoader.getIbmClientId());
+		headers.add(xIbmClientSecret, configLoader.getXIbmClientSecret());
+		HashMap<String, String> headersMap = new HashMap<String, String>();
+		for (String header : headers.keySet()) {
+			headersMap.put(header, headers.getFirst(header));
 		}
+		HashMap<String, String> urlParameters = new HashMap<>();
+		List<String> pathVariables = new ArrayList<String>();
 		try {
-			ObjectMapper mapper = new ObjectMapper();
-			LOGGER.info("== Response - " + resp.getBody());
-			ProviderInquiryResponse tmp = mapper.readValue(resp.getBody(), ProviderInquiryResponse.class);
-			Map<String, Object> response = new HashMap();
-			response.put("signature", tmp.getSignature());
-			response.put("providerId", tmp.getProviderId());
-			response.put("merchantId", tmp.getMerchantId());
-			response.put("requestId", tmp.getRequestId());
-			response.put("status", tmp.getStatus());
-			response.put("balances", tmp.getBalances().get(0));
-			return response;
+			ResponseEntity<ProviderInquiryResponse> responseEntity = restTemplateHelper.post(url,
+					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
+					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<ProviderInquiryResponse>() {
+					});
+			LOGGER.info("== Success receive response from Vietin");
+			ProviderInquiryResponse tmp = responseEntity.getBody();
+			try {
+				Map<String, Object> response = new HashMap<String, Object>();
+				response.put("signature", tmp.getSignature());
+				response.put("providerId", tmp.getProviderId());
+				response.put("merchantId", tmp.getMerchantId());
+				response.put("requestId", tmp.getRequestId());
+				response.put("status", tmp.getStatus());
+				response.put("balances", tmp.getBalances().get(0));
+				return response;
+			} catch (Exception e) {
+				LOGGER.error("== Can't parse result from Vietin!!!", e);
+				return null;
+			}
 		} catch (Exception e) {
-			LOGGER.error("== Can't parse result from VIETIN!!!", e);
+			LOGGER.error("== Error response from Vietin!!!", e);
 			return null;
 		}
 	}
@@ -346,28 +349,27 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 	@Override
 	public TokenIssuePaymentResponse sendTokenIssuePayment(TokenIssuePayment data) throws Exception {
 		String url = configLoader.getTokenIssuePayment();
-		LOGGER.info("== Send request to VIETIN {} ", url);
+		LOGGER.info("== Send TokenIssuePayment request to Vietin {} - url: {}", data, url);
 		HttpHeaders headers = new HttpHeaders();
-		headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+		headers.setAccept(Collections.singletonList(MediaType.ALL));
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.add("x-ibm-client-id", configLoader.getIbmClientId());
-		headers.add("x-ibm-client-secret", configLoader.getXIbmClientSecret());
-		RestTemplate restTemplate = new RestTemplate();
-		HttpEntity entity = new HttpEntity(data, headers);
-		ResponseEntity<String> resp = null;
-		try {
-			resp = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-		} catch (Exception e) {
-			LOGGER.error("== Error response from VIETIN!!!", e);
-			return null;
+		headers.add(ibmClientId, configLoader.getIbmClientId());
+		headers.add(xIbmClientSecret, configLoader.getXIbmClientSecret());
+		HashMap<String, String> headersMap = new HashMap<String, String>();
+		for (String header : headers.keySet()) {
+			headersMap.put(header, headers.getFirst(header));
 		}
+		HashMap<String, String> urlParameters = new HashMap<>();
+		List<String> pathVariables = new ArrayList<String>();
 		try {
-			ObjectMapper mapper = new ObjectMapper();
-			LOGGER.info("== Response - " + resp.getBody());
-			return mapper.readValue(resp.getBody(), TokenIssuePaymentResponse.class);
-
+			ResponseEntity<TokenIssuePaymentResponse> responseEntity = restTemplateHelper.post(url,
+					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
+					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<TokenIssuePaymentResponse>() {
+					});
+			LOGGER.info("== Success receive response from Vietin");
+			return responseEntity.getBody();
 		} catch (Exception e) {
-			LOGGER.error("== Can't parse result from VIETIN!!!", e);
+			LOGGER.error("== Error response from Vietin!!!", e);
 			return null;
 		}
 	}

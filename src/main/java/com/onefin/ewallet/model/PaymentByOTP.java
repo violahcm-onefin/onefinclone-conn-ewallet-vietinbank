@@ -1,5 +1,7 @@
 package com.onefin.ewallet.model;
 
+import java.math.BigDecimal;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
@@ -16,9 +18,7 @@ public class PaymentByOTP {
 	@NotEmpty(message = "Not empty")
 	private String tokenIssueDate;
 
-	@Size(max = 30)
-	@NotEmpty(message = "Not empty")
-	private String amount;
+	private BigDecimal amount;
 
 	@Size(max = 30)
 	private String currencyCode;
