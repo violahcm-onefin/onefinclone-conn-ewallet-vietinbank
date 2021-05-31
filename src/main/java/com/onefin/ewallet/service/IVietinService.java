@@ -5,7 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 import com.onefin.ewallet.common.base.service.IBaseService;
-import com.onefin.ewallet.model.EwalletTransaction;
+import com.onefin.ewallet.common.domain.vietin.VietinEwalletTransaction;
 import com.onefin.ewallet.model.PaymentByOTP;
 import com.onefin.ewallet.model.PaymentByToken;
 import com.onefin.ewallet.model.ProviderInquiry;
@@ -62,8 +62,8 @@ public interface IVietinService extends IBaseService {
 	TokenIssuePayment buildVietinTokenIssuerPayment(TokenIssuePayment model, String linkType)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
 
-	EwalletTransaction save(EwalletTransaction transData) throws Exception;
+	VietinEwalletTransaction save(VietinEwalletTransaction transData) throws Exception;
 
-	EwalletTransaction update(EwalletTransaction transData) throws Exception;
+	VietinEwalletTransaction update(VietinEwalletTransaction transData) throws Exception;
 
 }

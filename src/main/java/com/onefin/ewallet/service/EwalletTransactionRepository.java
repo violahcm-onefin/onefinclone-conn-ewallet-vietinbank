@@ -1,15 +1,14 @@
 package com.onefin.ewallet.service;
 
-import java.util.UUID;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import com.onefin.ewallet.common.base.repository.mariadb.IBaseTransactionRepository;
+import com.onefin.ewallet.common.domain.vietin.VietinEwalletTransaction;
 
-import com.onefin.ewallet.model.EwalletTransaction;
+@RepositoryRestResource(collectionResourceRel = "metaDatas", exported = false)
+public interface EwalletTransactionRepository<T extends VietinEwalletTransaction>
+		extends IBaseTransactionRepository<T> {
 
-@Repository
-public interface EwalletTransactionRepository extends JpaRepository<EwalletTransaction, UUID> {
-
-	EwalletTransaction findByRequestIdAndTranStatus(String requestId, String tranStatus);
+	VietinEwalletTransaction findByRequestIdAndTranStatus(String requestId, String tranStatus);
 
 }

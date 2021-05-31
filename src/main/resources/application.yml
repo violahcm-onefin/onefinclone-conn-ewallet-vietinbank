@@ -43,6 +43,9 @@ proxy:
   activeAuth: false
   userName:
   password:
+  
+component:
+  enableErrorhandler: true
     
 logging:
   pattern:

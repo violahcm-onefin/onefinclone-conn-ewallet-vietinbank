@@ -19,8 +19,8 @@ import org.springframework.stereotype.Service;
 
 import com.onefin.ewallet.common.VietinConstants;
 import com.onefin.ewallet.common.base.service.BaseService;
+import com.onefin.ewallet.common.domain.vietin.VietinEwalletTransaction;
 import com.onefin.ewallet.common.utility.json.JSONHelper;
-import com.onefin.ewallet.model.EwalletTransaction;
 import com.onefin.ewallet.model.PaymentByOTP;
 import com.onefin.ewallet.model.PaymentByToken;
 import com.onefin.ewallet.model.ProviderInquiry;
@@ -376,16 +376,16 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 	}
 
 	@Override
-	public EwalletTransaction save(EwalletTransaction transData) throws Exception {
+	public VietinEwalletTransaction save(VietinEwalletTransaction transData) throws Exception {
 		transData.setCreatedDate(new Date(System.currentTimeMillis()));
 		transData.setUpdatedDate(new Date(System.currentTimeMillis()));
-		return transRepository.save(transData);
+		return (VietinEwalletTransaction) transRepository.save(transData);
 	}
 
 	@Override
-	public EwalletTransaction update(EwalletTransaction transData) throws Exception {
+	public VietinEwalletTransaction update(VietinEwalletTransaction transData) throws Exception {
 		transData.setUpdatedDate(new Date(System.currentTimeMillis()));
-		return transRepository.save(transData);
+		return (VietinEwalletTransaction) transRepository.save(transData);
 	}
 
 	private boolean isValidMessage(String requestId, String providerId, String merchantId, String signature) {
