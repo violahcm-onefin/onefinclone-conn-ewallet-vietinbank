@@ -78,6 +78,7 @@ public class RegisterOnlinePay {
 	private String signature;
 
 	public RegisterOnlinePay() {
+		this.cardIssueDate = new String();
 		this.custIDIssueDate = new String();
 		this.custIDIssueBy = new String();
 		this.custGender = new String();

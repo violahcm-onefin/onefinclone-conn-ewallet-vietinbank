@@ -73,7 +73,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
 					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<TokenIssueResponse>() {
 					});
-			LOGGER.info("== Success receive response from Vietin");
+			LOGGER.info("== Success receive response from Vietin {}", responseEntity.getBody());
 			return responseEntity.getBody();
 		} catch (Exception e) {
 			LOGGER.error("== Error response from Vietin!!!", e);
@@ -101,7 +101,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
 					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<RegisterOnlinePayResponse>() {
 					});
-			LOGGER.info("== Success receive response from Vietin");
+			LOGGER.info("== Success receive response from Vietin {}", responseEntity.getBody());
 			return responseEntity.getBody();
 		} catch (Exception e) {
 			LOGGER.error("== Error response from Vietin!!!", e);
@@ -129,7 +129,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
 					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<VerifyPinResponse>() {
 					});
-			LOGGER.info("== Success receive response from Vietin");
+			LOGGER.info("== Success receive response from Vietin {}", responseEntity.getBody());
 			return responseEntity.getBody();
 		} catch (Exception e) {
 			LOGGER.error("== Error response from Vietin!!!", e);
@@ -157,7 +157,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
 					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<TokenRevokeResponse>() {
 					});
-			LOGGER.info("== Success receive response from Vietin");
+			LOGGER.info("== Success receive response from Vietin {}", responseEntity.getBody());
 			return responseEntity.getBody();
 		} catch (Exception e) {
 			LOGGER.error("== Error response from Vietin!!!", e);
@@ -185,7 +185,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
 					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<TokenReIssueResponse>() {
 					});
-			LOGGER.info("== Success receive response from Vietin");
+			LOGGER.info("== Success receive response from Vietin {}", responseEntity.getBody());
 			return responseEntity.getBody();
 		} catch (Exception e) {
 			LOGGER.error("== Error response from Vietin!!!", e);
@@ -213,7 +213,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
 					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<PaymentByTokenResponse>() {
 					});
-			LOGGER.info("== Success receive response from Vietin");
+			LOGGER.info("== Success receive response from Vietin {}", responseEntity.getBody());
 			return responseEntity.getBody();
 		} catch (Exception e) {
 			LOGGER.error("== Error response from Vietin!!!", e);
@@ -241,7 +241,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
 					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<PaymentByOTPResponse>() {
 					});
-			LOGGER.info("== Success receive response from Vietin");
+			LOGGER.info("== Success receive response from Vietin {}", responseEntity.getBody());
 			return responseEntity.getBody();
 		} catch (Exception e) {
 			LOGGER.error("== Error response from Vietin!!!", e);
@@ -269,7 +269,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
 					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<WithdrawResponse>() {
 					});
-			LOGGER.info("== Success receive response from Vietin");
+			LOGGER.info("== Success receive response from Vietin {}", responseEntity.getBody());
 			return responseEntity.getBody();
 		} catch (Exception e) {
 			LOGGER.error("== Error response from Vietin!!!", e);
@@ -297,7 +297,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
 					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<TransactionInquiryResponse>() {
 					});
-			LOGGER.info("== Success receive response from Vietin");
+			LOGGER.info("== Success receive response from Vietin {}", responseEntity.getBody());
 			return responseEntity.getBody();
 		} catch (Exception e) {
 			LOGGER.error("== Error response from Vietin!!!", e);
@@ -325,7 +325,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
 					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<ProviderInquiryResponse>() {
 					});
-			LOGGER.info("== Success receive response from Vietin");
+			LOGGER.info("== Success receive response from Vietin {}", responseEntity.getBody());
 			ProviderInquiryResponse tmp = responseEntity.getBody();
 			try {
 				Map<String, Object> response = new HashMap<String, Object>();
@@ -366,7 +366,7 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
 					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<TokenIssuePaymentResponse>() {
 					});
-			LOGGER.info("== Success receive response from Vietin");
+			LOGGER.info("== Success receive response from Vietin {}", responseEntity.getBody());
 			return responseEntity.getBody();
 		} catch (Exception e) {
 			LOGGER.error("== Error response from Vietin!!!", e);
