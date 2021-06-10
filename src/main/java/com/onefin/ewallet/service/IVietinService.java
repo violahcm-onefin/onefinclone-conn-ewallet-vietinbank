@@ -64,6 +64,6 @@ public interface IVietinService extends IBaseService {
 
 	VietinEwalletTransaction save(VietinEwalletTransaction transData) throws Exception;
 
-	VietinEwalletTransaction update(VietinEwalletTransaction transData) throws Exception;
+	void update(VietinEwalletTransaction transData) throws Exception;
 
 }

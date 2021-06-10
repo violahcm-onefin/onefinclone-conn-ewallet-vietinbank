@@ -3,19 +3,19 @@ server:
   
 spring:
   datasource:
-    url: jdbc:mariadb://localhost:3306/onefinbanks
-    username: root
-    password: ROOT
+    url: jdbc:mariadb://172.16.14.103:3306/onefinbanks
+    username: onefin01
+    password: Matkhau@1
     driver-class-name: org.mariadb.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.MariaDBDialect
-    show-sql: false
+    show-sql: true
     hibernate:
       ddl-auto: update
 
 vietin:
-  onefinPrivateKey: E:\OneFin\source_code\conn-ewallet-vietinbank\src\main\resources\keys\onefin-privatekey-uat-vietin.der
-  vtbPublicKey: E:\OneFin\source_code\conn-ewallet-vietinbank\src\main\resources\keys\Vietinbank_ITC2020.cer1
+  onefinPrivateKey: E:\OneFin\source_code\OF_ewallet\conn-ewallet-vietinbank\src\main\resources\keys\onefin-privatekey-uat-vietin.der
+  vtbPublicKey: E:\OneFin\source_code\OF_ewallet\conn-ewallet-vietinbank\src\main\resources\keys\Vietinbank_ITC2020.cer1
   version: 1.0
   merchantIdCard: 7001
   merchantIdAccount: 7002
@@ -49,6 +49,7 @@ component:
     
 logging:
   pattern:
+    dateformat: yyyy-MM-dd HH:mm:ss.SSS,Asia/Ho_Chi_Minh
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
   level:
     root: info

@@ -14,6 +14,7 @@ public class VietinConstants extends OneFinConstants {
 
 	// Vietin error code
 	public static final String VTB_SUCCESS_CODE = "00";
+	public static final String VTB_DUPLICATE_REQUESTID_CODE = "07";
 	public static final String VTB_PAY_BY_OTP_CODE = "20";
 
 	// Connector error code

@@ -383,9 +383,8 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 	}
 
 	@Override
-	public VietinEwalletTransaction update(VietinEwalletTransaction transData) throws Exception {
-		transData.setUpdatedDate(new Date(System.currentTimeMillis()));
-		return (VietinEwalletTransaction) transRepository.save(transData);
+	public void update(VietinEwalletTransaction transData) throws Exception {
+		transRepository.updateTransaction(transData.getId());
 	}
 
 	private boolean isValidMessage(String requestId, String providerId, String merchantId, String signature) {

@@ -123,7 +123,9 @@ public class VietinController extends AbstractBaseController {
 				if (type.toString().equals(VietinConstants.LinkType.ACCOUNT.toString())) {
 					vietinTrans.setMerchantId(configLoader.getVietinMerchantIdAccount());
 				}
-				iVietinService.save(vietinTrans);
+				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
+					iVietinService.save(vietinTrans);
+				}
 				LOGGER.info("== RequestID {} - End TokenIssue", requestBody.getRequestId());
 			} catch (Exception e) {
 				LOGGER.error("== Fail store transaction", e);
@@ -231,7 +233,9 @@ public class VietinController extends AbstractBaseController {
 				if (type.toString().equals(VietinConstants.LinkType.ACCOUNT.toString())) {
 					vietinTrans.setMerchantId(configLoader.getVietinMerchantIdAccount());
 				}
-				iVietinService.save(vietinTrans);
+				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
+					iVietinService.save(vietinTrans);
+				}
 				LOGGER.info("== RequestID {} - End RegisterOnlinePay", requestBody.getRequestId());
 			} catch (Exception e) {
 				LOGGER.error("== Fail store transaction", e);
@@ -285,7 +289,9 @@ public class VietinController extends AbstractBaseController {
 				}
 				vietinTrans.setToken(requestBody.getToken());
 				vietinTrans.setTokenIssueDate(requestBody.getTokenIssueDate());
-				iVietinService.save(vietinTrans);
+				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
+					iVietinService.save(vietinTrans);
+				}
 				LOGGER.info("== RequestID {} - End TokenRevoke", requestBody.getRequestId());
 			} catch (Exception e) {
 				LOGGER.error("== Fail store transaction", e);
@@ -338,7 +344,9 @@ public class VietinController extends AbstractBaseController {
 				}
 				vietinTrans.setToken(response.getToken());
 				vietinTrans.setTokenIssueDate(response.getTokenIssueDate());
-				iVietinService.save(vietinTrans);
+				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
+					iVietinService.save(vietinTrans);
+				}
 				LOGGER.info("== RequestID {} - End TokenReIssue", requestBody.getRequestId());
 			} catch (Exception e) {
 				LOGGER.error("== Fail store transaction", e);
@@ -411,7 +419,9 @@ public class VietinController extends AbstractBaseController {
 				vietinTrans.setBankTransactionId(response.getBankTransactionId());
 				vietinTrans.setToken(requestBody.getToken());
 				vietinTrans.setTokenIssueDate(requestBody.getTokenIssueDate());
-				iVietinService.save(vietinTrans);
+				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
+					iVietinService.save(vietinTrans);
+				}
 				LOGGER.info("== RequestID {} - End PaymentByToken", requestBody.getRequestId());
 			} catch (Exception e) {
 				LOGGER.error("== Fail store transaction", e);
@@ -473,7 +483,9 @@ public class VietinController extends AbstractBaseController {
 				}
 				vietinTrans.setToken(requestBody.getToken());
 				vietinTrans.setTokenIssueDate(requestBody.getTokenIssueDate());
-				iVietinService.save(vietinTrans);
+				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
+					iVietinService.save(vietinTrans);
+				}
 				LOGGER.info("== RequestID {} - End PaymentByOTP", requestBody.getRequestId());
 			} catch (Exception e) {
 				LOGGER.error("== Fail store transaction", e);
@@ -529,7 +541,9 @@ public class VietinController extends AbstractBaseController {
 				vietinTrans.setBankTransactionId(response.getBankTransactionId());
 				vietinTrans.setToken(requestBody.getToken());
 				vietinTrans.setTokenIssueDate(requestBody.getTokenIssueDate());
-				iVietinService.save(vietinTrans);
+				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
+					iVietinService.save(vietinTrans);
+				}
 				LOGGER.info("== RequestID {} - End Withdraw", requestBody.getRequestId());
 			} catch (Exception e) {
 				LOGGER.error("== Fail store transaction", e);
@@ -640,7 +654,9 @@ public class VietinController extends AbstractBaseController {
 				if (type.toString().equals(VietinConstants.LinkType.ACCOUNT.toString())) {
 					vietinTrans.setMerchantId(configLoader.getVietinMerchantIdAccount());
 				}
-				iVietinService.save(vietinTrans);
+				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
+					iVietinService.save(vietinTrans);
+				}
 				LOGGER.info("== RequestID {} - End TokenIssuePayment", requestBody.getRequestId());
 			} catch (Exception e) {
 				LOGGER.error("== Fail store transaction", e);
