@@ -175,6 +175,7 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 	@Override
 	public PaymentByToken buildVietinPaymentByToken(PaymentByToken data, String linkType)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
+		data.setCurrencyCode(VietinConstants.CURRENCY_VND);
 		data.setProviderId(configLoader.getVietinProviderId());
 		if (linkType.equals(VietinConstants.LinkType.CARD.toString())) {
 			data.setMerchantId(configLoader.getVietinMerchantIdCard());
@@ -199,6 +200,7 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 	@Override
 	public PaymentByOTP buildVietinPaymentByOTP(PaymentByOTP data, String linkType)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
+		data.setCurrencyCode(VietinConstants.CURRENCY_VND);
 		data.setProviderId(configLoader.getVietinProviderId());
 		if (linkType.equals(VietinConstants.LinkType.CARD.toString())) {
 			data.setMerchantId(configLoader.getVietinMerchantIdCard());
@@ -223,6 +225,7 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 	@Override
 	public Withdraw buildVietinWithdraw(Withdraw data, String linkType)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
+		data.setCurrencyCode(VietinConstants.CURRENCY_VND);
 		data.setProviderId(configLoader.getVietinProviderId());
 		if (linkType.equals(VietinConstants.LinkType.CARD.toString())) {
 			data.setMerchantId(configLoader.getVietinMerchantIdCard());
@@ -287,6 +290,7 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 	@Override
 	public TokenIssuePayment buildVietinTokenIssuerPayment(TokenIssuePayment data, String linkType)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
+		data.setCurrencyCode(VietinConstants.CURRENCY_VND);
 		data.setProviderId(configLoader.getVietinProviderId());
 		if (linkType.equals(VietinConstants.LinkType.CARD.toString())) {
 			data.setMerchantId(configLoader.getVietinMerchantIdCard());
