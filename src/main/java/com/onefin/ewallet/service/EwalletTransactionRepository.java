@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import com.onefin.ewallet.common.base.repository.mariadb.IBaseTransactionRepository;
-import com.onefin.ewallet.common.domain.vietin.VietinEwalletTransaction;
+import com.onefin.ewallet.common.domain.bank.vietin.VietinEwalletTransaction;
 
 @RepositoryRestResource(collectionResourceRel = "metaDatas", exported = false)
 public interface EwalletTransactionRepository<T extends VietinEwalletTransaction>

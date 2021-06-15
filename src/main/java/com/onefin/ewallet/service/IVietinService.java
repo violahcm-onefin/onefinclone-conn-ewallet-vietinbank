@@ -5,7 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 import com.onefin.ewallet.common.base.service.IBaseService;
-import com.onefin.ewallet.common.domain.vietin.VietinEwalletTransaction;
+import com.onefin.ewallet.common.domain.bank.vietin.VietinEwalletTransaction;
 import com.onefin.ewallet.model.PaymentByOTP;
 import com.onefin.ewallet.model.PaymentByToken;
 import com.onefin.ewallet.model.ProviderInquiry;

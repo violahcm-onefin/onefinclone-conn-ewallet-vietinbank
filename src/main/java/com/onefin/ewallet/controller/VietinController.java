@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.onefin.ewallet.common.VietinConstants;
 import com.onefin.ewallet.common.VietinConstants.LinkType;
 import com.onefin.ewallet.common.base.controller.AbstractBaseController;
-import com.onefin.ewallet.common.domain.vietin.VietinEwalletTransaction;
+import com.onefin.ewallet.common.domain.bank.vietin.VietinEwalletTransaction;
 import com.onefin.ewallet.common.utility.json.JSONHelper;
 import com.onefin.ewallet.model.PaymentByOTP;
 import com.onefin.ewallet.model.PaymentByOTPResponse;

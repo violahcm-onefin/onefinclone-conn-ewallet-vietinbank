@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 
 import com.onefin.ewallet.common.VietinConstants;
 import com.onefin.ewallet.common.base.service.BaseService;
-import com.onefin.ewallet.common.domain.vietin.VietinEwalletTransaction;
+import com.onefin.ewallet.common.domain.bank.vietin.VietinEwalletTransaction;
 import com.onefin.ewallet.common.utility.json.JSONHelper;
 import com.onefin.ewallet.model.PaymentByOTP;
 import com.onefin.ewallet.model.PaymentByToken;
