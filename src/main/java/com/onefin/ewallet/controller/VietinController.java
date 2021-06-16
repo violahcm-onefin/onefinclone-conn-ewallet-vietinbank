@@ -442,6 +442,13 @@ public class VietinController extends AbstractBaseController {
 			response = (PaymentByOTPResponse) IHTTPRequestUtil.sendPaymentByOTP(requestMap);
 			// Validate response from VTB
 			responseEntity = iVietinService.validateResponse(response, type.toString());
+			if (configLoader.isAlwaysTopupOTP()
+					&& response.getStatus().getCode().equals(VietinConstants.VTB_SUCCESS_CODE)
+					&& responseEntity.getConnectorCode().equals(VietinConstants.VTB_CONNECTOR_SUCCESS)) {
+				response.getStatus().setCode(VietinConstants.VTB_PAY_BY_OTP_CODE);
+				responseEntity = imsgUtil.buildVietinConnectorResponse(VietinConstants.VTB_CONNECTOR_SUCCESS,
+						response, type.toString());
+			}
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
 		} catch (Exception e) {
 			LOGGER.error("== Fail to process PaymentByOTP", e);
@@ -453,13 +460,6 @@ public class VietinController extends AbstractBaseController {
 				// Set data to transaction
 				vietinTrans.setConnResult(responseEntity != null ? responseEntity.getConnectorCode() : "");
 				// Change response for OTP screen
-				if (configLoader.isAlwaysTopupOTP()
-						&& response.getStatus().getCode().equals(VietinConstants.VTB_SUCCESS_CODE)
-						&& responseEntity.getConnectorCode().equals(VietinConstants.VTB_CONNECTOR_SUCCESS)) {
-					response.getStatus().setCode(VietinConstants.VTB_PAY_BY_OTP_CODE);
-					responseEntity = imsgUtil.buildVietinConnectorResponse(VietinConstants.VTB_CONNECTOR_SUCCESS,
-							response, type.toString());
-				}
 				vietinTrans.setVietinResult(
 						response != null ? Objects.toString(response.getStatus().getCode(), null) : null);
 				if (vietinTrans.getConnResult().equals(VietinConstants.VTB_CONNECTOR_SUCCESS)
