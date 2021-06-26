@@ -58,6 +58,9 @@ public class ConfigLoader implements InitializingBean {
 
 	@Value("${vietin.url.tokenIssuePayment}")
 	private String tokenIssuePayment;
+	
+	@Value("${vietin.url.refund}")
+	private String refund;
 
 	@Value("${vietin.ibmClientId}")
 	private String ibmClientId;

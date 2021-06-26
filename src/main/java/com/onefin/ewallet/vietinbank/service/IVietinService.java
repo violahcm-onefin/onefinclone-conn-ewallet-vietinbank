@@ -9,6 +9,7 @@ import com.onefin.ewallet.common.domain.bank.vietin.VietinEwalletTransaction;
 import com.onefin.ewallet.vietinbank.model.PaymentByOTP;
 import com.onefin.ewallet.vietinbank.model.PaymentByToken;
 import com.onefin.ewallet.vietinbank.model.ProviderInquiry;
+import com.onefin.ewallet.vietinbank.model.Refund;
 import com.onefin.ewallet.vietinbank.model.RegisterOnlinePay;
 import com.onefin.ewallet.vietinbank.model.TokenIssue;
 import com.onefin.ewallet.vietinbank.model.TokenIssuePayment;
@@ -18,7 +19,7 @@ import com.onefin.ewallet.vietinbank.model.VerifyPin;
 import com.onefin.ewallet.vietinbank.model.VietinConnResponse;
 import com.onefin.ewallet.vietinbank.model.Withdraw;
 
-public interface IVietinService extends IBaseService {
+public interface IVietinService extends IBaseService<VietinEwalletTransaction> {
 
 	/**
 	 * Validate response from VTB
@@ -62,8 +63,7 @@ public interface IVietinService extends IBaseService {
 	TokenIssuePayment buildVietinTokenIssuerPayment(TokenIssuePayment model, String linkType)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
 
-	VietinEwalletTransaction save(VietinEwalletTransaction transData) throws Exception;
-
-	void update(VietinEwalletTransaction transData) throws Exception;
+	Refund buildVietinRefund(Refund data, String linkType)
+			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
 
 }

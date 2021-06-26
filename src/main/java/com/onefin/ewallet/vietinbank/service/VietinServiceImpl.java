@@ -6,7 +6,6 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.cert.CertificateException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -24,6 +23,7 @@ import com.onefin.ewallet.vietinbank.common.VietinConstants;
 import com.onefin.ewallet.vietinbank.model.PaymentByOTP;
 import com.onefin.ewallet.vietinbank.model.PaymentByToken;
 import com.onefin.ewallet.vietinbank.model.ProviderInquiry;
+import com.onefin.ewallet.vietinbank.model.Refund;
 import com.onefin.ewallet.vietinbank.model.RegisterOnlinePay;
 import com.onefin.ewallet.vietinbank.model.TokenIssue;
 import com.onefin.ewallet.vietinbank.model.TokenIssuePayment;
@@ -34,7 +34,7 @@ import com.onefin.ewallet.vietinbank.model.VietinConnResponse;
 import com.onefin.ewallet.vietinbank.model.Withdraw;
 
 @Service
-public class VietinServiceImpl extends BaseService implements IVietinService {
+public class VietinServiceImpl extends BaseService<VietinEwalletTransaction> implements IVietinService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(VietinServiceImpl.class);
 
@@ -48,11 +48,14 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 	private EncryptUtil encryptUtil;
 
 	@Autowired
-	private EwalletTransactionRepository transRepository;
-
-	@Autowired
 	@Qualifier("jsonHelper")
 	private JSONHelper JsonHelper;
+	
+	@Autowired
+	@Qualifier("ewalletTransactionRepository")
+	public void setEwalletTransactionRepository(EwalletTransactionRepository<?> ewalletTransactionRepository) {
+		this.setTransBaseRepository(ewalletTransactionRepository);
+	}
 
 	@Override
 	public TokenIssue buildVietinTokenIssuer(TokenIssue data, String linkType)
@@ -312,6 +315,30 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 		LOGGER.info("== After Sign Data - " + signData);
 		return data;
 	}
+	
+	@Override
+	public Refund buildVietinRefund(Refund data, String linkType)
+			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
+		data.setCurrencyCode(VietinConstants.CURRENCY_VND);
+		data.setProviderId(configLoader.getVietinProviderId());
+		if (linkType.equals(VietinConstants.LinkType.CARD.toString())) {
+			data.setMerchantId(configLoader.getVietinMerchantIdCard());
+		}
+		if (linkType.equals(VietinConstants.LinkType.ACCOUNT.toString())) {
+			data.setMerchantId(configLoader.getVietinMerchantIdAccount());
+		}
+		data.setVersion(configLoader.getVietinVersion());
+
+		String dataSign = String.format("%s%s%s%s%s%s%s%s%s%s%s", data.getAmount(), data.getCurrencyCode(),
+				data.getRefundTransactionId(), data.getTransTime(), data.getClientIP(), data.getProviderId(),
+				data.getMerchantId(), data.getChannel(), data.getVersion(), data.getLanguage(), data.getMac());
+
+		LOGGER.info("== Before Sign Data - " + dataSign);
+		String signData = viettinSign(dataSign);
+		data.setSignature(signData);
+		LOGGER.info("== After Sign Data - " + signData);
+		return data;
+	}
 
 	private String viettinSign(String input) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		PrivateKey privateKeyOneFin = encryptUtil.readPrivateKey(configLoader.getOnefinPrivateKey());
@@ -347,12 +374,12 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 			}
 			if (!isValidMessage(requestId, providerId, merchantId, signature)) {
 				LOGGER.error("== Invalid response from Vietin!!!");
-				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_RESPONSE, data, type);
+				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_RESPONSE, null, type);
 			}
 
 			if (!configLoader.getVietinProviderId().equals(providerId)) {
 				LOGGER.error("== ProviderId not support: {}", providerId);
-				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_PROVIDER_ID, data, type);
+				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_PROVIDER_ID, null, type);
 			}
 
 			if (!configLoader.getVietinMerchantIdCard()
@@ -360,13 +387,13 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 					&& !configLoader.getVietinMerchantIdAccount()
 							.equals(Objects.toString(mapData.get(VietinConstants.VTB_MERCHANTID), ""))) {
 				LOGGER.error("== MerchantId not support: {}", merchantId);
-				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_MERCHANT_ID, data, type);
+				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_MERCHANT_ID, null, type);
 			}
 
 			// validate signature
 			if (!verifySignature(requestId + providerId + merchantId + code, signature)) {
 				LOGGER.error("== Verify signature fail!!!");
-				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_SIG, data, type);
+				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_SIG, null, type);
 			}
 
 			LOGGER.info("== Validation success!");
@@ -374,21 +401,9 @@ public class VietinServiceImpl extends BaseService implements IVietinService {
 
 		} catch (Exception e) {
 			LOGGER.error("== Validate response from Vietin error!!!", e);
-			return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_VALIDATION_FUNCTION_FAIL, data, type);
+			return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_VALIDATION_FUNCTION_FAIL, null, type);
 
 		}
-	}
-
-	@Override
-	public VietinEwalletTransaction save(VietinEwalletTransaction transData) throws Exception {
-		transData.setCreatedDate(new Date(System.currentTimeMillis()));
-		transData.setUpdatedDate(new Date(System.currentTimeMillis()));
-		return (VietinEwalletTransaction) transRepository.save(transData);
-	}
-
-	@Override
-	public void update(VietinEwalletTransaction transData) throws Exception {
-		transRepository.updateTransaction(transData.getId());
 	}
 
 	private boolean isValidMessage(String requestId, String providerId, String merchantId, String signature) {

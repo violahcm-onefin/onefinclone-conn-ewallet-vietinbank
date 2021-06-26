@@ -22,6 +22,8 @@ import com.onefin.ewallet.vietinbank.model.PaymentByToken;
 import com.onefin.ewallet.vietinbank.model.PaymentByTokenResponse;
 import com.onefin.ewallet.vietinbank.model.ProviderInquiry;
 import com.onefin.ewallet.vietinbank.model.ProviderInquiryResponse;
+import com.onefin.ewallet.vietinbank.model.Refund;
+import com.onefin.ewallet.vietinbank.model.RefundResponse;
 import com.onefin.ewallet.vietinbank.model.RegisterOnlinePay;
 import com.onefin.ewallet.vietinbank.model.RegisterOnlinePayResponse;
 import com.onefin.ewallet.vietinbank.model.TokenIssue;
@@ -365,6 +367,34 @@ public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
 			ResponseEntity<TokenIssuePaymentResponse> responseEntity = restTemplateHelper.post(url,
 					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
 					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<TokenIssuePaymentResponse>() {
+					});
+			LOGGER.info("== Success receive response from Vietin {}", responseEntity.getBody());
+			return responseEntity.getBody();
+		} catch (Exception e) {
+			LOGGER.error("== Error response from Vietin!!!", e);
+			return null;
+		}
+	}
+	
+	@Override
+	public RefundResponse sendRefund(Refund data) throws Exception {
+		String url = configLoader.getRefund();
+		LOGGER.info("== Send Refund request to Vietin {} - url: {}", data, url);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setAccept(Collections.singletonList(MediaType.ALL));
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.add(ibmClientId, configLoader.getIbmClientId());
+		headers.add(xIbmClientSecret, configLoader.getXIbmClientSecret());
+		HashMap<String, String> headersMap = new HashMap<String, String>();
+		for (String header : headers.keySet()) {
+			headersMap.put(header, headers.getFirst(header));
+		}
+		HashMap<String, String> urlParameters = new HashMap<>();
+		List<String> pathVariables = new ArrayList<String>();
+		try {
+			ResponseEntity<RefundResponse> responseEntity = restTemplateHelper.post(url,
+					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
+					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<RefundResponse>() {
 					});
 			LOGGER.info("== Success receive response from Vietin {}", responseEntity.getBody());
 			return responseEntity.getBody();

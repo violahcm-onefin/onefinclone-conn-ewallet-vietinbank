@@ -7,6 +7,8 @@ import com.onefin.ewallet.vietinbank.model.PaymentByOTPResponse;
 import com.onefin.ewallet.vietinbank.model.PaymentByToken;
 import com.onefin.ewallet.vietinbank.model.PaymentByTokenResponse;
 import com.onefin.ewallet.vietinbank.model.ProviderInquiry;
+import com.onefin.ewallet.vietinbank.model.Refund;
+import com.onefin.ewallet.vietinbank.model.RefundResponse;
 import com.onefin.ewallet.vietinbank.model.RegisterOnlinePay;
 import com.onefin.ewallet.vietinbank.model.RegisterOnlinePayResponse;
 import com.onefin.ewallet.vietinbank.model.TokenIssue;
@@ -46,5 +48,7 @@ public interface IHTTPRequestUtil {
 	Map<String, Object> sendProviderInquiry(ProviderInquiry data) throws Exception;
 
 	TokenIssuePaymentResponse sendTokenIssuePayment(TokenIssuePayment data) throws Exception;
+
+	RefundResponse sendRefund(Refund data) throws Exception;
 
 }
