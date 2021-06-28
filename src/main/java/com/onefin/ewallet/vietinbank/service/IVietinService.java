@@ -66,4 +66,6 @@ public interface IVietinService extends IBaseService<VietinEwalletTransaction> {
 	Refund buildVietinRefund(Refund data, String linkType)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;
 
+	void backUpRequestResponse(String requestId, Object request, Object response) throws Exception;
+
 }

@@ -47,6 +47,10 @@ proxy:
   
 component:
   enableErrorhandler: true
+  
+backup:
+  api:
+    uri: http://localhost:8063/backup/ewallet/vietinEwallet
     
 logging:
   pattern:

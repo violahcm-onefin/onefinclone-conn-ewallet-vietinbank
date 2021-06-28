@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.onefin.ewallet.common.base.service.BackupService;
 import com.onefin.ewallet.common.base.service.BaseService;
 import com.onefin.ewallet.common.domain.bank.vietin.VietinEwalletTransaction;
 import com.onefin.ewallet.common.utility.json.JSONHelper;
@@ -50,7 +51,10 @@ public class VietinServiceImpl extends BaseService<VietinEwalletTransaction> imp
 	@Autowired
 	@Qualifier("jsonHelper")
 	private JSONHelper JsonHelper;
-	
+
+	@Autowired
+	private BackupService backupService;
+
 	@Autowired
 	@Qualifier("ewalletTransactionRepository")
 	public void setEwalletTransactionRepository(EwalletTransactionRepository<?> ewalletTransactionRepository) {
@@ -315,7 +319,7 @@ public class VietinServiceImpl extends BaseService<VietinEwalletTransaction> imp
 		LOGGER.info("== After Sign Data - " + signData);
 		return data;
 	}
-	
+
 	@Override
 	public Refund buildVietinRefund(Refund data, String linkType)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
@@ -403,6 +407,16 @@ public class VietinServiceImpl extends BaseService<VietinEwalletTransaction> imp
 			LOGGER.error("== Validate response from Vietin error!!!", e);
 			return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_VALIDATION_FUNCTION_FAIL, null, type);
 
+		}
+	}
+
+	@Override
+	public void backUpRequestResponse(String requestId, Object request, Object response) throws Exception {
+		if (request != null) {
+			backupService.backup(configLoader.getBackupUri(), requestId, request, VietinConstants.BACKUP_REQUEST);
+		}
+		if (response != null) {
+			backupService.backup(configLoader.getBackupUri(), requestId, response, VietinConstants.BACKUP_RESPONSE);
 		}
 	}
 

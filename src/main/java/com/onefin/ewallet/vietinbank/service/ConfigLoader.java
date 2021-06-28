@@ -94,6 +94,9 @@ public class ConfigLoader implements InitializingBean {
 	
 	@Value("${vietin.alwaysTopupOTP}")
 	private boolean alwaysTopupOTP;
+	
+	@Value("${backup.api.uri}")
+	private String backupUri;
 
 	private RestProxy proxyConfig = new RestProxy();
 

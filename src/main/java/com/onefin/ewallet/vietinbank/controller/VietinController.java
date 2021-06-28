@@ -120,6 +120,7 @@ public class VietinController extends AbstractBaseController {
 				}
 				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
 					iVietinService.create(vietinTrans);
+					iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, response);
 				}
 				LOGGER.info("== RequestID {} - End TokenIssue", requestBody.getRequestId());
 				return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -172,7 +173,9 @@ public class VietinController extends AbstractBaseController {
 				vietinTrans.setTokenIssueDate(
 						StringUtils.isEmpty(vietinTrans.getTokenIssueDate()) ? response.getTokenIssueDate()
 								: vietinTrans.getTokenIssueDate());
+				vietinTrans.setOtpResquestId(requestBody.getRequestId());
 				iVietinService.update(vietinTrans);
+				iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, response);
 				LOGGER.info("== RequestID {} - End VerifyPin", requestBody.getRequestId());
 				return new ResponseEntity<>(responseEntity, HttpStatus.OK);
 			} catch (Exception e) {
@@ -230,6 +233,7 @@ public class VietinController extends AbstractBaseController {
 				}
 				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
 					iVietinService.create(vietinTrans);
+					iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, response);
 				}
 				LOGGER.info("== RequestID {} - End RegisterOnlinePay", requestBody.getRequestId());
 				return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -285,6 +289,7 @@ public class VietinController extends AbstractBaseController {
 				vietinTrans.setTokenIssueDate(requestBody.getTokenIssueDate());
 				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
 					iVietinService.create(vietinTrans);
+					iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, response);
 				}
 				LOGGER.info("== RequestID {} - End TokenRevoke", requestBody.getRequestId());
 				return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -339,6 +344,7 @@ public class VietinController extends AbstractBaseController {
 				vietinTrans.setTokenIssueDate(response.getTokenIssueDate());
 				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
 					iVietinService.create(vietinTrans);
+					iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, response);
 				}
 				LOGGER.info("== RequestID {} - End TokenReIssue", requestBody.getRequestId());
 				return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -413,6 +419,7 @@ public class VietinController extends AbstractBaseController {
 				vietinTrans.setTokenIssueDate(requestBody.getTokenIssueDate());
 				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
 					iVietinService.create(vietinTrans);
+					iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, response);
 				}
 				LOGGER.info("== RequestID {} - End PaymentByToken", requestBody.getRequestId());
 				return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -476,6 +483,7 @@ public class VietinController extends AbstractBaseController {
 				vietinTrans.setTokenIssueDate(requestBody.getTokenIssueDate());
 				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
 					iVietinService.create(vietinTrans);
+					iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, response);
 				}
 				LOGGER.info("== RequestID {} - End PaymentByOTP", requestBody.getRequestId());
 				return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -533,6 +541,7 @@ public class VietinController extends AbstractBaseController {
 				vietinTrans.setTokenIssueDate(requestBody.getTokenIssueDate());
 				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
 					iVietinService.create(vietinTrans);
+					iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, response);
 				}
 				LOGGER.info("== RequestID {} - End Withdraw", requestBody.getRequestId());
 				return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -645,6 +654,7 @@ public class VietinController extends AbstractBaseController {
 				}
 				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
 					iVietinService.create(vietinTrans);
+					iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, response);
 				}
 				LOGGER.info("== RequestID {} - End TokenIssuePayment", requestBody.getRequestId());
 				return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -698,6 +708,7 @@ public class VietinController extends AbstractBaseController {
 				vietinTrans.setCurrency(requestBody.getCurrencyCode());
 				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
 					iVietinService.create(vietinTrans);
+					iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, response);
 				}
 				LOGGER.info("== RequestID {} - End Refund", requestBody.getRequestId());
 				return new ResponseEntity<>(responseEntity, HttpStatus.OK);
