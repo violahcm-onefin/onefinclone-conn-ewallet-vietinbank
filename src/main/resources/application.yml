@@ -54,8 +54,7 @@ backup:
     
 logging:
   pattern:
-    dateformat: yyyy-MM-dd HH:mm:ss.SSS,Asia/Ho_Chi_Minh
-    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    console: "%d{yyyy-MM-dd HH:mm:ss,Asia/Ho_Chi_Minh} [%thread] %-5level %logger{36} - %msg%n"
   level:
     root: info
     org:

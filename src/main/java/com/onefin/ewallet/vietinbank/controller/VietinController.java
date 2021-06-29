@@ -706,6 +706,7 @@ public class VietinController extends AbstractBaseController {
 				vietinTrans.setBankTransactionId(response != null ? response.getBankTransactionId() : null);
 				vietinTrans.setAmount(new BigDecimal(requestBody.getAmount()));
 				vietinTrans.setCurrency(requestBody.getCurrencyCode());
+				vietinTrans.setRefundId(requestBody.getRefundTransactionId());
 				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
 					iVietinService.create(vietinTrans);
 					iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, response);
