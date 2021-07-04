@@ -25,7 +25,7 @@ import com.onefin.ewallet.vietinbank.model.VerifyPinResponse;
 import com.onefin.ewallet.vietinbank.model.Withdraw;
 import com.onefin.ewallet.vietinbank.model.WithdrawResponse;
 
-public interface IHTTPRequestUtil {
+public interface IRequestUtil {
 
 	RegisterOnlinePayResponse sendRegisterOnlinePay(RegisterOnlinePay data) throws Exception;
 

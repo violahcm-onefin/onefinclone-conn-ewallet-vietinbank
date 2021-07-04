@@ -41,9 +41,9 @@ import com.onefin.ewallet.vietinbank.model.Withdraw;
 import com.onefin.ewallet.vietinbank.model.WithdrawResponse;
 
 @Service
-public class HTTPRequestUtilImpl implements IHTTPRequestUtil {
+public class RequestUtilImpl implements IRequestUtil {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(HTTPRequestUtilImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(RequestUtilImpl.class);
 
 	private static final String ibmClientId = "x-ibm-client-id";
 

@@ -13,7 +13,7 @@ import com.onefin.ewallet.common.base.repository.mariadb.IBaseTransactionReposit
 import com.onefin.ewallet.common.domain.bank.vietin.VietinEwalletTransaction;
 
 @RepositoryRestResource(collectionResourceRel = "metaDatas", exported = false)
-public interface EwalletTransactionRepository<T extends VietinEwalletTransaction>
+public interface ETransRepo<T extends VietinEwalletTransaction>
 		extends IBaseTransactionRepository<T> {
 
 	VietinEwalletTransaction findByRequestIdAndTranStatus(String requestId, String tranStatus);

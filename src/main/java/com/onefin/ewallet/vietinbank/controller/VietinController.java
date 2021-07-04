@@ -50,8 +50,8 @@ import com.onefin.ewallet.vietinbank.model.VietinConnResponse;
 import com.onefin.ewallet.vietinbank.model.Withdraw;
 import com.onefin.ewallet.vietinbank.model.WithdrawResponse;
 import com.onefin.ewallet.vietinbank.service.ConfigLoader;
-import com.onefin.ewallet.vietinbank.service.EwalletTransactionRepository;
-import com.onefin.ewallet.vietinbank.service.IHTTPRequestUtil;
+import com.onefin.ewallet.vietinbank.service.ETransRepo;
+import com.onefin.ewallet.vietinbank.service.IRequestUtil;
 import com.onefin.ewallet.vietinbank.service.IMessageUtil;
 import com.onefin.ewallet.vietinbank.service.IVietinService;
 
@@ -66,7 +66,7 @@ public class VietinController extends AbstractBaseController {
 	private IMessageUtil imsgUtil;
 
 	@Autowired
-	private IHTTPRequestUtil IHTTPRequestUtil;
+	private IRequestUtil IHTTPRequestUtil;
 
 	@Autowired
 	private ConfigLoader configLoader;
@@ -76,7 +76,7 @@ public class VietinController extends AbstractBaseController {
 	private JSONHelper JsonHelper;
 
 	@Autowired
-	private EwalletTransactionRepository transRepository;
+	private ETransRepo transRepository;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(VietinController.class);
 

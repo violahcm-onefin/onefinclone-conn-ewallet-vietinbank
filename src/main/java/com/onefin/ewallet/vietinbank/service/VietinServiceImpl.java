@@ -56,8 +56,8 @@ public class VietinServiceImpl extends BaseService<VietinEwalletTransaction> imp
 	private BackupService backupService;
 
 	@Autowired
-	@Qualifier("ewalletTransactionRepository")
-	public void setEwalletTransactionRepository(EwalletTransactionRepository<?> ewalletTransactionRepository) {
+	@Qualifier("ETransRepo")
+	public void setEwalletTransactionRepository(ETransRepo<?> ewalletTransactionRepository) {
 		this.setTransBaseRepository(ewalletTransactionRepository);
 	}
 
