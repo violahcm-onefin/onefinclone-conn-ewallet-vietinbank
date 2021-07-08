@@ -173,7 +173,6 @@ public class VietinController extends AbstractBaseController {
 				vietinTrans.setTokenIssueDate(
 						StringUtils.isEmpty(vietinTrans.getTokenIssueDate()) ? response.getTokenIssueDate()
 								: vietinTrans.getTokenIssueDate());
-				vietinTrans.setOtpResquestId(requestBody.getRequestId());
 				iVietinService.update(vietinTrans);
 				iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, response);
 				LOGGER.info("== RequestID {} - End VerifyPin", requestBody.getRequestId());
