@@ -27,11 +27,6 @@ public class MessageUtilImpl extends ConnMessageService implements IMessageUtil 
 	private JSONHelper JsonHelper;
 
 	@Override
-	protected Object buildConnectorInvalidRequestbody(String code, Object data, String... args) {
-		return buildVietinConnectorResponse(code, data, args);
-	}
-
-	@Override
 	public VietinConnResponse buildVietinConnectorResponse(String code, Object data, String... args) {
 		Map<String, Object> res = new HashMap();
 		if (data != null) {

@@ -22,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.onefin.ewallet.common.base.controller.AbstractBaseController;
+import com.onefin.ewallet.common.base.errorhandler.RuntimeBadRequestException;
+import com.onefin.ewallet.common.base.errorhandler.RuntimeExpectationFailedException;
+import com.onefin.ewallet.common.base.errorhandler.RuntimeNullPointerException;
 import com.onefin.ewallet.common.domain.bank.vietin.VietinEwalletTransaction;
 import com.onefin.ewallet.common.utility.json.JSONHelper;
 import com.onefin.ewallet.vietinbank.common.VietinConstants;
@@ -51,8 +54,8 @@ import com.onefin.ewallet.vietinbank.model.Withdraw;
 import com.onefin.ewallet.vietinbank.model.WithdrawResponse;
 import com.onefin.ewallet.vietinbank.service.ConfigLoader;
 import com.onefin.ewallet.vietinbank.service.ETransRepo;
-import com.onefin.ewallet.vietinbank.service.IRequestUtil;
 import com.onefin.ewallet.vietinbank.service.IMessageUtil;
+import com.onefin.ewallet.vietinbank.service.IRequestUtil;
 import com.onefin.ewallet.vietinbank.service.IVietinService;
 
 @RestController
@@ -128,7 +131,7 @@ public class VietinController extends AbstractBaseController {
 				LOGGER.error("== Fail store transaction", e);
 			}
 		}
-		return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+		throw new RuntimeExpectationFailedException();
 	}
 
 	@PostMapping("/verifyPin/type/{type}")
@@ -138,9 +141,7 @@ public class VietinController extends AbstractBaseController {
 		VietinEwalletTransaction vietinTrans = transRepository
 				.findByRequestIdAndTranStatus(requestBody.getVerifyTransactionId(), VietinConstants.TRANS_PENDING);
 		if (vietinTrans == null || !vietinTrans.getTranStatus().equals(VietinConstants.TRANS_PENDING)) {
-			return new ResponseEntity<>(
-					imsgUtil.buildVietinConnectorResponse(VietinConstants.INTERNAL_SERVER_ERROR, null, type.toString()),
-					HttpStatus.OK);
+			throw new RuntimeNullPointerException();
 		}
 		VerifyPinResponse response = null;
 		VietinConnResponse responseEntity = null;
@@ -181,7 +182,7 @@ public class VietinController extends AbstractBaseController {
 				LOGGER.error("== Fail store transaction", e);
 			}
 		}
-		return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+		throw new RuntimeExpectationFailedException();
 	}
 
 	@PostMapping("/registerOnlinePay/type/{type}")
@@ -240,7 +241,7 @@ public class VietinController extends AbstractBaseController {
 				LOGGER.error("== Fail store transaction", e);
 			}
 		}
-		return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+		throw new RuntimeExpectationFailedException();
 	}
 
 	@PostMapping("/tokenRevoke/type/{type}")
@@ -296,7 +297,7 @@ public class VietinController extends AbstractBaseController {
 				LOGGER.error("== Fail store transaction", e);
 			}
 		}
-		return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+		throw new RuntimeExpectationFailedException();
 	}
 
 	@PostMapping("/tokenReIssue/type/{type}")
@@ -351,7 +352,7 @@ public class VietinController extends AbstractBaseController {
 				LOGGER.error("== Fail store transaction", e);
 			}
 		}
-		return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+		throw new RuntimeExpectationFailedException();
 	}
 
 	@PostMapping("/paymentByToken/type/{type}")
@@ -426,7 +427,7 @@ public class VietinController extends AbstractBaseController {
 				LOGGER.error("== Fail store transaction", e);
 			}
 		}
-		return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+		throw new RuntimeExpectationFailedException();
 	}
 
 	public ResponseEntity<?> paymentByOTP(LinkType type, PaymentByOTP requestBody, HttpServletRequest request)
@@ -490,7 +491,7 @@ public class VietinController extends AbstractBaseController {
 				LOGGER.error("== Fail store transaction", e);
 			}
 		}
-		return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+		throw new RuntimeExpectationFailedException();
 	}
 
 	@PostMapping("/withdraw/type/{type}")
@@ -548,7 +549,7 @@ public class VietinController extends AbstractBaseController {
 				LOGGER.error("== Fail store transaction", e);
 			}
 		}
-		return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+		throw new RuntimeExpectationFailedException();
 	}
 
 	@PostMapping("/transactionInquiry/type/{type}")
@@ -566,15 +567,14 @@ public class VietinController extends AbstractBaseController {
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
 		} catch (Exception e) {
 			LOGGER.error("== Fail to process TransactionInquiry", e);
-			return new ResponseEntity<>(
-					imsgUtil.buildVietinConnectorResponse(VietinConstants.INTERNAL_SERVER_ERROR, null, type.toString()),
-					HttpStatus.OK);
+			throw new RuntimeNullPointerException();
 		} finally {
 			try {
 				// Set data to transaction
 				LOGGER.info("== RequestID {} - End TransactionInquiry", requestBody.getRequestId());
 			} catch (Exception e) {
 				LOGGER.error("== Fail store transaction", e);
+				throw new RuntimeExpectationFailedException();
 			}
 		}
 
@@ -595,15 +595,14 @@ public class VietinController extends AbstractBaseController {
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
 		} catch (Exception e) {
 			LOGGER.error("== Fail to process ProviderInquiry", e);
-			return new ResponseEntity<>(
-					imsgUtil.buildVietinConnectorResponse(VietinConstants.INTERNAL_SERVER_ERROR, null, null),
-					HttpStatus.OK);
+			throw new RuntimeNullPointerException();
 		} finally {
 			try {
 				// Set data to transaction
 				LOGGER.info("== RequestID {} - End ProviderInquiry", requestBody.getRequestId());
 			} catch (Exception e) {
 				LOGGER.error("== Fail store transaction", e);
+				throw new RuntimeExpectationFailedException();
 			}
 		}
 
@@ -661,7 +660,7 @@ public class VietinController extends AbstractBaseController {
 				LOGGER.error("== Fail store transaction", e);
 			}
 		}
-		return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+		throw new RuntimeExpectationFailedException();
 	}
 	
 	@PostMapping("/refund/type/{type}")
@@ -716,7 +715,7 @@ public class VietinController extends AbstractBaseController {
 				LOGGER.error("== Fail store transaction", e);
 			}
 		}
-		return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+		throw new RuntimeExpectationFailedException();
 	}
 
 	@Override
