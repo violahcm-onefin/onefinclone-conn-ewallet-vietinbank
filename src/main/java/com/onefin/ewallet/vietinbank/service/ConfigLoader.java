@@ -97,6 +97,9 @@ public class ConfigLoader implements InitializingBean {
 	
 	@Value("${backup.api.uri}")
 	private String backupUri;
+	
+	@Value("${vietin.activeAccount}")
+	private boolean vietinActiveAccount;
 
 	private RestProxy proxyConfig = new RestProxy();
 
