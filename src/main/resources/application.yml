@@ -49,11 +49,3 @@ proxy:
 backup:
   api:
     uri: http://localhost:8063/backup/ewallet/vietinEwallet
-    
-logging:
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss,Asia/Ho_Chi_Minh} [%thread] %-5level %logger{36} - %msg%n"
-  level:
-    root: info
-    org:
-      hibernate: ERROR
