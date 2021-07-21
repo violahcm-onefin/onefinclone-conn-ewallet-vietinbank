@@ -149,7 +149,7 @@ public class VietinController extends AbstractBaseController {
 			VerifyPin requestMap = iVietinService.buildVietinVerifyPin(requestBody, type.toString());
 
 			response = (VerifyPinResponse) IHTTPRequestUtil.sendVerifyPin(requestMap);
-			response.setTokenExpireDate("190721");
+			response.setTokenExpireDate("210721");
 
 			// Validate response from VTB
 			responseEntity = iVietinService.validateResponse(response, type.toString());
