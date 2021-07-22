@@ -21,7 +21,6 @@ import com.onefin.ewallet.common.utility.resttemplate.RestTemplateHelper;
 import com.onefin.ewallet.vietinbank.model.PaymentByOTP;
 import com.onefin.ewallet.vietinbank.model.PaymentByToken;
 import com.onefin.ewallet.vietinbank.model.ProviderInquiry;
-import com.onefin.ewallet.vietinbank.model.ProviderInquiryResponse;
 import com.onefin.ewallet.vietinbank.model.Refund;
 import com.onefin.ewallet.vietinbank.model.RegisterOnlinePay;
 import com.onefin.ewallet.vietinbank.model.TokenIssue;
@@ -344,12 +343,12 @@ public class RequestUtilImpl implements IRequestUtil {
 		HashMap<String, String> urlParameters = new HashMap<>();
 		List<String> pathVariables = new ArrayList<String>();
 		try {
-			ResponseEntity<ProviderInquiryResponse> responseEntity = restTemplateHelper.post(url,
+			ResponseEntity<VtbLinkBankBaseResponse> responseEntity = restTemplateHelper.post(url,
 					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
-					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<ProviderInquiryResponse>() {
+					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<VtbLinkBankBaseResponse>() {
 					});
 			LOGGER.info("== Success receive response from Vietin {}", responseEntity.getBody());
-			ProviderInquiryResponse tmp = responseEntity.getBody();
+			VtbLinkBankBaseResponse tmp = responseEntity.getBody();
 			try {
 				Map<String, Object> response = new HashMap<String, Object>();
 				response.put("signature", tmp.getSignature());
