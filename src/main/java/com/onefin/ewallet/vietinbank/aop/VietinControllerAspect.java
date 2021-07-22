@@ -26,12 +26,17 @@ public class VietinControllerAspect {
 	private ConfigLoader configLoader;
 
 	@Around(value = "execution(* com.onefin.ewallet.vietinbank.controller.VietinController.*(..))")
-	public Object beforeAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
+	public Object checkAvailableService(ProceedingJoinPoint joinPoint) throws Throwable {
 		Object[] args = joinPoint.getArgs();
 		VietinConnResponse responseEntity = null;
 		try {
 			if (args[0].equals(LinkType.ACCOUNT) && configLoader.isVietinActiveAccount() == false) {
-				responseEntity = imsgUtil.buildVietinConnectorResponse(VietinConstants.INTERNAL_SERVER_ERROR, null,
+				responseEntity = imsgUtil.buildVietinConnectorResponse(VietinConstants.SERVICE_NOT_AVAILABLE, null,
+						args[0].toString());
+				return new ResponseEntity<>(responseEntity, HttpStatus.OK);
+			}
+			if (args[0].equals(LinkType.CARD) && configLoader.isVietinActiveCard() == false) {
+				responseEntity = imsgUtil.buildVietinConnectorResponse(VietinConstants.SERVICE_NOT_AVAILABLE, null,
 						args[0].toString());
 				return new ResponseEntity<>(responseEntity, HttpStatus.OK);
 			}

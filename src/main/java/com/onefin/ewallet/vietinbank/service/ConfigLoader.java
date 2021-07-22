@@ -100,6 +100,9 @@ public class ConfigLoader implements InitializingBean {
 	
 	@Value("${vietin.activeAccount}")
 	private boolean vietinActiveAccount;
+	
+	@Value("${vietin.activeCard}")
+	private boolean vietinActiveCard;
 
 	private RestProxy proxyConfig = new RestProxy();
 

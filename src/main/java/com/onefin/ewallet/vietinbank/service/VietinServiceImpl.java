@@ -14,6 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.onefin.ewallet.common.base.service.BackupService;
@@ -26,12 +28,14 @@ import com.onefin.ewallet.vietinbank.model.PaymentByToken;
 import com.onefin.ewallet.vietinbank.model.ProviderInquiry;
 import com.onefin.ewallet.vietinbank.model.Refund;
 import com.onefin.ewallet.vietinbank.model.RegisterOnlinePay;
+import com.onefin.ewallet.vietinbank.model.Status;
 import com.onefin.ewallet.vietinbank.model.TokenIssue;
 import com.onefin.ewallet.vietinbank.model.TokenIssuePayment;
 import com.onefin.ewallet.vietinbank.model.TokenRevokeReIssue;
 import com.onefin.ewallet.vietinbank.model.TransactionInquiry;
 import com.onefin.ewallet.vietinbank.model.VerifyPin;
 import com.onefin.ewallet.vietinbank.model.VietinConnResponse;
+import com.onefin.ewallet.vietinbank.model.VtbLinkBankBaseResponse;
 import com.onefin.ewallet.vietinbank.model.Withdraw;
 
 @Service
@@ -358,54 +362,38 @@ public class VietinServiceImpl extends BaseService<VietinEwalletTransaction> imp
 	 * @return
 	 */
 	@Override
-	public VietinConnResponse validateResponse(Object data, String type) {
+	public VietinConnResponse validateResponse(VtbLinkBankBaseResponse data, HttpStatus httpCode, String type) {
+		if (HttpStatus.REQUEST_TIMEOUT.equals(httpCode)) {
+			LOGGER.error("== Failure response from Vietin!!!");
+			return iMessageUtil.buildVietinConnectorResponse(VietinConstants.TIMEOUT_RESPONSE, null, type);
+		}
 		// Check response
 		if (data == null) {
 			LOGGER.error("== Failure response from Vietin!!!");
-			return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_ERROR_RESPONSE, data, type);
+			return iMessageUtil.buildVietinConnectorResponse(VietinConstants.ERROR_RESPONSE, null, type);
 		}
-
 		try {
-			Map<String, Object> mapData = (Map<String, Object>) JsonHelper.convertObject2Map(data, HashMap.class);
-			String requestId = Objects.toString(mapData.get(VietinConstants.VTB_REQUESTID), "");
-			String providerId = Objects.toString(mapData.get(VietinConstants.VTB_PROVIDERID), "");
-			String merchantId = Objects.toString(mapData.get(VietinConstants.VTB_MERCHANTID), "");
-			String signature = Objects.toString(mapData.get(VietinConstants.VTB_SIGNATURE), "");
-			Map<String, Object> status = (Map<String, Object>) mapData.get(VietinConstants.VTB_STATUS);
 			String code = null;
-			if (status != null) {
-				code = Objects.toString(status.get(VietinConstants.VTB_CODE), "");
+			if (data.getStatus() != null) {
+				code = Objects.toString(data.getStatus().getCode(), "");
 			}
-			if (!isValidMessage(requestId, providerId, merchantId, signature)) {
+			if (!isValidMessage(data.getRequestId(), data.getProviderId(), data.getMerchantId(), data.getSignature())) {
 				LOGGER.error("== Invalid response from Vietin!!!");
-				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_RESPONSE, null, type);
-			}
-
-			if (!configLoader.getVietinProviderId().equals(providerId)) {
-				LOGGER.error("== ProviderId not support: {}", providerId);
-				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_PROVIDER_ID, null, type);
-			}
-
-			if (!configLoader.getVietinMerchantIdCard()
-					.equals(Objects.toString(mapData.get(VietinConstants.VTB_MERCHANTID), ""))
-					&& !configLoader.getVietinMerchantIdAccount()
-							.equals(Objects.toString(mapData.get(VietinConstants.VTB_MERCHANTID), ""))) {
-				LOGGER.error("== MerchantId not support: {}", merchantId);
-				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_MERCHANT_ID, null, type);
+				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.INVALID_RESPONSE, null, type);
 			}
 
 			// validate signature
-			if (!verifySignature(requestId + providerId + merchantId + code, signature)) {
+			if (!verifySignature(data.getRequestId() + data.getProviderId() + data.getMerchantId() + code, data.getSignature())) {
 				LOGGER.error("== Verify signature fail!!!");
 				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_INVALID_SIG, null, type);
 			}
 
 			LOGGER.info("== Validation success!");
-			return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_CONNECTOR_SUCCESS, data, type);
+			return iMessageUtil.buildVietinConnectorResponse(VietinConstants.CONNECTOR_SUCCESS, data, type);
 
 		} catch (Exception e) {
 			LOGGER.error("== Validate response from Vietin error!!!", e);
-			return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VTB_VALIDATION_FUNCTION_FAIL, null, type);
+			return iMessageUtil.buildVietinConnectorResponse(VietinConstants.VALIDATION_FUNCTION_FAIL, null, type);
 
 		}
 	}
@@ -425,6 +413,15 @@ public class VietinServiceImpl extends BaseService<VietinEwalletTransaction> imp
 				|| signature == null || signature.trim().isEmpty() || merchantId == null
 				|| merchantId.trim().isEmpty()) {
 
+			return false;
+		}
+		if (!configLoader.getVietinProviderId().equals(providerId)) {
+			LOGGER.error("== ProviderId not support: {}", providerId);
+			return false;
+		}
+		if (!configLoader.getVietinMerchantIdCard().equals(merchantId)
+				&& !configLoader.getVietinMerchantIdAccount().equals(merchantId)) {
+			LOGGER.error("== MerchantId not support: {}", merchantId);
 			return false;
 		}
 		return true;

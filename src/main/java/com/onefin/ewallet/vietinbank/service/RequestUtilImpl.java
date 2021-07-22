@@ -6,39 +6,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.conn.HttpHostConnectException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.onefin.ewallet.common.utility.resttemplate.RestTemplateHelper;
 import com.onefin.ewallet.vietinbank.model.PaymentByOTP;
-import com.onefin.ewallet.vietinbank.model.PaymentByOTPResponse;
 import com.onefin.ewallet.vietinbank.model.PaymentByToken;
-import com.onefin.ewallet.vietinbank.model.PaymentByTokenResponse;
 import com.onefin.ewallet.vietinbank.model.ProviderInquiry;
 import com.onefin.ewallet.vietinbank.model.ProviderInquiryResponse;
 import com.onefin.ewallet.vietinbank.model.Refund;
-import com.onefin.ewallet.vietinbank.model.RefundResponse;
 import com.onefin.ewallet.vietinbank.model.RegisterOnlinePay;
-import com.onefin.ewallet.vietinbank.model.RegisterOnlinePayResponse;
 import com.onefin.ewallet.vietinbank.model.TokenIssue;
 import com.onefin.ewallet.vietinbank.model.TokenIssuePayment;
-import com.onefin.ewallet.vietinbank.model.TokenIssuePaymentResponse;
-import com.onefin.ewallet.vietinbank.model.TokenIssueResponse;
-import com.onefin.ewallet.vietinbank.model.TokenReIssueResponse;
 import com.onefin.ewallet.vietinbank.model.TokenRevokeReIssue;
-import com.onefin.ewallet.vietinbank.model.TokenRevokeResponse;
 import com.onefin.ewallet.vietinbank.model.TransactionInquiry;
-import com.onefin.ewallet.vietinbank.model.TransactionInquiryResponse;
 import com.onefin.ewallet.vietinbank.model.VerifyPin;
-import com.onefin.ewallet.vietinbank.model.VerifyPinResponse;
+import com.onefin.ewallet.vietinbank.model.VtbLinkBankBaseResponse;
 import com.onefin.ewallet.vietinbank.model.Withdraw;
-import com.onefin.ewallet.vietinbank.model.WithdrawResponse;
 
 @Service
 public class RequestUtilImpl implements IRequestUtil {
@@ -56,7 +48,7 @@ public class RequestUtilImpl implements IRequestUtil {
 	protected RestTemplateHelper restTemplateHelper;
 
 	@Override
-	public TokenIssueResponse sendTokenIssue(TokenIssue data) throws Exception {
+	public VtbLinkBankBaseResponse sendTokenIssue(TokenIssue data, HttpStatus httpCode) {
 		String url = configLoader.getTokenIssue();
 		LOGGER.info("== Send TokenIssue request to Vietin {} - url: {}", data, url);
 		HttpHeaders headers = new HttpHeaders();
@@ -71,20 +63,25 @@ public class RequestUtilImpl implements IRequestUtil {
 		HashMap<String, String> urlParameters = new HashMap<>();
 		List<String> pathVariables = new ArrayList<String>();
 		try {
-			ResponseEntity<TokenIssueResponse> responseEntity = restTemplateHelper.post(url,
+			ResponseEntity<VtbLinkBankBaseResponse> responseEntity = restTemplateHelper.post(url,
 					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
-					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<TokenIssueResponse>() {
+					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<VtbLinkBankBaseResponse>() {
 					});
 			LOGGER.info("== Success receive response from Vietin {}", responseEntity.getBody());
+			httpCode = responseEntity.getStatusCode();
 			return responseEntity.getBody();
 		} catch (Exception e) {
 			LOGGER.error("== Error response from Vietin!!!", e);
+			if (e.getCause() instanceof HttpHostConnectException) {
+				httpCode = HttpStatus.REQUEST_TIMEOUT;
+			}
 			return null;
 		}
+
 	}
 
 	@Override
-	public RegisterOnlinePayResponse sendRegisterOnlinePay(RegisterOnlinePay data) throws Exception {
+	public VtbLinkBankBaseResponse sendRegisterOnlinePay(RegisterOnlinePay data, HttpStatus httpCode) {
 		String url = configLoader.getRegisterOnlinePay();
 		LOGGER.info("== Send RegisterOnlinePay request to Vietin {} - url: {}", data, url);
 		HttpHeaders headers = new HttpHeaders();
@@ -99,20 +96,23 @@ public class RequestUtilImpl implements IRequestUtil {
 		HashMap<String, String> urlParameters = new HashMap<>();
 		List<String> pathVariables = new ArrayList<String>();
 		try {
-			ResponseEntity<RegisterOnlinePayResponse> responseEntity = restTemplateHelper.post(url,
+			ResponseEntity<VtbLinkBankBaseResponse> responseEntity = restTemplateHelper.post(url,
 					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
-					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<RegisterOnlinePayResponse>() {
+					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<VtbLinkBankBaseResponse>() {
 					});
 			LOGGER.info("== Success receive response from Vietin {}", responseEntity.getBody());
 			return responseEntity.getBody();
 		} catch (Exception e) {
 			LOGGER.error("== Error response from Vietin!!!", e);
+			if (e.getCause() instanceof HttpHostConnectException) {
+				httpCode = HttpStatus.REQUEST_TIMEOUT;
+			}
 			return null;
 		}
 	}
 
 	@Override
-	public VerifyPinResponse sendVerifyPin(VerifyPin data) throws Exception {
+	public VtbLinkBankBaseResponse sendVerifyPin(VerifyPin data, HttpStatus httpCode) {
 		String url = configLoader.getVerifyPin();
 		LOGGER.info("== Send VerifyPin request to Vietin {} - url: {}", data, url);
 		HttpHeaders headers = new HttpHeaders();
@@ -127,20 +127,23 @@ public class RequestUtilImpl implements IRequestUtil {
 		HashMap<String, String> urlParameters = new HashMap<>();
 		List<String> pathVariables = new ArrayList<String>();
 		try {
-			ResponseEntity<VerifyPinResponse> responseEntity = restTemplateHelper.post(url,
+			ResponseEntity<VtbLinkBankBaseResponse> responseEntity = restTemplateHelper.post(url,
 					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
-					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<VerifyPinResponse>() {
+					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<VtbLinkBankBaseResponse>() {
 					});
 			LOGGER.info("== Success receive response from Vietin {}", responseEntity.getBody());
 			return responseEntity.getBody();
 		} catch (Exception e) {
 			LOGGER.error("== Error response from Vietin!!!", e);
+			if (e.getCause() instanceof HttpHostConnectException) {
+				httpCode = HttpStatus.REQUEST_TIMEOUT;
+			}
 			return null;
 		}
 	}
 
 	@Override
-	public TokenRevokeResponse sendTokenRevoke(TokenRevokeReIssue data) throws Exception {
+	public VtbLinkBankBaseResponse sendTokenRevoke(TokenRevokeReIssue data, HttpStatus httpCode) {
 		String url = configLoader.getTokenRevoke();
 		LOGGER.info("== Send TokenRevoke request to Vietin {} - url: {}", data, url);
 		HttpHeaders headers = new HttpHeaders();
@@ -155,20 +158,23 @@ public class RequestUtilImpl implements IRequestUtil {
 		HashMap<String, String> urlParameters = new HashMap<>();
 		List<String> pathVariables = new ArrayList<String>();
 		try {
-			ResponseEntity<TokenRevokeResponse> responseEntity = restTemplateHelper.post(url,
+			ResponseEntity<VtbLinkBankBaseResponse> responseEntity = restTemplateHelper.post(url,
 					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
-					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<TokenRevokeResponse>() {
+					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<VtbLinkBankBaseResponse>() {
 					});
 			LOGGER.info("== Success receive response from Vietin {}", responseEntity.getBody());
 			return responseEntity.getBody();
 		} catch (Exception e) {
 			LOGGER.error("== Error response from Vietin!!!", e);
+			if (e.getCause() instanceof HttpHostConnectException) {
+				httpCode = HttpStatus.REQUEST_TIMEOUT;
+			}
 			return null;
 		}
 	}
 
 	@Override
-	public TokenReIssueResponse sendTokenReIssue(TokenRevokeReIssue data) throws Exception {
+	public VtbLinkBankBaseResponse sendTokenReIssue(TokenRevokeReIssue data, HttpStatus httpCode) {
 		String url = configLoader.getTokenReissue();
 		LOGGER.info("== Send TokenReIssue request to Vietin {} - url: {}", data, url);
 		HttpHeaders headers = new HttpHeaders();
@@ -183,20 +189,23 @@ public class RequestUtilImpl implements IRequestUtil {
 		HashMap<String, String> urlParameters = new HashMap<>();
 		List<String> pathVariables = new ArrayList<String>();
 		try {
-			ResponseEntity<TokenReIssueResponse> responseEntity = restTemplateHelper.post(url,
+			ResponseEntity<VtbLinkBankBaseResponse> responseEntity = restTemplateHelper.post(url,
 					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
-					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<TokenReIssueResponse>() {
+					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<VtbLinkBankBaseResponse>() {
 					});
 			LOGGER.info("== Success receive response from Vietin {}", responseEntity.getBody());
 			return responseEntity.getBody();
 		} catch (Exception e) {
 			LOGGER.error("== Error response from Vietin!!!", e);
+			if (e.getCause() instanceof HttpHostConnectException) {
+				httpCode = HttpStatus.REQUEST_TIMEOUT;
+			}
 			return null;
 		}
 	}
 
 	@Override
-	public PaymentByTokenResponse sendPaymentByToken(PaymentByToken data) throws Exception {
+	public VtbLinkBankBaseResponse sendPaymentByToken(PaymentByToken data, HttpStatus httpCode) {
 		String url = configLoader.getPaymentByToken();
 		LOGGER.info("== Send PaymentByToken request to Vietin {} - url: {}", data, url);
 		HttpHeaders headers = new HttpHeaders();
@@ -211,20 +220,23 @@ public class RequestUtilImpl implements IRequestUtil {
 		HashMap<String, String> urlParameters = new HashMap<>();
 		List<String> pathVariables = new ArrayList<String>();
 		try {
-			ResponseEntity<PaymentByTokenResponse> responseEntity = restTemplateHelper.post(url,
+			ResponseEntity<VtbLinkBankBaseResponse> responseEntity = restTemplateHelper.post(url,
 					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
-					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<PaymentByTokenResponse>() {
+					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<VtbLinkBankBaseResponse>() {
 					});
 			LOGGER.info("== Success receive response from Vietin {}", responseEntity.getBody());
 			return responseEntity.getBody();
 		} catch (Exception e) {
 			LOGGER.error("== Error response from Vietin!!!", e);
+			if (e.getCause() instanceof HttpHostConnectException) {
+				httpCode = HttpStatus.REQUEST_TIMEOUT;
+			}
 			return null;
 		}
 	}
 
 	@Override
-	public PaymentByOTPResponse sendPaymentByOTP(PaymentByOTP data) throws Exception {
+	public VtbLinkBankBaseResponse sendPaymentByOTP(PaymentByOTP data, HttpStatus httpCode) {
 		String url = configLoader.getPaymentByOTP();
 		LOGGER.info("== Send PaymentByOTP request to Vietin {} - url: {}", data, url);
 		HttpHeaders headers = new HttpHeaders();
@@ -239,20 +251,23 @@ public class RequestUtilImpl implements IRequestUtil {
 		HashMap<String, String> urlParameters = new HashMap<>();
 		List<String> pathVariables = new ArrayList<String>();
 		try {
-			ResponseEntity<PaymentByOTPResponse> responseEntity = restTemplateHelper.post(url,
+			ResponseEntity<VtbLinkBankBaseResponse> responseEntity = restTemplateHelper.post(url,
 					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
-					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<PaymentByOTPResponse>() {
+					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<VtbLinkBankBaseResponse>() {
 					});
 			LOGGER.info("== Success receive response from Vietin {}", responseEntity.getBody());
 			return responseEntity.getBody();
 		} catch (Exception e) {
 			LOGGER.error("== Error response from Vietin!!!", e);
+			if (e.getCause() instanceof HttpHostConnectException) {
+				httpCode = HttpStatus.REQUEST_TIMEOUT;
+			}
 			return null;
 		}
 	}
 
 	@Override
-	public WithdrawResponse sendWithdraw(Withdraw data) throws Exception {
+	public VtbLinkBankBaseResponse sendWithdraw(Withdraw data, HttpStatus httpCode) {
 		String url = configLoader.getWidthdraw();
 		LOGGER.info("== Send Withdraw request to Vietin {} - url: {}", data, url);
 		HttpHeaders headers = new HttpHeaders();
@@ -267,20 +282,23 @@ public class RequestUtilImpl implements IRequestUtil {
 		HashMap<String, String> urlParameters = new HashMap<>();
 		List<String> pathVariables = new ArrayList<String>();
 		try {
-			ResponseEntity<WithdrawResponse> responseEntity = restTemplateHelper.post(url,
+			ResponseEntity<VtbLinkBankBaseResponse> responseEntity = restTemplateHelper.post(url,
 					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
-					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<WithdrawResponse>() {
+					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<VtbLinkBankBaseResponse>() {
 					});
 			LOGGER.info("== Success receive response from Vietin {}", responseEntity.getBody());
 			return responseEntity.getBody();
 		} catch (Exception e) {
 			LOGGER.error("== Error response from Vietin!!!", e);
+			if (e.getCause() instanceof HttpHostConnectException) {
+				httpCode = HttpStatus.REQUEST_TIMEOUT;
+			}
 			return null;
 		}
 	}
 
 	@Override
-	public TransactionInquiryResponse sendTransactionInquiry(TransactionInquiry data) throws Exception {
+	public VtbLinkBankBaseResponse sendTransactionInquiry(TransactionInquiry data, HttpStatus httpCode) {
 		String url = configLoader.getTransactionInquiry();
 		LOGGER.info("== Send TransactionInquiry request to Vietin {} - url: {}", data, url);
 		HttpHeaders headers = new HttpHeaders();
@@ -295,20 +313,23 @@ public class RequestUtilImpl implements IRequestUtil {
 		HashMap<String, String> urlParameters = new HashMap<>();
 		List<String> pathVariables = new ArrayList<String>();
 		try {
-			ResponseEntity<TransactionInquiryResponse> responseEntity = restTemplateHelper.post(url,
+			ResponseEntity<VtbLinkBankBaseResponse> responseEntity = restTemplateHelper.post(url,
 					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
-					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<TransactionInquiryResponse>() {
+					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<VtbLinkBankBaseResponse>() {
 					});
 			LOGGER.info("== Success receive response from Vietin {}", responseEntity.getBody());
 			return responseEntity.getBody();
 		} catch (Exception e) {
 			LOGGER.error("== Error response from Vietin!!!", e);
+			if (e.getCause() instanceof HttpHostConnectException) {
+				httpCode = HttpStatus.REQUEST_TIMEOUT;
+			}
 			return null;
 		}
 	}
 
 	@Override
-	public Map<String, Object> sendProviderInquiry(ProviderInquiry data) throws Exception {
+	public Map<String, Object> sendProviderInquiry(ProviderInquiry data) {
 		String url = configLoader.getProviderInquiry();
 		LOGGER.info("== Send ProviderInquiry request to Vietin {} - url: {}", data, url);
 		HttpHeaders headers = new HttpHeaders();
@@ -349,7 +370,7 @@ public class RequestUtilImpl implements IRequestUtil {
 	}
 
 	@Override
-	public TokenIssuePaymentResponse sendTokenIssuePayment(TokenIssuePayment data) throws Exception {
+	public VtbLinkBankBaseResponse sendTokenIssuePayment(TokenIssuePayment data, HttpStatus httpCode) {
 		String url = configLoader.getTokenIssuePayment();
 		LOGGER.info("== Send TokenIssuePayment request to Vietin {} - url: {}", data, url);
 		HttpHeaders headers = new HttpHeaders();
@@ -364,20 +385,23 @@ public class RequestUtilImpl implements IRequestUtil {
 		HashMap<String, String> urlParameters = new HashMap<>();
 		List<String> pathVariables = new ArrayList<String>();
 		try {
-			ResponseEntity<TokenIssuePaymentResponse> responseEntity = restTemplateHelper.post(url,
+			ResponseEntity<VtbLinkBankBaseResponse> responseEntity = restTemplateHelper.post(url,
 					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
-					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<TokenIssuePaymentResponse>() {
+					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<VtbLinkBankBaseResponse>() {
 					});
 			LOGGER.info("== Success receive response from Vietin {}", responseEntity.getBody());
 			return responseEntity.getBody();
 		} catch (Exception e) {
 			LOGGER.error("== Error response from Vietin!!!", e);
+			if (e.getCause() instanceof HttpHostConnectException) {
+				httpCode = HttpStatus.REQUEST_TIMEOUT;
+			}
 			return null;
 		}
 	}
-	
+
 	@Override
-	public RefundResponse sendRefund(Refund data) throws Exception {
+	public VtbLinkBankBaseResponse sendRefund(Refund data, HttpStatus httpCode) {
 		String url = configLoader.getRefund();
 		LOGGER.info("== Send Refund request to Vietin {} - url: {}", data, url);
 		HttpHeaders headers = new HttpHeaders();
@@ -392,14 +416,17 @@ public class RequestUtilImpl implements IRequestUtil {
 		HashMap<String, String> urlParameters = new HashMap<>();
 		List<String> pathVariables = new ArrayList<String>();
 		try {
-			ResponseEntity<RefundResponse> responseEntity = restTemplateHelper.post(url,
+			ResponseEntity<VtbLinkBankBaseResponse> responseEntity = restTemplateHelper.post(url,
 					MediaType.APPLICATION_JSON_VALUE, headersMap, pathVariables, urlParameters,
-					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<RefundResponse>() {
+					configLoader.getProxyConfig(), data, new ParameterizedTypeReference<VtbLinkBankBaseResponse>() {
 					});
 			LOGGER.info("== Success receive response from Vietin {}", responseEntity.getBody());
 			return responseEntity.getBody();
 		} catch (Exception e) {
 			LOGGER.error("== Error response from Vietin!!!", e);
+			if (e.getCause() instanceof HttpHostConnectException) {
+				httpCode = HttpStatus.REQUEST_TIMEOUT;
+			}
 			return null;
 		}
 	}

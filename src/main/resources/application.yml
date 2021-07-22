@@ -37,6 +37,7 @@ vietin:
     refund: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/refund
   alwaysTopupOTP: false
   activeAccount: false
+  activeCard: false
     
 proxy:
   active: true

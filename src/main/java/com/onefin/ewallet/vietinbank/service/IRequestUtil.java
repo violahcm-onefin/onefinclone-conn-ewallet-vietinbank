@@ -2,53 +2,45 @@ package com.onefin.ewallet.vietinbank.service;
 
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
+
 import com.onefin.ewallet.vietinbank.model.PaymentByOTP;
-import com.onefin.ewallet.vietinbank.model.PaymentByOTPResponse;
 import com.onefin.ewallet.vietinbank.model.PaymentByToken;
-import com.onefin.ewallet.vietinbank.model.PaymentByTokenResponse;
 import com.onefin.ewallet.vietinbank.model.ProviderInquiry;
 import com.onefin.ewallet.vietinbank.model.Refund;
-import com.onefin.ewallet.vietinbank.model.RefundResponse;
 import com.onefin.ewallet.vietinbank.model.RegisterOnlinePay;
-import com.onefin.ewallet.vietinbank.model.RegisterOnlinePayResponse;
 import com.onefin.ewallet.vietinbank.model.TokenIssue;
 import com.onefin.ewallet.vietinbank.model.TokenIssuePayment;
-import com.onefin.ewallet.vietinbank.model.TokenIssuePaymentResponse;
-import com.onefin.ewallet.vietinbank.model.TokenIssueResponse;
-import com.onefin.ewallet.vietinbank.model.TokenReIssueResponse;
 import com.onefin.ewallet.vietinbank.model.TokenRevokeReIssue;
-import com.onefin.ewallet.vietinbank.model.TokenRevokeResponse;
 import com.onefin.ewallet.vietinbank.model.TransactionInquiry;
-import com.onefin.ewallet.vietinbank.model.TransactionInquiryResponse;
 import com.onefin.ewallet.vietinbank.model.VerifyPin;
-import com.onefin.ewallet.vietinbank.model.VerifyPinResponse;
+import com.onefin.ewallet.vietinbank.model.VtbLinkBankBaseResponse;
 import com.onefin.ewallet.vietinbank.model.Withdraw;
-import com.onefin.ewallet.vietinbank.model.WithdrawResponse;
 
 public interface IRequestUtil {
 
-	RegisterOnlinePayResponse sendRegisterOnlinePay(RegisterOnlinePay data) throws Exception;
+	VtbLinkBankBaseResponse sendRegisterOnlinePay(RegisterOnlinePay data, HttpStatus httpCode);
 
-	TokenIssueResponse sendTokenIssue(TokenIssue data) throws Exception;
+	VtbLinkBankBaseResponse sendTokenIssue(TokenIssue data, HttpStatus httpCode);
 
-	VerifyPinResponse sendVerifyPin(VerifyPin data) throws Exception;
+	VtbLinkBankBaseResponse sendVerifyPin(VerifyPin data, HttpStatus httpCode);
 
-	TokenRevokeResponse sendTokenRevoke(TokenRevokeReIssue data) throws Exception;
+	VtbLinkBankBaseResponse sendTokenRevoke(TokenRevokeReIssue data, HttpStatus httpCode);
 
-	TokenReIssueResponse sendTokenReIssue(TokenRevokeReIssue data) throws Exception;
+	VtbLinkBankBaseResponse sendTokenReIssue(TokenRevokeReIssue data, HttpStatus httpCode);
 
-	PaymentByTokenResponse sendPaymentByToken(PaymentByToken data) throws Exception;
+	VtbLinkBankBaseResponse sendPaymentByToken(PaymentByToken data, HttpStatus httpCode);
 
-	PaymentByOTPResponse sendPaymentByOTP(PaymentByOTP data) throws Exception;
+	VtbLinkBankBaseResponse sendPaymentByOTP(PaymentByOTP data, HttpStatus httpCode);
 
-	WithdrawResponse sendWithdraw(Withdraw data) throws Exception;
+	VtbLinkBankBaseResponse sendWithdraw(Withdraw data, HttpStatus httpCode);
 
-	TransactionInquiryResponse sendTransactionInquiry(TransactionInquiry data) throws Exception;
+	VtbLinkBankBaseResponse sendTransactionInquiry(TransactionInquiry data, HttpStatus httpCode);
 
-	Map<String, Object> sendProviderInquiry(ProviderInquiry data) throws Exception;
+	Map<String, Object> sendProviderInquiry(ProviderInquiry data);
 
-	TokenIssuePaymentResponse sendTokenIssuePayment(TokenIssuePayment data) throws Exception;
+	VtbLinkBankBaseResponse sendTokenIssuePayment(TokenIssuePayment data, HttpStatus httpCode);
 
-	RefundResponse sendRefund(Refund data) throws Exception;
+	VtbLinkBankBaseResponse sendRefund(Refund data, HttpStatus httpCode);
 
 }

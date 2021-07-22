@@ -1,10 +1,16 @@
 package com.onefin.ewallet.vietinbank.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Data;
 
 @Data
-public class TransactionInquiryResponse {
+@JsonInclude(Include.NON_EMPTY)
+public class VtbLinkBankBaseResponse {
 
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String signature;
 
 	private String providerId;
@@ -17,6 +23,8 @@ public class TransactionInquiryResponse {
 
 	private String bankTransactionId;
 
+	private String description;
+
 	private String token;
 
 	private String tokenIssueDate;
@@ -25,5 +33,4 @@ public class TransactionInquiryResponse {
 
 	private String cardMask;
 
-	private String description;
 }
