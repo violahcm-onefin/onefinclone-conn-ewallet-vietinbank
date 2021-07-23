@@ -77,14 +77,15 @@ public class VietinController extends AbstractBaseController {
 			@Valid @RequestBody(required = true) TokenIssue requestBody, HttpServletRequest request) throws Exception {
 		LOGGER.info("== RequestID {} - Start TokenIssue", requestBody.getRequestId());
 		VietinEwalletTransaction vietinTrans = new VietinEwalletTransaction();
-		VtbLinkBankBaseResponse response = null;
+		ResponseEntity<VtbLinkBankBaseResponse> responseBaseEntity = null;
+		VtbLinkBankBaseResponse responseBase = null;
 		VietinConnResponse responseEntity = null;
-		HttpStatus httpCode = null;
 		try {
 			TokenIssue requestMap = iVietinService.buildVietinTokenIssuer(requestBody, type.toString());
-			response = IHTTPRequestUtil.sendTokenIssue(requestMap, httpCode);
+			responseBaseEntity = IHTTPRequestUtil.sendTokenIssue(requestMap);
+			responseBase = responseBaseEntity.getBody();
 			// Validate response from VTB
-			responseEntity = iVietinService.validateResponse(response, httpCode, type.toString());
+			responseEntity = iVietinService.validateResponse(responseBase, responseBaseEntity.getStatusCode(), type.toString());
 		} catch (Exception e) {
 			LOGGER.error("== Fail to process TokenIssue", e);
 			responseEntity = imsgUtil.buildVietinConnectorResponse(VietinConstants.CONN_INTERNAL_SERVER_ERROR, null,
@@ -94,7 +95,7 @@ public class VietinController extends AbstractBaseController {
 				// Set data to transaction
 				vietinTrans.setConnResult(responseEntity != null ? responseEntity.getConnectorCode() : "");
 				vietinTrans
-						.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), "") : "");
+						.setVietinResult(responseBase != null ? Objects.toString(responseBase.getStatus().getCode(), "") : "");
 				if (vietinTrans.getConnResult().equals(VietinConstants.CONNECTOR_SUCCESS)
 						&& vietinTrans.getVietinResult().equals(VietinConstants.VTB_SUCCESS_CODE)) {
 					vietinTrans.setTranStatus(VietinConstants.TRANS_PENDING);
@@ -113,7 +114,7 @@ public class VietinController extends AbstractBaseController {
 				}
 				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
 					iVietinService.create(vietinTrans);
-					iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, response);
+					iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, responseBase);
 				}
 				LOGGER.info("== RequestID {} - End TokenIssue", requestBody.getRequestId());
 				return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -133,16 +134,17 @@ public class VietinController extends AbstractBaseController {
 		if (vietinTrans == null || !vietinTrans.getTranStatus().equals(VietinConstants.TRANS_PENDING)) {
 			throw new RuntimeNullPointerException();
 		}
-		VtbLinkBankBaseResponse response = null;
+		ResponseEntity<VtbLinkBankBaseResponse> responseBaseEntity = null;
+		VtbLinkBankBaseResponse responseBase = null;
 		VietinConnResponse responseEntity = null;
-		HttpStatus httpCode = null;
+		
 		try {
 			VerifyPin requestMap = iVietinService.buildVietinVerifyPin(requestBody, type.toString());
 
-			response = IHTTPRequestUtil.sendVerifyPin(requestMap, httpCode);
-
+			responseBaseEntity = IHTTPRequestUtil.sendVerifyPin(requestMap);
+			responseBase = responseBaseEntity.getBody();
 			// Validate response from VTB
-			responseEntity = iVietinService.validateResponse(response, httpCode, type.toString());
+			responseEntity = iVietinService.validateResponse(responseBase, responseBaseEntity.getStatusCode(), type.toString());
 		} catch (Exception e) {
 			LOGGER.error("== Fail to process VerifyPin", e);
 			responseEntity = imsgUtil.buildVietinConnectorResponse(VietinConstants.CONN_INTERNAL_SERVER_ERROR, null,
@@ -152,21 +154,18 @@ public class VietinController extends AbstractBaseController {
 				// Set data to transaction
 				vietinTrans.setConnResult(responseEntity != null ? responseEntity.getConnectorCode() : "");
 				vietinTrans
-						.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), "") : "");
+						.setVietinResult(responseBase != null ? Objects.toString(responseBase.getStatus().getCode(), "") : "");
 				if (vietinTrans.getConnResult().equals(VietinConstants.CONNECTOR_SUCCESS)
 						&& vietinTrans.getVietinResult().equals(VietinConstants.VTB_SUCCESS_CODE)) {
 					vietinTrans.setTranStatus(VietinConstants.TRANS_SUCCESS);
 				}
 				vietinTrans.setBankTransactionId(
-						StringUtils.isEmpty(vietinTrans.getBankTransactionId()) ? response.getBankTransactionId()
+						StringUtils.isEmpty(vietinTrans.getBankTransactionId()) ? responseBase.getBankTransactionId()
 								: vietinTrans.getBankTransactionId());
 				vietinTrans.setToken(
-						StringUtils.isEmpty(vietinTrans.getToken()) ? response.getToken() : vietinTrans.getToken());
-				vietinTrans.setTokenIssueDate(
-						StringUtils.isEmpty(vietinTrans.getTokenIssueDate()) ? response.getTokenIssueDate()
-								: vietinTrans.getTokenIssueDate());
+						StringUtils.isEmpty(vietinTrans.getToken()) ? responseBase.getToken() : vietinTrans.getToken());
 				iVietinService.update(vietinTrans);
-				iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, response);
+				iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, responseBase);
 				LOGGER.info("== RequestID {} - End VerifyPin", requestBody.getRequestId());
 				return new ResponseEntity<>(responseEntity, HttpStatus.OK);
 			} catch (Exception e) {
@@ -182,9 +181,10 @@ public class VietinController extends AbstractBaseController {
 			throws Exception {
 		LOGGER.info("== RequestID {} - Start RegisterOnlinePay", requestBody.getRequestId());
 		VietinEwalletTransaction vietinTrans = new VietinEwalletTransaction();
-		VtbLinkBankBaseResponse response = null;
+		ResponseEntity<VtbLinkBankBaseResponse> responseBaseEntity = null;
+		VtbLinkBankBaseResponse responseBase = null;
 		VietinConnResponse responseEntity = null;
-		HttpStatus httpCode = null;
+		
 		breakLabel : try {
 			if (!requestBody.isAcceptRegistered()) {
 				LOGGER.error("== User not accept register online payment");
@@ -192,9 +192,10 @@ public class VietinController extends AbstractBaseController {
 			}
 			RegisterOnlinePay requestMap = iVietinService.buildVietinRegisterOnlinePay(requestBody, type.toString());
 
-			response = IHTTPRequestUtil.sendRegisterOnlinePay(requestMap, httpCode);
+			responseBaseEntity = IHTTPRequestUtil.sendRegisterOnlinePay(requestMap);
+			responseBase = responseBaseEntity.getBody();
 			// Validate response from VTB
-			responseEntity = iVietinService.validateResponse(response, httpCode, type.toString());
+			responseEntity = iVietinService.validateResponse(responseBase, responseBaseEntity.getStatusCode(), type.toString());
 		} catch (Exception e) {
 			LOGGER.error("== Fail to process RegisterOnlinePay", e);
 			responseEntity = imsgUtil.buildVietinConnectorResponse(VietinConstants.CONN_INTERNAL_SERVER_ERROR, null,
@@ -204,7 +205,7 @@ public class VietinController extends AbstractBaseController {
 				// Set data to transaction
 				vietinTrans.setConnResult(responseEntity != null ? responseEntity.getConnectorCode() : "");
 				vietinTrans
-						.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), "") : "");
+						.setVietinResult(responseBase != null ? Objects.toString(responseBase.getStatus().getCode(), "") : "");
 				if (vietinTrans.getConnResult().equals(VietinConstants.CONNECTOR_SUCCESS)
 						&& vietinTrans.getVietinResult().equals(VietinConstants.VTB_SUCCESS_CODE)) {
 					vietinTrans.setTranStatus(VietinConstants.TRANS_PENDING);
@@ -223,7 +224,7 @@ public class VietinController extends AbstractBaseController {
 				}
 				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
 					iVietinService.create(vietinTrans);
-					iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, response);
+					iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, responseBase);
 				}
 				LOGGER.info("== RequestID {} - End RegisterOnlinePay", requestBody.getRequestId());
 				return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -240,16 +241,17 @@ public class VietinController extends AbstractBaseController {
 			throws Exception {
 		LOGGER.info("== RequestID {} - Start TokenRevoke", requestBody.getRequestId());
 		VietinEwalletTransaction vietinTrans = new VietinEwalletTransaction();
-		VtbLinkBankBaseResponse response = null;
+		ResponseEntity<VtbLinkBankBaseResponse> responseBaseEntity = null;
+		VtbLinkBankBaseResponse responseBase = null;
 		VietinConnResponse responseEntity = null;
-		HttpStatus httpCode = null;
+		
 		try {
 			TokenRevokeReIssue requestMap = iVietinService.buildVietinTokenRevoke(requestBody, type.toString());
 
-			response = IHTTPRequestUtil.sendTokenRevoke(requestMap, httpCode);
-
+			responseBaseEntity = IHTTPRequestUtil.sendTokenRevoke(requestMap);
+			responseBase = responseBaseEntity.getBody();
 			// Validate response from VTB
-			responseEntity = iVietinService.validateResponse(response, httpCode, type.toString());
+			responseEntity = iVietinService.validateResponse(responseBase, responseBaseEntity.getStatusCode(), type.toString());
 		} catch (Exception e) {
 			LOGGER.error("== Fail to process TokenRevoke", e);
 			responseEntity = imsgUtil.buildVietinConnectorResponse(VietinConstants.CONN_INTERNAL_SERVER_ERROR, null,
@@ -259,7 +261,7 @@ public class VietinController extends AbstractBaseController {
 				// Set data to transaction
 				vietinTrans.setConnResult(responseEntity != null ? responseEntity.getConnectorCode() : "");
 				vietinTrans
-						.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), "") : "");
+						.setVietinResult(responseBase != null ? Objects.toString(responseBase.getStatus().getCode(), "") : "");
 				if (vietinTrans.getConnResult().equals(VietinConstants.CONNECTOR_SUCCESS)
 						&& vietinTrans.getVietinResult().equals(VietinConstants.VTB_SUCCESS_CODE)) {
 					vietinTrans.setTranStatus(VietinConstants.TRANS_SUCCESS);
@@ -277,10 +279,9 @@ public class VietinController extends AbstractBaseController {
 					vietinTrans.setMerchantId(configLoader.getVietinMerchantIdAccount());
 				}
 				vietinTrans.setToken(requestBody.getToken());
-				vietinTrans.setTokenIssueDate(requestBody.getTokenIssueDate());
 				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
 					iVietinService.create(vietinTrans);
-					iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, response);
+					iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, responseBase);
 				}
 				LOGGER.info("== RequestID {} - End TokenRevoke", requestBody.getRequestId());
 				return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -297,15 +298,17 @@ public class VietinController extends AbstractBaseController {
 			throws Exception {
 		LOGGER.info("== RequestID {} - Start TokenReIssue", requestBody.getRequestId());
 		VietinEwalletTransaction vietinTrans = new VietinEwalletTransaction();
-		VtbLinkBankBaseResponse response = null;
+		ResponseEntity<VtbLinkBankBaseResponse> responseBaseEntity = null;
+		VtbLinkBankBaseResponse responseBase = null;
 		VietinConnResponse responseEntity = null;
-		HttpStatus httpCode = null;
+		
 		try {
 			TokenRevokeReIssue requestMap = iVietinService.buildVietinTokenReIssue(requestBody, type.toString());
 
-			response = IHTTPRequestUtil.sendTokenReIssue(requestMap, httpCode);
+			responseBaseEntity = IHTTPRequestUtil.sendTokenReIssue(requestMap);
+			responseBase = responseBaseEntity.getBody();
 			// Validate response from VTB
-			responseEntity = iVietinService.validateResponse(response, httpCode, type.toString());
+			responseEntity = iVietinService.validateResponse(responseBase, responseBaseEntity.getStatusCode(), type.toString());
 		} catch (Exception e) {
 			LOGGER.error("== Fail to process TokenReissue", e);
 			responseEntity = imsgUtil.buildVietinConnectorResponse(VietinConstants.CONN_INTERNAL_SERVER_ERROR, null,
@@ -315,7 +318,7 @@ public class VietinController extends AbstractBaseController {
 				// Set data to transaction
 				vietinTrans.setConnResult(responseEntity != null ? responseEntity.getConnectorCode() : "");
 				vietinTrans
-						.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), "") : "");
+						.setVietinResult(responseBase != null ? Objects.toString(responseBase.getStatus().getCode(), "") : "");
 				if (vietinTrans.getConnResult().equals(VietinConstants.CONNECTOR_SUCCESS)
 						&& vietinTrans.getVietinResult().equals(VietinConstants.VTB_SUCCESS_CODE)) {
 					vietinTrans.setTranStatus(VietinConstants.TRANS_SUCCESS);
@@ -332,11 +335,10 @@ public class VietinController extends AbstractBaseController {
 				if (type.toString().equals(VietinConstants.LinkType.ACCOUNT.toString())) {
 					vietinTrans.setMerchantId(configLoader.getVietinMerchantIdAccount());
 				}
-				vietinTrans.setToken(response.getToken());
-				vietinTrans.setTokenIssueDate(response.getTokenIssueDate());
+				vietinTrans.setToken(responseBase.getToken());
 				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
 					iVietinService.create(vietinTrans);
-					iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, response);
+					iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, responseBase);
 				}
 				LOGGER.info("== RequestID {} - End TokenReIssue", requestBody.getRequestId());
 				return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -366,16 +368,17 @@ public class VietinController extends AbstractBaseController {
 			throws Exception {
 		LOGGER.info("== RequestID {} - Start PaymentByToken", requestBody.getRequestId());
 		VietinEwalletTransaction vietinTrans = new VietinEwalletTransaction();
-		VtbLinkBankBaseResponse response = null;
+		ResponseEntity<VtbLinkBankBaseResponse> responseBaseEntity = null;
+		VtbLinkBankBaseResponse responseBase = null;
 		VietinConnResponse responseEntity = null;
-		HttpStatus httpCode = null;
+		
 		try {
 			PaymentByToken requestMap = iVietinService.buildVietinPaymentByToken(requestBody, type.toString());
 
-			response = IHTTPRequestUtil.sendPaymentByToken(requestMap, httpCode);
-
+			responseBaseEntity = IHTTPRequestUtil.sendPaymentByToken(requestMap);
+			responseBase = responseBaseEntity.getBody();
 			// Validate response from VTB
-			responseEntity = iVietinService.validateResponse(response, httpCode, type.toString());
+			responseEntity = iVietinService.validateResponse(responseBase, responseBaseEntity.getStatusCode(), type.toString());
 		} catch (Exception e) {
 			LOGGER.error("== Fail to process PaymentByToken", e);
 			responseEntity = imsgUtil.buildVietinConnectorResponse(VietinConstants.CONN_INTERNAL_SERVER_ERROR, null,
@@ -385,7 +388,7 @@ public class VietinController extends AbstractBaseController {
 				// Set data to transaction
 				vietinTrans.setConnResult(responseEntity != null ? responseEntity.getConnectorCode() : "");
 				vietinTrans
-						.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), "") : "");
+						.setVietinResult(responseBase != null ? Objects.toString(responseBase.getStatus().getCode(), "") : "");
 				if (vietinTrans.getConnResult().equals(VietinConstants.CONNECTOR_SUCCESS)
 						&& vietinTrans.getVietinResult().equals(VietinConstants.VTB_SUCCESS_CODE)) {
 					vietinTrans.setTranStatus(VietinConstants.TRANS_SUCCESS);
@@ -407,12 +410,11 @@ public class VietinController extends AbstractBaseController {
 				if (type.toString().equals(VietinConstants.LinkType.ACCOUNT.toString())) {
 					vietinTrans.setMerchantId(configLoader.getVietinMerchantIdAccount());
 				}
-				vietinTrans.setBankTransactionId(response.getBankTransactionId());
+				vietinTrans.setBankTransactionId(responseBase.getBankTransactionId());
 				vietinTrans.setToken(requestBody.getToken());
-				vietinTrans.setTokenIssueDate(requestBody.getTokenIssueDate());
 				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
 					iVietinService.create(vietinTrans);
-					iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, response);
+					iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, responseBase);
 				}
 				LOGGER.info("== RequestID {} - End PaymentByToken", requestBody.getRequestId());
 				return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -427,21 +429,23 @@ public class VietinController extends AbstractBaseController {
 			throws Exception {
 		LOGGER.info("== RequestID {} - Start PaymentByOTP", requestBody.getRequestId());
 		VietinEwalletTransaction vietinTrans = new VietinEwalletTransaction();
-		VtbLinkBankBaseResponse response = null;
+		ResponseEntity<VtbLinkBankBaseResponse> responseBaseEntity = null;
+		VtbLinkBankBaseResponse responseBase = null;
 		VietinConnResponse responseEntity = null;
-		HttpStatus httpCode = null;
+		
 		try {
 			PaymentByOTP requestMap = iVietinService.buildVietinPaymentByOTP(requestBody, type.toString());
 
-			response = IHTTPRequestUtil.sendPaymentByOTP(requestMap, httpCode);
+			responseBaseEntity = IHTTPRequestUtil.sendPaymentByOTP(requestMap);
+			responseBase = responseBaseEntity.getBody();
 			// Validate response from VTB
-			responseEntity = iVietinService.validateResponse(response, httpCode, type.toString());
+			responseEntity = iVietinService.validateResponse(responseBase, responseBaseEntity.getStatusCode(), type.toString());
 			if (configLoader.isAlwaysTopupOTP()
-					&& response.getStatus().getCode().equals(VietinConstants.VTB_SUCCESS_CODE)
+					&& responseBase.getStatus().getCode().equals(VietinConstants.VTB_SUCCESS_CODE)
 					&& responseEntity.getConnectorCode().equals(VietinConstants.CONNECTOR_SUCCESS)) {
-				response.getStatus().setCode(VietinConstants.VTB_PAY_BY_OTP_CODE);
+				responseBase.getStatus().setCode(VietinConstants.VTB_PAY_BY_OTP_CODE);
 				responseEntity = imsgUtil.buildVietinConnectorResponse(VietinConstants.CONNECTOR_SUCCESS,
-						response, type.toString());
+						responseBase, type.toString());
 			}
 		} catch (Exception e) {
 			LOGGER.error("== Fail to process PaymentByOTP", e);
@@ -453,7 +457,7 @@ public class VietinController extends AbstractBaseController {
 				vietinTrans.setConnResult(responseEntity != null ? responseEntity.getConnectorCode() : "");
 				// Change response for OTP screen
 				vietinTrans.setVietinResult(
-						response != null ? Objects.toString(response.getStatus().getCode(), null) : null);
+						responseBase != null ? Objects.toString(responseBase.getStatus().getCode(), null) : null);
 				if (vietinTrans.getConnResult().equals(VietinConstants.CONNECTOR_SUCCESS)
 						&& vietinTrans.getVietinResult().equals(VietinConstants.VTB_PAY_BY_OTP_CODE)) {
 					vietinTrans.setTranStatus(VietinConstants.TRANS_PENDING);
@@ -473,10 +477,9 @@ public class VietinController extends AbstractBaseController {
 					vietinTrans.setMerchantId(configLoader.getVietinMerchantIdAccount());
 				}
 				vietinTrans.setToken(requestBody.getToken());
-				vietinTrans.setTokenIssueDate(requestBody.getTokenIssueDate());
 				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
 					iVietinService.create(vietinTrans);
-					iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, response);
+					iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, responseBase);
 				}
 				LOGGER.info("== RequestID {} - End PaymentByOTP", requestBody.getRequestId());
 				return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -492,16 +495,17 @@ public class VietinController extends AbstractBaseController {
 			@Valid @RequestBody(required = true) Withdraw requestBody, HttpServletRequest request) throws Exception {
 		LOGGER.info("== RequestID {} - Start Withdraw", requestBody.getRequestId());
 		VietinEwalletTransaction vietinTrans = new VietinEwalletTransaction();
-		VtbLinkBankBaseResponse response = null;
+		ResponseEntity<VtbLinkBankBaseResponse> responseBaseEntity = null;
+		VtbLinkBankBaseResponse responseBase = null;
 		VietinConnResponse responseEntity = null;
-		HttpStatus httpCode = null;
+		
 		try {
 			Withdraw requestMap = iVietinService.buildVietinWithdraw(requestBody, type.toString());
 
-			response = IHTTPRequestUtil.sendWithdraw(requestMap, httpCode);
-
+			responseBaseEntity = IHTTPRequestUtil.sendWithdraw(requestMap);
+			responseBase = responseBaseEntity.getBody();
 			// Validate response from VTB
-			responseEntity = iVietinService.validateResponse(response, httpCode, type.toString());
+			responseEntity = iVietinService.validateResponse(responseBase, responseBaseEntity.getStatusCode(), type.toString());
 		} catch (Exception e) {
 			LOGGER.error("== Fail to process Withdraw", e);
 			responseEntity = imsgUtil.buildVietinConnectorResponse(VietinConstants.CONN_INTERNAL_SERVER_ERROR, null,
@@ -511,7 +515,7 @@ public class VietinController extends AbstractBaseController {
 				// Set data to transaction
 				vietinTrans.setConnResult(responseEntity != null ? responseEntity.getConnectorCode() : "");
 				vietinTrans
-						.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), "") : "");
+						.setVietinResult(responseBase != null ? Objects.toString(responseBase.getStatus().getCode(), "") : "");
 				if (vietinTrans.getConnResult().equals(VietinConstants.CONNECTOR_SUCCESS)
 						&& vietinTrans.getVietinResult().equals(VietinConstants.VTB_SUCCESS_CODE)) {
 					vietinTrans.setTranStatus(VietinConstants.TRANS_SUCCESS);
@@ -530,12 +534,11 @@ public class VietinController extends AbstractBaseController {
 				if (type.toString().equals(VietinConstants.LinkType.ACCOUNT.toString())) {
 					vietinTrans.setMerchantId(configLoader.getVietinMerchantIdAccount());
 				}
-				vietinTrans.setBankTransactionId(response.getBankTransactionId());
+				vietinTrans.setBankTransactionId(responseBase.getBankTransactionId());
 				vietinTrans.setToken(requestBody.getToken());
-				vietinTrans.setTokenIssueDate(requestBody.getTokenIssueDate());
 				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
 					iVietinService.create(vietinTrans);
-					iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, response);
+					iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, responseBase);
 				}
 				LOGGER.info("== RequestID {} - End Withdraw", requestBody.getRequestId());
 				return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -551,14 +554,16 @@ public class VietinController extends AbstractBaseController {
 			@Valid @RequestBody(required = true) TransactionInquiry requestBody, HttpServletRequest request)
 			throws Exception {
 		LOGGER.info("== RequestID {} - Start TransactionInquiry", requestBody.getRequestId());
-		VtbLinkBankBaseResponse response = null;
-		HttpStatus httpCode = null;
+		ResponseEntity<VtbLinkBankBaseResponse> responseBaseEntity = null;
+		VtbLinkBankBaseResponse responseBase = null;
+		
 		try {
 			TransactionInquiry requestMap = iVietinService.buildVietinTransactionInquiry(requestBody, type.toString());
 
-			response = IHTTPRequestUtil.sendTransactionInquiry(requestMap, httpCode);
+			responseBaseEntity = IHTTPRequestUtil.sendTransactionInquiry(requestMap);
+			responseBase = responseBaseEntity.getBody();
 			// Validate response from VTB
-			VietinConnResponse responseEntity = iVietinService.validateResponse(response, httpCode, type.toString());
+			VietinConnResponse responseEntity = iVietinService.validateResponse(responseBase, responseBaseEntity.getStatusCode(), type.toString());
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
 		} catch (Exception e) {
 			LOGGER.error("== Fail to process TransactionInquiry", e);
@@ -606,15 +611,17 @@ public class VietinController extends AbstractBaseController {
 			throws Exception {
 		LOGGER.info("== RequestID {} - Start TokenIssuePayment", requestBody.getRequestId());
 		VietinEwalletTransaction vietinTrans = new VietinEwalletTransaction();
-		VtbLinkBankBaseResponse response = null;
+		ResponseEntity<VtbLinkBankBaseResponse> responseBaseEntity = null;
+		VtbLinkBankBaseResponse responseBase = null;
 		VietinConnResponse responseEntity = null;
-		HttpStatus httpCode = null;
+		
 		try {
 			TokenIssuePayment requestMap = iVietinService.buildVietinTokenIssuerPayment(requestBody, type.toString());
 
-			response = IHTTPRequestUtil.sendTokenIssuePayment(requestMap, httpCode);
+			responseBaseEntity = IHTTPRequestUtil.sendTokenIssuePayment(requestMap);
+			responseBase = responseBaseEntity.getBody();
 			// Validate response from VTB
-			responseEntity = iVietinService.validateResponse(response, httpCode, type.toString());
+			responseEntity = iVietinService.validateResponse(responseBase, responseBaseEntity.getStatusCode(), type.toString());
 		} catch (Exception e) {
 			LOGGER.error("== Fail to process TokenIssuePayment", e);
 			responseEntity = imsgUtil.buildVietinConnectorResponse(VietinConstants.CONN_INTERNAL_SERVER_ERROR, null,
@@ -624,7 +631,7 @@ public class VietinController extends AbstractBaseController {
 				// Set data to transaction
 				vietinTrans.setConnResult(responseEntity != null ? responseEntity.getConnectorCode() : "");
 				vietinTrans
-						.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), "") : "");
+						.setVietinResult(responseBase != null ? Objects.toString(responseBase.getStatus().getCode(), "") : "");
 				if (vietinTrans.getConnResult().equals(VietinConstants.CONNECTOR_SUCCESS)
 						&& vietinTrans.getVietinResult().equals(VietinConstants.VTB_SUCCESS_CODE)) {
 					vietinTrans.setTranStatus(VietinConstants.TRANS_PENDING);
@@ -645,7 +652,7 @@ public class VietinController extends AbstractBaseController {
 				}
 				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
 					iVietinService.create(vietinTrans);
-					iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, response);
+					iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, responseBase);
 				}
 				LOGGER.info("== RequestID {} - End TokenIssuePayment", requestBody.getRequestId());
 				return new ResponseEntity<>(responseEntity, HttpStatus.OK);
@@ -661,14 +668,16 @@ public class VietinController extends AbstractBaseController {
 			@Valid @RequestBody(required = true) Refund requestBody, HttpServletRequest request) throws Exception {
 		LOGGER.info("== RequestID {} - Start Refund", requestBody.getRequestId());
 		VietinEwalletTransaction vietinTrans = new VietinEwalletTransaction();
-		VtbLinkBankBaseResponse response = null;
+		ResponseEntity<VtbLinkBankBaseResponse> responseBaseEntity = null;
+		VtbLinkBankBaseResponse responseBase = null;
 		VietinConnResponse responseEntity = null;
-		HttpStatus httpCode = null;
+		
 		try {
 			Refund requestMap = iVietinService.buildVietinRefund(requestBody, type.toString());
-			response = IHTTPRequestUtil.sendRefund(requestMap, httpCode);
+			responseBaseEntity = IHTTPRequestUtil.sendRefund(requestMap);
+			responseBase = responseBaseEntity.getBody();
 			// Validate response from VTB
-			responseEntity = iVietinService.validateResponse(response, httpCode, type.toString());
+			responseEntity = iVietinService.validateResponse(responseBase, responseBaseEntity.getStatusCode(), type.toString());
 		} catch (Exception e) {
 			LOGGER.error("== Fail to process Refund", e);
 			responseEntity = imsgUtil.buildVietinConnectorResponse(VietinConstants.CONN_INTERNAL_SERVER_ERROR, null,
@@ -678,7 +687,7 @@ public class VietinController extends AbstractBaseController {
 				// Set data to transaction
 				vietinTrans.setConnResult(responseEntity != null ? responseEntity.getConnectorCode() : "");
 				vietinTrans
-						.setVietinResult(response != null ? Objects.toString(response.getStatus().getCode(), "") : "");
+						.setVietinResult(responseBase != null ? Objects.toString(responseBase.getStatus().getCode(), "") : "");
 				if (vietinTrans.getConnResult().equals(VietinConstants.CONNECTOR_SUCCESS)
 						&& vietinTrans.getVietinResult().equals(VietinConstants.VTB_SUCCESS_CODE)) {
 					vietinTrans.setTranStatus(VietinConstants.TRANS_SUCCESS);
@@ -695,13 +704,13 @@ public class VietinController extends AbstractBaseController {
 				if (type.toString().equals(VietinConstants.LinkType.ACCOUNT.toString())) {
 					vietinTrans.setMerchantId(configLoader.getVietinMerchantIdAccount());
 				}
-				vietinTrans.setBankTransactionId(response != null ? response.getBankTransactionId() : null);
+				vietinTrans.setBankTransactionId(responseBase != null ? responseBase.getBankTransactionId() : null);
 				vietinTrans.setAmount(new BigDecimal(requestBody.getAmount()));
 				vietinTrans.setCurrency(requestBody.getCurrencyCode());
 				vietinTrans.setRefundId(requestBody.getRefundTransactionId());
 				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
 					iVietinService.create(vietinTrans);
-					iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, response);
+					iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, responseBase);
 				}
 				LOGGER.info("== RequestID {} - End Refund", requestBody.getRequestId());
 				return new ResponseEntity<>(responseEntity, HttpStatus.OK);

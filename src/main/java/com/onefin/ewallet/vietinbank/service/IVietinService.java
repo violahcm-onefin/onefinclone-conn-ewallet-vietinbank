@@ -31,7 +31,7 @@ public interface IVietinService extends IBaseService<VietinEwalletTransaction> {
 	 * @param language
 	 * @return
 	 */
-	VietinConnResponse validateResponse(VtbLinkBankBaseResponse data, HttpStatus httpCode, String type);
+	VietinConnResponse validateResponse(VtbLinkBankBaseResponse data, HttpStatus httpStatus, String type);
 
 	TokenIssue buildVietinTokenIssuer(TokenIssue model, String linkType)
 			throws NoSuchAlgorithmException, InvalidKeySpecException, IOException;

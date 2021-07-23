@@ -2,7 +2,7 @@ package com.onefin.ewallet.vietinbank.service;
 
 import java.util.Map;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import com.onefin.ewallet.vietinbank.model.PaymentByOTP;
 import com.onefin.ewallet.vietinbank.model.PaymentByToken;
@@ -19,28 +19,28 @@ import com.onefin.ewallet.vietinbank.model.Withdraw;
 
 public interface IRequestUtil {
 
-	VtbLinkBankBaseResponse sendRegisterOnlinePay(RegisterOnlinePay data, HttpStatus httpCode);
+	ResponseEntity<VtbLinkBankBaseResponse> sendRegisterOnlinePay(RegisterOnlinePay data);
 
-	VtbLinkBankBaseResponse sendTokenIssue(TokenIssue data, HttpStatus httpCode);
+	ResponseEntity<VtbLinkBankBaseResponse> sendTokenIssue(TokenIssue data);
 
-	VtbLinkBankBaseResponse sendVerifyPin(VerifyPin data, HttpStatus httpCode);
+	ResponseEntity<VtbLinkBankBaseResponse> sendVerifyPin(VerifyPin data);
 
-	VtbLinkBankBaseResponse sendTokenRevoke(TokenRevokeReIssue data, HttpStatus httpCode);
+	ResponseEntity<VtbLinkBankBaseResponse> sendTokenRevoke(TokenRevokeReIssue data);
 
-	VtbLinkBankBaseResponse sendTokenReIssue(TokenRevokeReIssue data, HttpStatus httpCode);
+	ResponseEntity<VtbLinkBankBaseResponse> sendTokenReIssue(TokenRevokeReIssue data);
 
-	VtbLinkBankBaseResponse sendPaymentByToken(PaymentByToken data, HttpStatus httpCode);
+	ResponseEntity<VtbLinkBankBaseResponse> sendPaymentByToken(PaymentByToken data);
 
-	VtbLinkBankBaseResponse sendPaymentByOTP(PaymentByOTP data, HttpStatus httpCode);
+	ResponseEntity<VtbLinkBankBaseResponse> sendPaymentByOTP(PaymentByOTP data);
 
-	VtbLinkBankBaseResponse sendWithdraw(Withdraw data, HttpStatus httpCode);
+	ResponseEntity<VtbLinkBankBaseResponse> sendWithdraw(Withdraw data);
 
-	VtbLinkBankBaseResponse sendTransactionInquiry(TransactionInquiry data, HttpStatus httpCode);
+	ResponseEntity<VtbLinkBankBaseResponse> sendTransactionInquiry(TransactionInquiry data);
 
 	Map<String, Object> sendProviderInquiry(ProviderInquiry data);
 
-	VtbLinkBankBaseResponse sendTokenIssuePayment(TokenIssuePayment data, HttpStatus httpCode);
+	ResponseEntity<VtbLinkBankBaseResponse> sendTokenIssuePayment(TokenIssuePayment data);
 
-	VtbLinkBankBaseResponse sendRefund(Refund data, HttpStatus httpCode);
+	ResponseEntity<VtbLinkBankBaseResponse> sendRefund(Refund data);
 
 }

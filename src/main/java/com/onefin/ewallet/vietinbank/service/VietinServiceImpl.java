@@ -362,8 +362,8 @@ public class VietinServiceImpl extends BaseService<VietinEwalletTransaction> imp
 	 * @return
 	 */
 	@Override
-	public VietinConnResponse validateResponse(VtbLinkBankBaseResponse data, HttpStatus httpCode, String type) {
-		if (HttpStatus.REQUEST_TIMEOUT.equals(httpCode)) {
+	public VietinConnResponse validateResponse(VtbLinkBankBaseResponse data, HttpStatus httpStatus, String type) {
+		if (HttpStatus.REQUEST_TIMEOUT.equals(httpStatus)) {
 			LOGGER.error("== Failure response from Vietin!!!");
 			return iMessageUtil.buildVietinConnectorResponse(VietinConstants.TIMEOUT_RESPONSE, null, type);
 		}
