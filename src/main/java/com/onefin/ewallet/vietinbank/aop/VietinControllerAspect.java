@@ -31,12 +31,12 @@ public class VietinControllerAspect {
 		VietinConnResponse responseEntity = null;
 		try {
 			if (args[0].equals(LinkType.ACCOUNT) && configLoader.isVietinActiveAccount() == false) {
-				responseEntity = imsgUtil.buildVietinConnectorResponse(VietinConstants.SERVICE_NOT_AVAILABLE, null,
+				responseEntity = imsgUtil.buildVietinConnectorResponse(VietinConstants.CONN_SERVICE_NOT_AVAILABLE, null,
 						args[0].toString());
 				return new ResponseEntity<>(responseEntity, HttpStatus.OK);
 			}
 			if (args[0].equals(LinkType.CARD) && configLoader.isVietinActiveCard() == false) {
-				responseEntity = imsgUtil.buildVietinConnectorResponse(VietinConstants.SERVICE_NOT_AVAILABLE, null,
+				responseEntity = imsgUtil.buildVietinConnectorResponse(VietinConstants.CONN_SERVICE_NOT_AVAILABLE, null,
 						args[0].toString());
 				return new ResponseEntity<>(responseEntity, HttpStatus.OK);
 			}

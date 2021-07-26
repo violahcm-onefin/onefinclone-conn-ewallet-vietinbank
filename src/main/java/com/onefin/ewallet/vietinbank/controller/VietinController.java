@@ -96,7 +96,7 @@ public class VietinController extends AbstractBaseController {
 				vietinTrans.setConnResult(responseEntity != null ? responseEntity.getConnectorCode() : "");
 				vietinTrans
 						.setVietinResult(responseBase != null ? Objects.toString(responseBase.getStatus().getCode(), "") : "");
-				if (vietinTrans.getConnResult().equals(VietinConstants.CONNECTOR_SUCCESS)
+				if (vietinTrans.getConnResult().equals(VietinConstants.CONN_SUCCESS)
 						&& vietinTrans.getVietinResult().equals(VietinConstants.VTB_SUCCESS_CODE)) {
 					vietinTrans.setTranStatus(VietinConstants.TRANS_PENDING);
 				} else {
@@ -155,15 +155,15 @@ public class VietinController extends AbstractBaseController {
 				vietinTrans.setConnResult(responseEntity != null ? responseEntity.getConnectorCode() : "");
 				vietinTrans
 						.setVietinResult(responseBase != null ? Objects.toString(responseBase.getStatus().getCode(), "") : "");
-				if (vietinTrans.getConnResult().equals(VietinConstants.CONNECTOR_SUCCESS)
+				if (vietinTrans.getConnResult().equals(VietinConstants.CONN_SUCCESS)
 						&& vietinTrans.getVietinResult().equals(VietinConstants.VTB_SUCCESS_CODE)) {
 					vietinTrans.setTranStatus(VietinConstants.TRANS_SUCCESS);
 				}
-				vietinTrans.setBankTransactionId(
+				vietinTrans.setBankTransactionId(responseBase != null ?
 						StringUtils.isEmpty(vietinTrans.getBankTransactionId()) ? responseBase.getBankTransactionId()
-								: vietinTrans.getBankTransactionId());
-				vietinTrans.setToken(
-						StringUtils.isEmpty(vietinTrans.getToken()) ? responseBase.getToken() : vietinTrans.getToken());
+								: vietinTrans.getBankTransactionId() : vietinTrans.getBankTransactionId());
+				vietinTrans.setToken(responseBase != null ?
+						StringUtils.isEmpty(vietinTrans.getToken()) ? responseBase.getToken() : vietinTrans.getToken() : vietinTrans.getToken());
 				iVietinService.update(vietinTrans);
 				iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, responseBase);
 				LOGGER.info("== RequestID {} - End VerifyPin", requestBody.getRequestId());
@@ -206,7 +206,7 @@ public class VietinController extends AbstractBaseController {
 				vietinTrans.setConnResult(responseEntity != null ? responseEntity.getConnectorCode() : "");
 				vietinTrans
 						.setVietinResult(responseBase != null ? Objects.toString(responseBase.getStatus().getCode(), "") : "");
-				if (vietinTrans.getConnResult().equals(VietinConstants.CONNECTOR_SUCCESS)
+				if (vietinTrans.getConnResult().equals(VietinConstants.CONN_SUCCESS)
 						&& vietinTrans.getVietinResult().equals(VietinConstants.VTB_SUCCESS_CODE)) {
 					vietinTrans.setTranStatus(VietinConstants.TRANS_PENDING);
 				} else {
@@ -262,7 +262,7 @@ public class VietinController extends AbstractBaseController {
 				vietinTrans.setConnResult(responseEntity != null ? responseEntity.getConnectorCode() : "");
 				vietinTrans
 						.setVietinResult(responseBase != null ? Objects.toString(responseBase.getStatus().getCode(), "") : "");
-				if (vietinTrans.getConnResult().equals(VietinConstants.CONNECTOR_SUCCESS)
+				if (vietinTrans.getConnResult().equals(VietinConstants.CONN_SUCCESS)
 						&& vietinTrans.getVietinResult().equals(VietinConstants.VTB_SUCCESS_CODE)) {
 					vietinTrans.setTranStatus(VietinConstants.TRANS_SUCCESS);
 				} else {
@@ -319,7 +319,7 @@ public class VietinController extends AbstractBaseController {
 				vietinTrans.setConnResult(responseEntity != null ? responseEntity.getConnectorCode() : "");
 				vietinTrans
 						.setVietinResult(responseBase != null ? Objects.toString(responseBase.getStatus().getCode(), "") : "");
-				if (vietinTrans.getConnResult().equals(VietinConstants.CONNECTOR_SUCCESS)
+				if (vietinTrans.getConnResult().equals(VietinConstants.CONN_SUCCESS)
 						&& vietinTrans.getVietinResult().equals(VietinConstants.VTB_SUCCESS_CODE)) {
 					vietinTrans.setTranStatus(VietinConstants.TRANS_SUCCESS);
 				} else {
@@ -335,7 +335,7 @@ public class VietinController extends AbstractBaseController {
 				if (type.toString().equals(VietinConstants.LinkType.ACCOUNT.toString())) {
 					vietinTrans.setMerchantId(configLoader.getVietinMerchantIdAccount());
 				}
-				vietinTrans.setToken(responseBase.getToken());
+				vietinTrans.setToken(responseBase != null ? responseBase.getToken() : null);
 				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
 					iVietinService.create(vietinTrans);
 					iVietinService.backUpRequestResponse(requestBody.getRequestId(), requestBody, responseBase);
@@ -389,10 +389,10 @@ public class VietinController extends AbstractBaseController {
 				vietinTrans.setConnResult(responseEntity != null ? responseEntity.getConnectorCode() : "");
 				vietinTrans
 						.setVietinResult(responseBase != null ? Objects.toString(responseBase.getStatus().getCode(), "") : "");
-				if (vietinTrans.getConnResult().equals(VietinConstants.CONNECTOR_SUCCESS)
+				if (vietinTrans.getConnResult().equals(VietinConstants.CONN_SUCCESS)
 						&& vietinTrans.getVietinResult().equals(VietinConstants.VTB_SUCCESS_CODE)) {
 					vietinTrans.setTranStatus(VietinConstants.TRANS_SUCCESS);
-				} else if (vietinTrans.getConnResult().equals(VietinConstants.CONNECTOR_SUCCESS)
+				} else if (vietinTrans.getConnResult().equals(VietinConstants.CONN_SUCCESS)
 						&& vietinTrans.getVietinResult().equals(VietinConstants.VTB_PAY_BY_OTP_CODE)) {
 					vietinTrans.setTranStatus(VietinConstants.TRANS_PENDING);
 				} else {
@@ -410,7 +410,7 @@ public class VietinController extends AbstractBaseController {
 				if (type.toString().equals(VietinConstants.LinkType.ACCOUNT.toString())) {
 					vietinTrans.setMerchantId(configLoader.getVietinMerchantIdAccount());
 				}
-				vietinTrans.setBankTransactionId(responseBase.getBankTransactionId());
+				vietinTrans.setBankTransactionId(responseBase != null ? responseBase.getBankTransactionId() : vietinTrans.getBankTransactionId());
 				vietinTrans.setToken(requestBody.getToken());
 				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
 					iVietinService.create(vietinTrans);
@@ -442,9 +442,9 @@ public class VietinController extends AbstractBaseController {
 			responseEntity = iVietinService.validateResponse(responseBase, responseBaseEntity.getStatusCode(), type.toString());
 			if (configLoader.isAlwaysTopupOTP()
 					&& responseBase.getStatus().getCode().equals(VietinConstants.VTB_SUCCESS_CODE)
-					&& responseEntity.getConnectorCode().equals(VietinConstants.CONNECTOR_SUCCESS)) {
+					&& responseEntity.getConnectorCode().equals(VietinConstants.CONN_SUCCESS)) {
 				responseBase.getStatus().setCode(VietinConstants.VTB_PAY_BY_OTP_CODE);
-				responseEntity = imsgUtil.buildVietinConnectorResponse(VietinConstants.CONNECTOR_SUCCESS,
+				responseEntity = imsgUtil.buildVietinConnectorResponse(VietinConstants.CONN_SUCCESS,
 						responseBase, type.toString());
 			}
 		} catch (Exception e) {
@@ -458,7 +458,7 @@ public class VietinController extends AbstractBaseController {
 				// Change response for OTP screen
 				vietinTrans.setVietinResult(
 						responseBase != null ? Objects.toString(responseBase.getStatus().getCode(), null) : null);
-				if (vietinTrans.getConnResult().equals(VietinConstants.CONNECTOR_SUCCESS)
+				if (vietinTrans.getConnResult().equals(VietinConstants.CONN_SUCCESS)
 						&& vietinTrans.getVietinResult().equals(VietinConstants.VTB_PAY_BY_OTP_CODE)) {
 					vietinTrans.setTranStatus(VietinConstants.TRANS_PENDING);
 				} else {
@@ -516,7 +516,7 @@ public class VietinController extends AbstractBaseController {
 				vietinTrans.setConnResult(responseEntity != null ? responseEntity.getConnectorCode() : "");
 				vietinTrans
 						.setVietinResult(responseBase != null ? Objects.toString(responseBase.getStatus().getCode(), "") : "");
-				if (vietinTrans.getConnResult().equals(VietinConstants.CONNECTOR_SUCCESS)
+				if (vietinTrans.getConnResult().equals(VietinConstants.CONN_SUCCESS)
 						&& vietinTrans.getVietinResult().equals(VietinConstants.VTB_SUCCESS_CODE)) {
 					vietinTrans.setTranStatus(VietinConstants.TRANS_SUCCESS);
 				} else {
@@ -534,7 +534,7 @@ public class VietinController extends AbstractBaseController {
 				if (type.toString().equals(VietinConstants.LinkType.ACCOUNT.toString())) {
 					vietinTrans.setMerchantId(configLoader.getVietinMerchantIdAccount());
 				}
-				vietinTrans.setBankTransactionId(responseBase.getBankTransactionId());
+				vietinTrans.setBankTransactionId(responseBase != null ? responseBase.getBankTransactionId() : vietinTrans.getBankTransactionId());
 				vietinTrans.setToken(requestBody.getToken());
 				if (!vietinTrans.getVietinResult().equals(VietinConstants.VTB_DUPLICATE_REQUESTID_CODE)) {
 					iVietinService.create(vietinTrans);
@@ -589,7 +589,7 @@ public class VietinController extends AbstractBaseController {
 		try {
 			ProviderInquiry requestMap = iVietinService.buildVietinProviderInquiry(requestBody);
 			response = IHTTPRequestUtil.sendProviderInquiry(requestMap);
-			return new ResponseEntity<>(imsgUtil.buildVietinConnectorResponse(VietinConstants.CONNECTOR_SUCCESS, response, null), HttpStatus.OK);
+			return new ResponseEntity<>(imsgUtil.buildVietinConnectorResponse(VietinConstants.CONN_SUCCESS, response, null), HttpStatus.OK);
 		} catch (Exception e) {
 			LOGGER.error("== Fail to process ProviderInquiry", e);
 			throw new RuntimeNullPointerException();
@@ -632,7 +632,7 @@ public class VietinController extends AbstractBaseController {
 				vietinTrans.setConnResult(responseEntity != null ? responseEntity.getConnectorCode() : "");
 				vietinTrans
 						.setVietinResult(responseBase != null ? Objects.toString(responseBase.getStatus().getCode(), "") : "");
-				if (vietinTrans.getConnResult().equals(VietinConstants.CONNECTOR_SUCCESS)
+				if (vietinTrans.getConnResult().equals(VietinConstants.CONN_SUCCESS)
 						&& vietinTrans.getVietinResult().equals(VietinConstants.VTB_SUCCESS_CODE)) {
 					vietinTrans.setTranStatus(VietinConstants.TRANS_PENDING);
 				} else {
@@ -688,7 +688,7 @@ public class VietinController extends AbstractBaseController {
 				vietinTrans.setConnResult(responseEntity != null ? responseEntity.getConnectorCode() : "");
 				vietinTrans
 						.setVietinResult(responseBase != null ? Objects.toString(responseBase.getStatus().getCode(), "") : "");
-				if (vietinTrans.getConnResult().equals(VietinConstants.CONNECTOR_SUCCESS)
+				if (vietinTrans.getConnResult().equals(VietinConstants.CONN_SUCCESS)
 						&& vietinTrans.getVietinResult().equals(VietinConstants.VTB_SUCCESS_CODE)) {
 					vietinTrans.setTranStatus(VietinConstants.TRANS_SUCCESS);
 				} else {
