@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.onefin.ewallet.common.base.controller.AbstractBaseController;
 import com.onefin.ewallet.common.base.errorhandler.RuntimeBadRequestException;
 import com.onefin.ewallet.common.base.errorhandler.RuntimeInternalServerException;
+import com.onefin.ewallet.common.base.errorhandler.RuntimeUnsupportedOperationException;
 import com.onefin.ewallet.common.domain.bank.vietin.VietinEwalletTransaction;
 import com.onefin.ewallet.common.utility.json.JSONHelper;
 import com.onefin.ewallet.vietinbank.common.VietinConstants;
@@ -121,7 +122,7 @@ public class VietinController extends AbstractBaseController {
 //				LOGGER.error("== Fail store transaction", e);
 //			}
 //		}
-		throw new RuntimeInternalServerException();
+		throw new RuntimeUnsupportedOperationException();
 	}
 
 	@PostMapping("/verifyPin/type/{type}")
