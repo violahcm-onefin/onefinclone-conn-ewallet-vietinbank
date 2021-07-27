@@ -25,7 +25,7 @@ public class MessageUtilImpl extends ConnMessageService implements IMessageUtil 
 	@Override
 	public VietinConnResponse buildVietinConnectorResponse(String code, Object data, String... args) {
 		VietinConnResponse response = new VietinConnResponse();
-		response.setConnectorCode("01");
+		response.setConnectorCode(code);
 		response.setVtbResponse(data);
 		response.setVersion(configLoader.getVietinVersion());
 		response.setType(args != null ? args[0] : null);
