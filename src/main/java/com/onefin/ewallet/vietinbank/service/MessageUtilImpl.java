@@ -6,12 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.onefin.ewallet.common.base.service.ConnMessageService;
 import com.onefin.ewallet.common.utility.json.JSONHelper;
 import com.onefin.ewallet.vietinbank.model.VietinConnResponse;
 
 @Service
-public class MessageUtilImpl extends ConnMessageService implements IMessageUtil {
+public class MessageUtilImpl implements IMessageUtil {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(MessageUtilImpl.class);
 

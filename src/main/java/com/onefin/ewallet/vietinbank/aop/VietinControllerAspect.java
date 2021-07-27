@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import com.onefin.ewallet.common.base.errorhandler.RuntimeExpectationFailedException;
+import com.onefin.ewallet.common.base.errorhandler.RuntimeInternalServerException;
 import com.onefin.ewallet.vietinbank.common.VietinConstants;
 import com.onefin.ewallet.vietinbank.common.VietinConstants.LinkType;
 import com.onefin.ewallet.vietinbank.model.VietinConnResponse;
@@ -41,7 +41,7 @@ public class VietinControllerAspect {
 				return new ResponseEntity<>(responseEntity, HttpStatus.OK);
 			}
 		} catch (Exception e) {
-			throw new RuntimeExpectationFailedException();
+			throw new RuntimeInternalServerException();
 		}
 		return joinPoint.proceed();
 	}

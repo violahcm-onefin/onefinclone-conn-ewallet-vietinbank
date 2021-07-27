@@ -365,12 +365,12 @@ public class VietinServiceImpl extends BaseService<VietinEwalletTransaction> imp
 	public VietinConnResponse validateResponse(VtbLinkBankBaseResponse data, HttpStatus httpStatus, String type) {
 		if (HttpStatus.REQUEST_TIMEOUT.equals(httpStatus)) {
 			LOGGER.error("== Failure response from Vietin!!!");
-			return iMessageUtil.buildVietinConnectorResponse(VietinConstants.CONN_TIMEOUT_RESPONSE, null, type);
+			return iMessageUtil.buildVietinConnectorResponse(VietinConstants.CONN_PARTNER_TIMEOUT_RESPONSE, null, type);
 		}
 		// Check response
 		if (data == null) {
 			LOGGER.error("== Failure response from Vietin!!!");
-			return iMessageUtil.buildVietinConnectorResponse(VietinConstants.CONN_ERROR_RESPONSE, null, type);
+			return iMessageUtil.buildVietinConnectorResponse(VietinConstants.CONN_PARTNER_ERROR_RESPONSE, null, type);
 		}
 		try {
 			String code = null;
@@ -379,13 +379,13 @@ public class VietinServiceImpl extends BaseService<VietinEwalletTransaction> imp
 			}
 			if (!isValidMessage(data.getRequestId(), data.getProviderId(), data.getMerchantId(), data.getSignature())) {
 				LOGGER.error("== Invalid response from Vietin!!!");
-				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.CONN_INVALID_RESPONSE, null, type);
+				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.CONN_PARTNER_INVALID_RESPONSE, null, type);
 			}
 
 			// validate signature
 			if (!verifySignature(data.getRequestId() + data.getProviderId() + data.getMerchantId() + code, data.getSignature())) {
 				LOGGER.error("== Verify signature fail!!!");
-				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.CONN_VTB_INVALID_SIG, null, type);
+				return iMessageUtil.buildVietinConnectorResponse(VietinConstants.CONN_PARTNER_INVALID_SIGNATURE, null, type);
 			}
 
 			LOGGER.info("== Validation success!");
@@ -393,7 +393,7 @@ public class VietinServiceImpl extends BaseService<VietinEwalletTransaction> imp
 
 		} catch (Exception e) {
 			LOGGER.error("== Validate response from Vietin error!!!", e);
-			return iMessageUtil.buildVietinConnectorResponse(VietinConstants.CONN_VALIDATION_FUNCTION_FAIL, null, type);
+			return iMessageUtil.buildVietinConnectorResponse(VietinConstants.CONN_FAIL_TO_EXCUTE_VALIDATION_FUNCTION, null, type);
 
 		}
 	}

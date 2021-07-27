@@ -17,9 +17,6 @@ public class VietinConstants extends OneFinConstants {
 	public static final String VTB_DUPLICATE_REQUESTID_CODE = "07";
 	public static final String VTB_PAY_BY_OTP_CODE = "20";
 
-	// Connector error code
-	public static final String CONN_VTB_INVALID_SIG = "01"; // VietinBank signature invalid
-
 	public enum LinkType {
 		CARD, ACCOUNT;
 	}
