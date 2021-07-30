@@ -14,30 +14,31 @@ spring:
       ddl-auto: update
 
 vietin:
-  onefinPrivateKey: E:\OneFin\source_code\OF_ewallet\conn-ewallet-vietinbank\src\main\resources\keys\onefin-privatekey-uat-vietin.der
-  vtbPublicKey: E:\OneFin\source_code\OF_ewallet\conn-ewallet-vietinbank\src\main\resources\keys\Vietinbank_ITC2020.cer1
-  version: 1.0
-  merchantIdCard: 7001
-  merchantIdAccount: 7002
-  providerId: 777
-  ibmClientId: 9049dbd1-2f74-4df9-a0c6-4acb50bd3f01
-  xIbmClientSecret: uS7pQ2cV4yQ4iK7mT2mF6jH0wU3kA7pQ0lX8mF7kX3jO7kC2wV
-  url:
-    tokenIssue: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/tokenIssue
-    verifyPin: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/verifyPin
-    registerOnlinePay: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/registerOnlinePay
-    tokenRevoke: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/tokenRevoke
-    tokenReissue: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/tokenReIssue
-    paymentByToken: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/paymentByToken
-    paymentByOTP: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/paymentByOTP
-    widthdraw: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/withdraw
-    transactionInquiry: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/transactionInquiry
-    providerInquiry: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/providerInquiry
-    tokenIssuePayment: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/tokenIssuer-payment
-    refund: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/refund
-  alwaysTopupOTP: false
-  activeAccount: true
-  activeCard: true
+  linkbank:
+    onefinPrivateKey: E:\OneFin\source_code\OF_ewallet\conn-ewallet-vietinbank\src\main\resources\keys\onefin-privatekey-uat-vietin.der
+    vtbPublicKey: E:\OneFin\source_code\OF_ewallet\conn-ewallet-vietinbank\src\main\resources\keys\Vietinbank_ITC2020.cer1
+    version: 1.0
+    merchantIdCard: 7001
+    merchantIdAccount: 7002
+    providerId: 777
+    ibmClientId: 9049dbd1-2f74-4df9-a0c6-4acb50bd3f01
+    xIbmClientSecret: uS7pQ2cV4yQ4iK7mT2mF6jH0wU3kA7pQ0lX8mF7kX3jO7kC2wV
+    url:
+      tokenIssue: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/tokenIssue
+      verifyPin: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/verifyPin
+      registerOnlinePay: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/registerOnlinePay
+      tokenRevoke: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/tokenRevoke
+      tokenReissue: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/tokenReIssue
+      paymentByToken: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/paymentByToken
+      paymentByOTP: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/paymentByOTP
+      widthdraw: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/withdraw
+      transactionInquiry: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/transactionInquiry
+      providerInquiry: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/providerInquiry
+      tokenIssuePayment: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/tokenIssuer-payment
+      refund: https://api-uat.vietinbank.vn/vtb-api-uat/development/v1/ewallet/refund
+    alwaysTopupOTP: false
+    activeAccount: true
+    activeCard: true
     
 proxy:
   active: true
@@ -49,4 +50,4 @@ proxy:
   
 backup:
   api:
-    uri: http://localhost:8063/backup/ewallet/vietinEwallet
+    uriVietinLinkBank: http://localhost:8063/backup/ewallet/vietinLinkBank

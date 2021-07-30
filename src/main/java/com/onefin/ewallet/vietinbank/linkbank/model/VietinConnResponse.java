@@ -1,4 +1,4 @@
-package com.onefin.ewallet.vietinbank.model;
+package com.onefin.ewallet.vietinbank.linkbank.model;
 
 import com.onefin.ewallet.common.base.model.BaseConnResponse;
 

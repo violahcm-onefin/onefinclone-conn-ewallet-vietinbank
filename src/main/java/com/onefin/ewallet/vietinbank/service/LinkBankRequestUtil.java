@@ -18,23 +18,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.onefin.ewallet.common.utility.resttemplate.RestTemplateHelper;
-import com.onefin.ewallet.vietinbank.model.PaymentByOTP;
-import com.onefin.ewallet.vietinbank.model.PaymentByToken;
-import com.onefin.ewallet.vietinbank.model.ProviderInquiry;
-import com.onefin.ewallet.vietinbank.model.Refund;
-import com.onefin.ewallet.vietinbank.model.RegisterOnlinePay;
-import com.onefin.ewallet.vietinbank.model.TokenIssue;
-import com.onefin.ewallet.vietinbank.model.TokenIssuePayment;
-import com.onefin.ewallet.vietinbank.model.TokenRevokeReIssue;
-import com.onefin.ewallet.vietinbank.model.TransactionInquiry;
-import com.onefin.ewallet.vietinbank.model.VerifyPin;
-import com.onefin.ewallet.vietinbank.model.VtbLinkBankBaseResponse;
-import com.onefin.ewallet.vietinbank.model.Withdraw;
+import com.onefin.ewallet.vietinbank.linkbank.model.PaymentByOTP;
+import com.onefin.ewallet.vietinbank.linkbank.model.PaymentByToken;
+import com.onefin.ewallet.vietinbank.linkbank.model.ProviderInquiry;
+import com.onefin.ewallet.vietinbank.linkbank.model.Refund;
+import com.onefin.ewallet.vietinbank.linkbank.model.RegisterOnlinePay;
+import com.onefin.ewallet.vietinbank.linkbank.model.TokenIssue;
+import com.onefin.ewallet.vietinbank.linkbank.model.TokenIssuePayment;
+import com.onefin.ewallet.vietinbank.linkbank.model.TokenRevokeReIssue;
+import com.onefin.ewallet.vietinbank.linkbank.model.TransactionInquiry;
+import com.onefin.ewallet.vietinbank.linkbank.model.VerifyPin;
+import com.onefin.ewallet.vietinbank.linkbank.model.VtbLinkBankBaseResponse;
+import com.onefin.ewallet.vietinbank.linkbank.model.Withdraw;
 
 @Service
-public class RequestUtilImpl implements IRequestUtil {
+public class LinkBankRequestUtil {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(RequestUtilImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(LinkBankRequestUtil.class);
 
 	private static final String ibmClientId = "x-ibm-client-id";
 
@@ -46,7 +46,6 @@ public class RequestUtilImpl implements IRequestUtil {
 	@Autowired
 	protected RestTemplateHelper restTemplateHelper;
 
-	@Override
 	public ResponseEntity<VtbLinkBankBaseResponse> sendTokenIssue(TokenIssue data) {
 		String url = configLoader.getTokenIssue();
 		LOGGER.info("== Send TokenIssue request to Vietin {} - url: {}", data, url);
@@ -78,7 +77,6 @@ public class RequestUtilImpl implements IRequestUtil {
 
 	}
 
-	@Override
 	public ResponseEntity<VtbLinkBankBaseResponse> sendRegisterOnlinePay(RegisterOnlinePay data) {
 		String url = configLoader.getRegisterOnlinePay();
 		LOGGER.info("== Send RegisterOnlinePay request to Vietin {} - url: {}", data, url);
@@ -109,7 +107,6 @@ public class RequestUtilImpl implements IRequestUtil {
 		}
 	}
 
-	@Override
 	public ResponseEntity<VtbLinkBankBaseResponse> sendVerifyPin(VerifyPin data) {
 		String url = configLoader.getVerifyPin();
 		LOGGER.info("== Send VerifyPin request to Vietin {} - url: {}", data, url);
@@ -140,7 +137,6 @@ public class RequestUtilImpl implements IRequestUtil {
 		}
 	}
 
-	@Override
 	public ResponseEntity<VtbLinkBankBaseResponse> sendTokenRevoke(TokenRevokeReIssue data) {
 		String url = configLoader.getTokenRevoke();
 		LOGGER.info("== Send TokenRevoke request to Vietin {} - url: {}", data, url);
@@ -171,7 +167,6 @@ public class RequestUtilImpl implements IRequestUtil {
 		}
 	}
 
-	@Override
 	public ResponseEntity<VtbLinkBankBaseResponse> sendTokenReIssue(TokenRevokeReIssue data) {
 		String url = configLoader.getTokenReissue();
 		LOGGER.info("== Send TokenReIssue request to Vietin {} - url: {}", data, url);
@@ -202,7 +197,6 @@ public class RequestUtilImpl implements IRequestUtil {
 		}
 	}
 
-	@Override
 	public ResponseEntity<VtbLinkBankBaseResponse> sendPaymentByToken(PaymentByToken data) {
 		String url = configLoader.getPaymentByToken();
 		LOGGER.info("== Send PaymentByToken request to Vietin {} - url: {}", data, url);
@@ -233,7 +227,6 @@ public class RequestUtilImpl implements IRequestUtil {
 		}
 	}
 
-	@Override
 	public ResponseEntity<VtbLinkBankBaseResponse> sendPaymentByOTP(PaymentByOTP data) {
 		String url = configLoader.getPaymentByOTP();
 		LOGGER.info("== Send PaymentByOTP request to Vietin {} - url: {}", data, url);
@@ -264,7 +257,6 @@ public class RequestUtilImpl implements IRequestUtil {
 		}
 	}
 
-	@Override
 	public ResponseEntity<VtbLinkBankBaseResponse> sendWithdraw(Withdraw data) {
 		String url = configLoader.getWidthdraw();
 		LOGGER.info("== Send Withdraw request to Vietin {} - url: {}", data, url);
@@ -295,7 +287,6 @@ public class RequestUtilImpl implements IRequestUtil {
 		}
 	}
 
-	@Override
 	public ResponseEntity<VtbLinkBankBaseResponse> sendTransactionInquiry(TransactionInquiry data) {
 		String url = configLoader.getTransactionInquiry();
 		LOGGER.info("== Send TransactionInquiry request to Vietin {} - url: {}", data, url);
@@ -326,7 +317,6 @@ public class RequestUtilImpl implements IRequestUtil {
 		}
 	}
 
-	@Override
 	public Map<String, Object> sendProviderInquiry(ProviderInquiry data) {
 		String url = configLoader.getProviderInquiry();
 		LOGGER.info("== Send ProviderInquiry request to Vietin {} - url: {}", data, url);
@@ -367,7 +357,6 @@ public class RequestUtilImpl implements IRequestUtil {
 		}
 	}
 
-	@Override
 	public ResponseEntity<VtbLinkBankBaseResponse> sendTokenIssuePayment(TokenIssuePayment data) {
 		String url = configLoader.getTokenIssuePayment();
 		LOGGER.info("== Send TokenIssuePayment request to Vietin {} - url: {}", data, url);
@@ -398,7 +387,6 @@ public class RequestUtilImpl implements IRequestUtil {
 		}
 	}
 
-	@Override
 	public ResponseEntity<VtbLinkBankBaseResponse> sendRefund(Refund data) {
 		String url = configLoader.getRefund();
 		LOGGER.info("== Send Refund request to Vietin {} - url: {}", data, url);

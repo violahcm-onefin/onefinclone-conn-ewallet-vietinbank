@@ -10,17 +10,17 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import com.onefin.ewallet.common.base.repository.mariadb.IBaseTransactionRepository;
-import com.onefin.ewallet.common.domain.bank.vietin.VietinEwalletTransaction;
+import com.onefin.ewallet.common.domain.bank.vietin.VietinLinkBankTransaction;
 
 @RepositoryRestResource(collectionResourceRel = "metaDatas", exported = false)
-public interface ETransRepo<T extends VietinEwalletTransaction>
+public interface LinkBankTransRepo<T extends VietinLinkBankTransaction>
 		extends IBaseTransactionRepository<T> {
 
-	VietinEwalletTransaction findByRequestIdAndTranStatus(String requestId, String tranStatus);
+	VietinLinkBankTransaction findByRequestIdAndTranStatus(String requestId, String tranStatus);
 
 	@Modifying
 	@Transactional
-	@Query(value = "Update VietinEwalletTransaction Set updatedDate = CURRENT_TIMESTAMP Where id = :id")
+	@Query(value = "Update VietinLinkBankTransaction Set updatedDate = CURRENT_TIMESTAMP Where id = :id")
 	public void updateTransaction(@Param("id") UUID id);
 
 }

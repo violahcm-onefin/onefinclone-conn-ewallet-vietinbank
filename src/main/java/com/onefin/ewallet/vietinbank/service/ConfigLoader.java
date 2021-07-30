@@ -14,64 +14,64 @@ import lombok.Data;
 @Service
 public class ConfigLoader implements InitializingBean {
 
-	@Value("${vietin.merchantIdAccount}")
+	@Value("${vietin.linkbank.merchantIdAccount}")
 	private String vietinMerchantIdAccount;
 
-	@Value("${vietin.merchantIdCard}")
+	@Value("${vietin.linkbank.merchantIdCard}")
 	private String vietinMerchantIdCard;
 
-	@Value("${vietin.providerId}")
+	@Value("${vietin.linkbank.providerId}")
 	private String vietinProviderId;
 
-	@Value("${vietin.version}")
+	@Value("${vietin.linkbank.version}")
 	private String vietinVersion;
 
-	@Value("${vietin.url.tokenIssue}")
+	@Value("${vietin.linkbank.url.tokenIssue}")
 	private String tokenIssue;
 
-	@Value("${vietin.url.verifyPin}")
+	@Value("${vietin.linkbank.url.verifyPin}")
 	private String verifyPin;
 
-	@Value("${vietin.url.registerOnlinePay}")
+	@Value("${vietin.linkbank.url.registerOnlinePay}")
 	private String registerOnlinePay;
 
-	@Value("${vietin.url.tokenRevoke}")
+	@Value("${vietin.linkbank.url.tokenRevoke}")
 	private String tokenRevoke;
 
-	@Value("${vietin.url.tokenReissue}")
+	@Value("${vietin.linkbank.url.tokenReissue}")
 	private String tokenReissue;
 
-	@Value("${vietin.url.paymentByToken}")
+	@Value("${vietin.linkbank.url.paymentByToken}")
 	private String paymentByToken;
 
-	@Value("${vietin.url.paymentByOTP}")
+	@Value("${vietin.linkbank.url.paymentByOTP}")
 	private String paymentByOTP;
 
-	@Value("${vietin.url.widthdraw}")
+	@Value("${vietin.linkbank.url.widthdraw}")
 	private String widthdraw;
 
-	@Value("${vietin.url.transactionInquiry}")
+	@Value("${vietin.linkbank.url.transactionInquiry}")
 	private String transactionInquiry;
 
-	@Value("${vietin.url.providerInquiry}")
+	@Value("${vietin.linkbank.url.providerInquiry}")
 	private String providerInquiry;
 
-	@Value("${vietin.url.tokenIssuePayment}")
+	@Value("${vietin.linkbank.url.tokenIssuePayment}")
 	private String tokenIssuePayment;
 	
-	@Value("${vietin.url.refund}")
+	@Value("${vietin.linkbank.url.refund}")
 	private String refund;
 
-	@Value("${vietin.ibmClientId}")
+	@Value("${vietin.linkbank.ibmClientId}")
 	private String ibmClientId;
 
-	@Value("${vietin.xIbmClientSecret}")
+	@Value("${vietin.linkbank.xIbmClientSecret}")
 	private String xIbmClientSecret;
 
-	@Value("${vietin.onefinPrivateKey}")
+	@Value("${vietin.linkbank.onefinPrivateKey}")
 	private String onefinPrivateKey;
 
-	@Value("${vietin.vtbPublicKey}")
+	@Value("${vietin.linkbank.vtbPublicKey}")
 	private String vtbPublicKey;
 
 	@Value("${proxy.active}")
@@ -92,16 +92,16 @@ public class ConfigLoader implements InitializingBean {
 	@Value("${proxy.password}")
 	private String proxPassword;
 	
-	@Value("${vietin.alwaysTopupOTP}")
+	@Value("${vietin.linkbank.alwaysTopupOTP}")
 	private boolean alwaysTopupOTP;
 	
-	@Value("${backup.api.uri}")
-	private String backupUri;
+	@Value("${backup.api.uriVietinLinkBank}")
+	private String backupVietinLinkBank;
 	
-	@Value("${vietin.activeAccount}")
+	@Value("${vietin.linkbank.activeAccount}")
 	private boolean vietinActiveAccount;
 	
-	@Value("${vietin.activeCard}")
+	@Value("${vietin.linkbank.activeCard}")
 	private boolean vietinActiveCard;
 
 	private RestProxy proxyConfig = new RestProxy();

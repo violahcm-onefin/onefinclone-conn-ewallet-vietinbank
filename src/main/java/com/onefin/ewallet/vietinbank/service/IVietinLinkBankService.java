@@ -7,22 +7,22 @@ import java.security.spec.InvalidKeySpecException;
 import org.springframework.http.HttpStatus;
 
 import com.onefin.ewallet.common.base.service.IBaseService;
-import com.onefin.ewallet.common.domain.bank.vietin.VietinEwalletTransaction;
-import com.onefin.ewallet.vietinbank.model.PaymentByOTP;
-import com.onefin.ewallet.vietinbank.model.PaymentByToken;
-import com.onefin.ewallet.vietinbank.model.ProviderInquiry;
-import com.onefin.ewallet.vietinbank.model.Refund;
-import com.onefin.ewallet.vietinbank.model.RegisterOnlinePay;
-import com.onefin.ewallet.vietinbank.model.TokenIssue;
-import com.onefin.ewallet.vietinbank.model.TokenIssuePayment;
-import com.onefin.ewallet.vietinbank.model.TokenRevokeReIssue;
-import com.onefin.ewallet.vietinbank.model.TransactionInquiry;
-import com.onefin.ewallet.vietinbank.model.VerifyPin;
-import com.onefin.ewallet.vietinbank.model.VietinConnResponse;
-import com.onefin.ewallet.vietinbank.model.VtbLinkBankBaseResponse;
-import com.onefin.ewallet.vietinbank.model.Withdraw;
+import com.onefin.ewallet.common.domain.bank.vietin.VietinLinkBankTransaction;
+import com.onefin.ewallet.vietinbank.linkbank.model.PaymentByOTP;
+import com.onefin.ewallet.vietinbank.linkbank.model.PaymentByToken;
+import com.onefin.ewallet.vietinbank.linkbank.model.ProviderInquiry;
+import com.onefin.ewallet.vietinbank.linkbank.model.Refund;
+import com.onefin.ewallet.vietinbank.linkbank.model.RegisterOnlinePay;
+import com.onefin.ewallet.vietinbank.linkbank.model.TokenIssue;
+import com.onefin.ewallet.vietinbank.linkbank.model.TokenIssuePayment;
+import com.onefin.ewallet.vietinbank.linkbank.model.TokenRevokeReIssue;
+import com.onefin.ewallet.vietinbank.linkbank.model.TransactionInquiry;
+import com.onefin.ewallet.vietinbank.linkbank.model.VerifyPin;
+import com.onefin.ewallet.vietinbank.linkbank.model.VietinConnResponse;
+import com.onefin.ewallet.vietinbank.linkbank.model.VtbLinkBankBaseResponse;
+import com.onefin.ewallet.vietinbank.linkbank.model.Withdraw;
 
-public interface IVietinService extends IBaseService<VietinEwalletTransaction> {
+public interface IVietinLinkBankService extends IBaseService<VietinLinkBankTransaction> {
 
 	/**
 	 * Validate response from VTB

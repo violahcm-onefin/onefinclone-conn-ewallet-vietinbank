@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.onefin.ewallet.common.utility.json.JSONHelper;
-import com.onefin.ewallet.vietinbank.model.VietinConnResponse;
+import com.onefin.ewallet.vietinbank.linkbank.model.VietinConnResponse;
 
 @Service
 public class MessageUtilImpl implements IMessageUtil {

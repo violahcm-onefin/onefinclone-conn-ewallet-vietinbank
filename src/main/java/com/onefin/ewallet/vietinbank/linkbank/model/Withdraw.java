@@ -1,4 +1,4 @@
-package com.onefin.ewallet.vietinbank.model;
+package com.onefin.ewallet.vietinbank.linkbank.model;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class PaymentByOTP {
+public class Withdraw {
 
 	@Size(max = 20)
 	@NotEmpty(message = "Not empty")
@@ -31,13 +31,16 @@ public class PaymentByOTP {
 	private String clientIP;
 
 	@Size(max = 30)
-	private String payMethod;
+	private String benName;
 
 	@Size(max = 30)
-	private String goodsType;
+	private String benAcctNo;
 
 	@Size(max = 30)
-	private String billNo;
+	private String benIDNo;
+
+	@Size(max = 100)
+	private String benAddInfo;
 
 	@Size(max = 100)
 	private String remark;
@@ -64,11 +67,12 @@ public class PaymentByOTP {
 
 	private String signature;
 
-	public PaymentByOTP() {
+	public Withdraw() {
 		this.currencyCode = new String();
-		this.payMethod = new String();
-		this.goodsType = new String();
-		this.billNo = new String();
+		this.benName = new String();
+		this.benAcctNo = new String();
+		this.benIDNo = new String();
+		this.benAddInfo = new String();
 		this.remark = new String();
 		this.clientIP = new String();
 		this.language = new String();

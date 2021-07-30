@@ -1,4 +1,4 @@
-package com.onefin.ewallet.vietinbank.model;
+package com.onefin.ewallet.vietinbank.linkbank.model;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -6,15 +6,26 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class TransactionInquiry {
+public class VerifyPin {
 
 	@Size(max = 20)
 	@NotEmpty(message = "Not empty")
-	private String queryTransactionId;
+	private String otp;
 
-	@Size(max = 6)
+	@Size(max = 12)
 	@NotEmpty(message = "Not empty")
-	private String queryType;
+	private String verifyTransactionId;
+
+	@Size(max = 12)
+	@NotEmpty(message = "Not empty")
+	private String verifyBy;
+
+	@Size(max = 14)
+	@NotEmpty(message = "Not empty")
+	private String transTime;
+
+	@Size(max = 16)
+	private String clientIP;
 
 	@Size(max = 12)
 	@NotEmpty(message = "Not empty")
@@ -29,7 +40,7 @@ public class TransactionInquiry {
 
 	@Size(max = 30)
 	private String mac;
-	
+
 	private String providerId;
 
 	private String merchantId;
@@ -38,7 +49,8 @@ public class TransactionInquiry {
 
 	private String signature;
 
-	public TransactionInquiry() {
+	public VerifyPin() {
+		this.clientIP = new String();
 		this.language = new String();
 		this.mac = new String();
 	}

@@ -23,41 +23,41 @@ import org.springframework.web.bind.annotation.RestController;
 import com.onefin.ewallet.common.base.controller.AbstractBaseController;
 import com.onefin.ewallet.common.base.errorhandler.RuntimeBadRequestException;
 import com.onefin.ewallet.common.base.errorhandler.RuntimeInternalServerException;
-import com.onefin.ewallet.common.domain.bank.vietin.VietinEwalletTransaction;
+import com.onefin.ewallet.common.domain.bank.vietin.VietinLinkBankTransaction;
 import com.onefin.ewallet.common.utility.json.JSONHelper;
 import com.onefin.ewallet.vietinbank.common.VietinConstants;
 import com.onefin.ewallet.vietinbank.common.VietinConstants.LinkType;
-import com.onefin.ewallet.vietinbank.model.PaymentByOTP;
-import com.onefin.ewallet.vietinbank.model.PaymentByToken;
-import com.onefin.ewallet.vietinbank.model.ProviderInquiry;
-import com.onefin.ewallet.vietinbank.model.Refund;
-import com.onefin.ewallet.vietinbank.model.RegisterOnlinePay;
-import com.onefin.ewallet.vietinbank.model.TokenIssue;
-import com.onefin.ewallet.vietinbank.model.TokenIssuePayment;
-import com.onefin.ewallet.vietinbank.model.TokenRevokeReIssue;
-import com.onefin.ewallet.vietinbank.model.TransactionInquiry;
-import com.onefin.ewallet.vietinbank.model.VerifyPin;
-import com.onefin.ewallet.vietinbank.model.VietinConnResponse;
-import com.onefin.ewallet.vietinbank.model.VtbLinkBankBaseResponse;
-import com.onefin.ewallet.vietinbank.model.Withdraw;
+import com.onefin.ewallet.vietinbank.linkbank.model.PaymentByOTP;
+import com.onefin.ewallet.vietinbank.linkbank.model.PaymentByToken;
+import com.onefin.ewallet.vietinbank.linkbank.model.ProviderInquiry;
+import com.onefin.ewallet.vietinbank.linkbank.model.Refund;
+import com.onefin.ewallet.vietinbank.linkbank.model.RegisterOnlinePay;
+import com.onefin.ewallet.vietinbank.linkbank.model.TokenIssue;
+import com.onefin.ewallet.vietinbank.linkbank.model.TokenIssuePayment;
+import com.onefin.ewallet.vietinbank.linkbank.model.TokenRevokeReIssue;
+import com.onefin.ewallet.vietinbank.linkbank.model.TransactionInquiry;
+import com.onefin.ewallet.vietinbank.linkbank.model.VerifyPin;
+import com.onefin.ewallet.vietinbank.linkbank.model.VietinConnResponse;
+import com.onefin.ewallet.vietinbank.linkbank.model.VtbLinkBankBaseResponse;
+import com.onefin.ewallet.vietinbank.linkbank.model.Withdraw;
 import com.onefin.ewallet.vietinbank.service.ConfigLoader;
-import com.onefin.ewallet.vietinbank.service.ETransRepo;
 import com.onefin.ewallet.vietinbank.service.IMessageUtil;
-import com.onefin.ewallet.vietinbank.service.IRequestUtil;
-import com.onefin.ewallet.vietinbank.service.IVietinService;
+import com.onefin.ewallet.vietinbank.service.IVietinLinkBankService;
+import com.onefin.ewallet.vietinbank.service.LinkBankRequestUtil;
+import com.onefin.ewallet.vietinbank.service.LinkBankTransRepo;
 
 @RestController
 @RequestMapping("/vietin/ewallet")
-public class VietinController extends AbstractBaseController {
+public class VietinLinkBankController extends AbstractBaseController {
 
 	@Autowired
-	public IVietinService iVietinService;
+	public IVietinLinkBankService iVietinService;
 
 	@Autowired
 	private IMessageUtil imsgUtil;
 
 	@Autowired
-	private IRequestUtil IHTTPRequestUtil;
+	private LinkBankRequestUtil IHTTPRequestUtil;
 
 	@Autowired
 	private ConfigLoader configLoader;
@@ -67,15 +67,15 @@ public class VietinController extends AbstractBaseController {
 	private JSONHelper JsonHelper;
 
 	@Autowired
-	private ETransRepo transRepository;
+	private LinkBankTransRepo transRepository;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(VietinController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(VietinLinkBankController.class);
 
 	@PostMapping("/tokenIssue/type/{type}")
 	public ResponseEntity<?> getTokenIssue(@PathVariable(required = true) LinkType type,
 			@Valid @RequestBody(required = true) TokenIssue requestBody, HttpServletRequest request) throws Exception {
 		LOGGER.info("== RequestID {} - Start TokenIssue", requestBody.getRequestId());
-		VietinEwalletTransaction vietinTrans = new VietinEwalletTransaction();
+		VietinLinkBankTransaction vietinTrans = new VietinLinkBankTransaction();
 		ResponseEntity<VtbLinkBankBaseResponse> responseBaseEntity = null;
 		VtbLinkBankBaseResponse responseBase = null;
 		VietinConnResponse responseEntity = null;
@@ -128,7 +128,7 @@ public class VietinController extends AbstractBaseController {
 	public ResponseEntity<?> verifyPin(@PathVariable(required = true) LinkType type,
 			@Valid @RequestBody(required = true) VerifyPin requestBody, HttpServletRequest request) throws Exception {
 		LOGGER.info("== RequestID {} - Start VerifyPin", requestBody.getRequestId());
-		VietinEwalletTransaction vietinTrans = transRepository
+		VietinLinkBankTransaction vietinTrans = transRepository
 				.findByRequestIdAndTranStatus(requestBody.getVerifyTransactionId(), VietinConstants.TRANS_PENDING);
 		if (vietinTrans == null || !vietinTrans.getTranStatus().equals(VietinConstants.TRANS_PENDING)) {
 			throw new RuntimeInternalServerException();
@@ -179,7 +179,7 @@ public class VietinController extends AbstractBaseController {
 			@Valid @RequestBody(required = true) RegisterOnlinePay requestBody, HttpServletRequest request)
 			throws Exception {
 		LOGGER.info("== RequestID {} - Start RegisterOnlinePay", requestBody.getRequestId());
-		VietinEwalletTransaction vietinTrans = new VietinEwalletTransaction();
+		VietinLinkBankTransaction vietinTrans = new VietinLinkBankTransaction();
 		ResponseEntity<VtbLinkBankBaseResponse> responseBaseEntity = null;
 		VtbLinkBankBaseResponse responseBase = null;
 		VietinConnResponse responseEntity = null;
@@ -239,7 +239,7 @@ public class VietinController extends AbstractBaseController {
 			@Valid @RequestBody(required = true) TokenRevokeReIssue requestBody, HttpServletRequest request)
 			throws Exception {
 		LOGGER.info("== RequestID {} - Start TokenRevoke", requestBody.getRequestId());
-		VietinEwalletTransaction vietinTrans = new VietinEwalletTransaction();
+		VietinLinkBankTransaction vietinTrans = new VietinLinkBankTransaction();
 		ResponseEntity<VtbLinkBankBaseResponse> responseBaseEntity = null;
 		VtbLinkBankBaseResponse responseBase = null;
 		VietinConnResponse responseEntity = null;
@@ -296,7 +296,7 @@ public class VietinController extends AbstractBaseController {
 			@Valid @RequestBody(required = true) TokenRevokeReIssue requestBody, HttpServletRequest request)
 			throws Exception {
 		LOGGER.info("== RequestID {} - Start TokenReIssue", requestBody.getRequestId());
-		VietinEwalletTransaction vietinTrans = new VietinEwalletTransaction();
+		VietinLinkBankTransaction vietinTrans = new VietinLinkBankTransaction();
 		ResponseEntity<VtbLinkBankBaseResponse> responseBaseEntity = null;
 		VtbLinkBankBaseResponse responseBase = null;
 		VietinConnResponse responseEntity = null;
@@ -366,7 +366,7 @@ public class VietinController extends AbstractBaseController {
 	public ResponseEntity<?> paymentByToken(LinkType type, PaymentByToken requestBody, HttpServletRequest request)
 			throws Exception {
 		LOGGER.info("== RequestID {} - Start PaymentByToken", requestBody.getRequestId());
-		VietinEwalletTransaction vietinTrans = new VietinEwalletTransaction();
+		VietinLinkBankTransaction vietinTrans = new VietinLinkBankTransaction();
 		ResponseEntity<VtbLinkBankBaseResponse> responseBaseEntity = null;
 		VtbLinkBankBaseResponse responseBase = null;
 		VietinConnResponse responseEntity = null;
@@ -427,7 +427,7 @@ public class VietinController extends AbstractBaseController {
 	public ResponseEntity<?> paymentByOTP(LinkType type, PaymentByOTP requestBody, HttpServletRequest request)
 			throws Exception {
 		LOGGER.info("== RequestID {} - Start PaymentByOTP", requestBody.getRequestId());
-		VietinEwalletTransaction vietinTrans = new VietinEwalletTransaction();
+		VietinLinkBankTransaction vietinTrans = new VietinLinkBankTransaction();
 		ResponseEntity<VtbLinkBankBaseResponse> responseBaseEntity = null;
 		VtbLinkBankBaseResponse responseBase = null;
 		VietinConnResponse responseEntity = null;
@@ -493,7 +493,7 @@ public class VietinController extends AbstractBaseController {
 	public ResponseEntity<?> withdraw(@PathVariable(required = true) LinkType type,
 			@Valid @RequestBody(required = true) Withdraw requestBody, HttpServletRequest request) throws Exception {
 		LOGGER.info("== RequestID {} - Start Withdraw", requestBody.getRequestId());
-		VietinEwalletTransaction vietinTrans = new VietinEwalletTransaction();
+		VietinLinkBankTransaction vietinTrans = new VietinLinkBankTransaction();
 		ResponseEntity<VtbLinkBankBaseResponse> responseBaseEntity = null;
 		VtbLinkBankBaseResponse responseBase = null;
 		VietinConnResponse responseEntity = null;
@@ -609,7 +609,7 @@ public class VietinController extends AbstractBaseController {
 			@Valid @RequestBody(required = true) TokenIssuePayment requestBody, HttpServletRequest request)
 			throws Exception {
 		LOGGER.info("== RequestID {} - Start TokenIssuePayment", requestBody.getRequestId());
-		VietinEwalletTransaction vietinTrans = new VietinEwalletTransaction();
+		VietinLinkBankTransaction vietinTrans = new VietinLinkBankTransaction();
 		ResponseEntity<VtbLinkBankBaseResponse> responseBaseEntity = null;
 		VtbLinkBankBaseResponse responseBase = null;
 		VietinConnResponse responseEntity = null;
@@ -665,7 +665,7 @@ public class VietinController extends AbstractBaseController {
 	public ResponseEntity<?> refund(@PathVariable(required = true) LinkType type,
 			@Valid @RequestBody(required = true) Refund requestBody, HttpServletRequest request) throws Exception {
 		LOGGER.info("== RequestID {} - Start Refund", requestBody.getRequestId());
-		VietinEwalletTransaction vietinTrans = new VietinEwalletTransaction();
+		VietinLinkBankTransaction vietinTrans = new VietinLinkBankTransaction();
 		ResponseEntity<VtbLinkBankBaseResponse> responseBaseEntity = null;
 		VtbLinkBankBaseResponse responseBase = null;
 		VietinConnResponse responseEntity = null;

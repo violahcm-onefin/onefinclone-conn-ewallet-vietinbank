@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import com.onefin.ewallet.common.base.errorhandler.RuntimeInternalServerException;
 import com.onefin.ewallet.vietinbank.common.VietinConstants;
 import com.onefin.ewallet.vietinbank.common.VietinConstants.LinkType;
-import com.onefin.ewallet.vietinbank.model.VietinConnResponse;
+import com.onefin.ewallet.vietinbank.linkbank.model.VietinConnResponse;
 import com.onefin.ewallet.vietinbank.service.ConfigLoader;
 import com.onefin.ewallet.vietinbank.service.IMessageUtil;
 
@@ -25,7 +25,7 @@ public class VietinControllerAspect {
 	@Autowired
 	private ConfigLoader configLoader;
 
-	@Around(value = "execution(* com.onefin.ewallet.vietinbank.controller.VietinController.*(..))")
+	@Around(value = "execution(* com.onefin.ewallet.vietinbank.controller.VietinLinkBankController.*(..))")
 	public Object checkAvailableService(ProceedingJoinPoint joinPoint) throws Throwable {
 		Object[] args = joinPoint.getArgs();
 		VietinConnResponse responseEntity = null;

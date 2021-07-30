@@ -6,8 +6,6 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.cert.CertificateException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 import org.slf4j.Logger;
@@ -15,33 +13,31 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.onefin.ewallet.common.base.service.BackupService;
 import com.onefin.ewallet.common.base.service.BaseService;
-import com.onefin.ewallet.common.domain.bank.vietin.VietinEwalletTransaction;
+import com.onefin.ewallet.common.domain.bank.vietin.VietinLinkBankTransaction;
 import com.onefin.ewallet.common.utility.json.JSONHelper;
 import com.onefin.ewallet.vietinbank.common.VietinConstants;
-import com.onefin.ewallet.vietinbank.model.PaymentByOTP;
-import com.onefin.ewallet.vietinbank.model.PaymentByToken;
-import com.onefin.ewallet.vietinbank.model.ProviderInquiry;
-import com.onefin.ewallet.vietinbank.model.Refund;
-import com.onefin.ewallet.vietinbank.model.RegisterOnlinePay;
-import com.onefin.ewallet.vietinbank.model.Status;
-import com.onefin.ewallet.vietinbank.model.TokenIssue;
-import com.onefin.ewallet.vietinbank.model.TokenIssuePayment;
-import com.onefin.ewallet.vietinbank.model.TokenRevokeReIssue;
-import com.onefin.ewallet.vietinbank.model.TransactionInquiry;
-import com.onefin.ewallet.vietinbank.model.VerifyPin;
-import com.onefin.ewallet.vietinbank.model.VietinConnResponse;
-import com.onefin.ewallet.vietinbank.model.VtbLinkBankBaseResponse;
-import com.onefin.ewallet.vietinbank.model.Withdraw;
+import com.onefin.ewallet.vietinbank.linkbank.model.PaymentByOTP;
+import com.onefin.ewallet.vietinbank.linkbank.model.PaymentByToken;
+import com.onefin.ewallet.vietinbank.linkbank.model.ProviderInquiry;
+import com.onefin.ewallet.vietinbank.linkbank.model.Refund;
+import com.onefin.ewallet.vietinbank.linkbank.model.RegisterOnlinePay;
+import com.onefin.ewallet.vietinbank.linkbank.model.TokenIssue;
+import com.onefin.ewallet.vietinbank.linkbank.model.TokenIssuePayment;
+import com.onefin.ewallet.vietinbank.linkbank.model.TokenRevokeReIssue;
+import com.onefin.ewallet.vietinbank.linkbank.model.TransactionInquiry;
+import com.onefin.ewallet.vietinbank.linkbank.model.VerifyPin;
+import com.onefin.ewallet.vietinbank.linkbank.model.VietinConnResponse;
+import com.onefin.ewallet.vietinbank.linkbank.model.VtbLinkBankBaseResponse;
+import com.onefin.ewallet.vietinbank.linkbank.model.Withdraw;
 
 @Service
-public class VietinServiceImpl extends BaseService<VietinEwalletTransaction> implements IVietinService {
+public class VietinLinkBankServiceImpl extends BaseService<VietinLinkBankTransaction> implements IVietinLinkBankService {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(VietinServiceImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(VietinLinkBankServiceImpl.class);
 
 	@Autowired
 	private ConfigLoader configLoader;
@@ -60,8 +56,8 @@ public class VietinServiceImpl extends BaseService<VietinEwalletTransaction> imp
 	private BackupService backupService;
 
 	@Autowired
-	@Qualifier("ETransRepo")
-	public void setEwalletTransactionRepository(ETransRepo<?> ewalletTransactionRepository) {
+	@Qualifier("linkBankTransRepo")
+	public void setEwalletTransactionRepository(LinkBankTransRepo<?> ewalletTransactionRepository) {
 		this.setTransBaseRepository(ewalletTransactionRepository);
 	}
 
@@ -401,10 +397,10 @@ public class VietinServiceImpl extends BaseService<VietinEwalletTransaction> imp
 	@Override
 	public void backUpRequestResponse(String requestId, Object request, Object response) throws Exception {
 		if (request != null) {
-			backupService.backup(configLoader.getBackupUri(), requestId, request, VietinConstants.BACKUP_REQUEST);
+			backupService.backup(configLoader.getBackupVietinLinkBank(), requestId, request, VietinConstants.BACKUP_REQUEST);
 		}
 		if (response != null) {
-			backupService.backup(configLoader.getBackupUri(), requestId, response, VietinConstants.BACKUP_RESPONSE);
+			backupService.backup(configLoader.getBackupVietinLinkBank(), requestId, response, VietinConstants.BACKUP_RESPONSE);
 		}
 	}
 
