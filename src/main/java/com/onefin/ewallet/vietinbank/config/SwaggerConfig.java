@@ -1,5 +1,8 @@
 package com.onefin.ewallet.vietinbank.config;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,7 +18,7 @@ public class SwaggerConfig {
 
 	@Bean
 	public Docket configureControllerPackageAndConvertors() {
-		return new Docket(DocumentationType.SWAGGER_2).select()
+		return new Docket(DocumentationType.SWAGGER_2).protocols(new HashSet<>(Arrays.asList("http", "https"))).select()
 				.apis(RequestHandlerSelectors.basePackage("com.onefin.ewallet.vietinbank.controller"))
 				.paths(PathSelectors.any()).build();
 	}
