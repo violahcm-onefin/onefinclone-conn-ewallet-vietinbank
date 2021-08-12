@@ -719,10 +719,4 @@ public class VietinLinkBankController extends AbstractBaseController {
 		throw new RuntimeInternalServerException();
 	}
 
-	@Override
-	protected ResponseEntity<?> getAbout() {
-		// TODO Auto-generated method stub
-		return new ResponseEntity<>("Connector Ewallet VietinBank", HttpStatus.OK);
-	}
-
 }
