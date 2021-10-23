@@ -3,6 +3,8 @@ package com.onefin.ewallet.vietinbank.linkbank.model;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Data;
 
 @Data
@@ -18,6 +20,15 @@ public class RegisterOnlinePay {
 	@Size(max = 50)
 	@NotEmpty(message = "Not empty")
 	private String cardHolderName;
+	
+	@JsonProperty("cardHolderName")
+	public void setCardHolderName(String cardHolderName) {
+		try {
+			this.cardHolderName = cardHolderName.toUpperCase();
+		} catch (Exception e) {
+			this.cardHolderName = cardHolderName;
+		}
+	}
 
 	@Size(max = 30)
 	@NotEmpty(message = "Not empty")
