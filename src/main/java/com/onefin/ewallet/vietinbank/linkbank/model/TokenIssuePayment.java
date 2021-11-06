@@ -4,6 +4,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.onefin.ewallet.common.utility.string.StringHelper;
 
 import lombok.Data;
 
@@ -25,7 +26,7 @@ public class TokenIssuePayment {
 	@JsonProperty("cardHolderName")
 	public void setCardHolderName(String cardHolderName) {
 		try {
-			this.cardHolderName = cardHolderName.toUpperCase();
+			this.cardHolderName = StringHelper.deAccent(cardHolderName.toUpperCase());
 		} catch (Exception e) {
 			this.cardHolderName = cardHolderName;
 		}
